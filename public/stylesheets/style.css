@@ -34,3 +34,19 @@ input {
 a {
   color: #00B7FF;
 }
+
+.left-div {
+  float: left;
+}
+
+.right-div {
+  float: right;
+}
+
+hr {
+  width: 200px;
+}
+
+/* #sign-up-form {
+  align-items: center;
+} */
