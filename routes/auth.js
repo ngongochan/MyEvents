@@ -96,12 +96,20 @@ router.post('/login/submit', async function (req, res, next) {
     }
 });
 
-router.post('/signout', (req, res) => {
+router.get('/signout', (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.sendStatus(402);
+    }
+});
+
+router.get('/signout', (req, res) => {
     req.session.destroy((err) => {
       if (err) return res.sendStatus(500);
       res.clearCookie('sid');
       return res.sendStatus(200);
     });
-  });
+});
 
 module.exports = router;
