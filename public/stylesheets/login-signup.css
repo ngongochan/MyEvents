@@ -1,0 +1,82 @@
+body {
+  padding: 50px;
+  font: 18px "Nunito", Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  display: flex;
+}
+
+input, .button {
+  width: 400px;
+  height: 40px;
+  border-radius: 10px;
+  font: 18px "Nunito";
+  box-sizing: border-box;
+}
+
+input {
+  border: 0.5px #B3B3B3 solid;
+  padding-left: 16px;
+}
+
+.yellow-button {
+  background-color: #FFDE59;
+  border: none;
+  font: bold;
+}
+
+.orange-button {
+  background-color: #FF914D;
+  border: none;
+  font: bold;
+  color: #fff;
+}
+
+a {
+  color: #000;
+}
+
+.split {
+  width: 50%;
+  height: 100%;
+  position: fixed;
+  /* top: 25vh; */
+}
+
+.left-div {
+  /* float: left;
+  width: 50%; */
+  left: 0;
+  padding-top: 21vh;
+}
+
+.right-div {
+  /* float: right;
+  width: 50%; */
+  right: 5%;
+  padding-top: 10vh;
+}
+
+hr {
+  width: 200px;
+}
+
+#party {
+  width: 40vw;
+  height: auto;
+}
+
+.centered {
+  text-align: center;
+}
+
+.body {
+  display: flex;
+}
+
+#logo {
+  width: 20%;
+}
+
+.font-36 {
+  font-size: 3.6vh;
+}

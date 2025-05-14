@@ -3,42 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <link rel="stylesheet" href="/public/stylesheets/login-signup.css">
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito');
     </style>
     <title>Log In</title>
 </head>
 <body>
-    <div class="left-div">
-        <h1>Welcome!</h1>
-        <div id="log-in-form">
-            <form id="log-in">
-            <!-- <label for="email-address">Email Address:</label><br> -->
-            <input  type="email"
-                    id="email-address"
-                    name="email-address"
-                    placeholder="Email Address"
-                    required><br><br>
-            <!-- <label for="password">Password:</label><br> -->
-            <input  type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    required><br><br>
-            <input  type="submit"
-                    value="Log in"
-                    class="button yellow-button"><br><br>
-        </form>
-        <!-- <button type="button" form="log-in" class="yellow-button">Log in</button><br> -->
-        <a href="#">Forgot password?</a><br><br>
-        <button type="button" class="button orange-button">Create a new account</button>
+    <div class="body">
+        <div class="left-div split">
+            <div class="centered">
+                <h1 class="font-36">Welcome!</h1>
+                <div id="log-in-form">
+                    <form id="log-in">
+                        <!-- <label for="email-address">Email Address:</label><br> -->
+                        <input  type="email"
+                                id="email-address"
+                                name="email-address"
+                                placeholder="Email Address"
+                                required><br><br>
+                        <!-- <label for="password">Password:</label><br> -->
+                        <input  type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Password"
+                                required><br><br>
+                        <input  type="submit"
+                                value="Log in"
+                                class="button yellow-button"><br><br>
+                    </form>
+                    <!-- <button type="button" form="log-in" class="yellow-button">Log in</button><br> -->
+                    <a href="#">Forgot password?</a><br><br>
+                    <button type="button" class="button orange-button">Create a new account</button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="right-div">
-        <img src="#" alt="logo">
-        <p>From Pub Crawls to Career Talks - It's All Here.</p>
-        <img src="#" alt="7016179">
+        <div class="right-div split">
+            <div class="centered">
+                <img src="/public/images/logos/MyEvents-blacktext.png" alt="logo" id="logo">
+                <p class="font-36">From Pub Crawls to Career Talks - It's All Here!</p>
+                <img src="./images/7016179.jpg" alt="7016179" id="party">
+            </div>
+        </div>
     </div>
 </body>
 </html>
