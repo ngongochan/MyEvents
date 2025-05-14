@@ -87,3 +87,12 @@ CREATE TABLE IF NOT EXISTS event_type (
   typeOfEvents ENUM('workshop', 'networking', 'entertain', 'cultural') NOT NULL,
   FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS event_images (
+  image_id     INT AUTO_INCREMENT PRIMARY KEY,
+  event_id     INT               NOT NULL,
+  image_path   VARCHAR(255)      NOT NULL,
+  image_order  TINYINT UNSIGNED  NOT NULL DEFAULT 1,
+  FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE,
+  UNIQUE KEY  ux_event_order (event_id, image_order)
+);
