@@ -1,6 +1,5 @@
 var express = require('express');
 const db = require('../db/db');
-const session = require('express-session');
 var router = express.Router();
 
 // return detail of event corresponding with the given id
@@ -8,11 +7,17 @@ var router = express.Router();
 router.get('/detail', async function(req, res, next) {
     const id = req.query.event_id;
     if (id) {
-        const [rows] = await db.query("SELECT * FROM events WHERE event_id = ?", [id]);
-        if (rows.length !== 1) {
-            res.sendStatus(404);
-            return;
-        }
+        const [rows] = await db.query(
+            `SELECT
+                e.*,
+                i.image_path
+            FROM events AS e
+            LEFT JOIN event_images AS i
+                ON e.event_id = i.event_id
+            WHERE e.event_id = ?`,
+            [id]
+        );
+        // only return 1 image need to fix this
         const event = rows[0];
         res.status(400).json(event);
     } else {
@@ -23,12 +28,41 @@ router.get('/detail', async function(req, res, next) {
 // return event base on search keyword
 
 router.get('/search', async function(req, res, next) {
-    const keyword = req.query.q;
-    if (keyword) {
-        const [rows] = await db.query('SELECT * FROM events WHERE title LIKE ?', [`%${keyword}%`]);
+    if ('q' in req.query) {
+        const keyword = req.query.q;
+        const [rows] = await db.query(
+            `
+            SELECT
+                e.*,
+                (
+                SELECT image_path
+                FROM event_images
+                WHERE event_id = e.event_id
+                ORDER BY image_order
+                LIMIT 1
+                ) AS image_path
+            FROM events AS e
+            WHERE e.title LIKE ?
+            `,
+            [`%${keyword}%`]
+        );
         res.json(rows);
     } else {
-        res.redirect('/');
+        const [rows] = await db.query(
+            `
+            SELECT
+                e.*,
+                (
+                SELECT image_path
+                FROM event_images
+                WHERE event_id = e.event_id
+                ORDER BY image_order
+                LIMIT 1
+                ) AS image_path
+            FROM events AS e
+            `
+        );
+        res.json(rows);
     }
 });
 
@@ -45,7 +79,7 @@ router.use('/create/*', function(req, res, next) {
 router.post('/create/submit', async function(req, res, next) {
     const event = req.body;
     if (event) {
-        await db.query(
+        const [insertedEvent] = await db.query(
             `INSERT INTO events
             (owner, title, description, price, ticket_count,
             event_date, event_location, start_time, end_time)
@@ -62,6 +96,18 @@ router.post('/create/submit', async function(req, res, next) {
                 event.end_time
             ]
         );
+        const event_id = insertedEvent.insertId;
+        if (Array.isArray(event.images) && event.images.length) {
+            // build an array of promises
+            const inserts = event.images.map((path, i) => db.query(
+                    `INSERT INTO event_images
+                    (event_id, image_path, image_order)
+                    VALUES (?, ?, ?)`,
+                    [event_id, path, i + 1]
+            ));
+            await Promise.all(inserts);
+
+        }
         res.sendStatus(200);
     } else {
         res.sendStatus(401);
