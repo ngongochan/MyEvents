@@ -8,7 +8,7 @@ async function comparePassword(password, storedHash) {
     return ans;
 }
 
-router.post('/sign_up/submit', async function (req, res, next) {
+router.post('/signup/submit', async function (req, res, next) {
     try {
         const user = req.body;
 
