@@ -76,9 +76,10 @@ a {
 
 /* Hero section */
 .hero {
-  background-image: url("../images/img.jpg");
+  background-image: url("../images/homepageimg.jpg");
   background-position: center;
-  height: 500px;             
+  background-size: cover;
+  height: 700px;             
   margin-bottom: 20px;
 }
 
@@ -140,8 +141,9 @@ a {
 
 .footer-info p {
   text-align: left; /* Align inside text to the left */
-  width: 300px; /* Optional: control width */
+  width: 700px; /* Optional: control width */
   margin: 0 auto; /* Center the block itself horizontally */
+  padding-left: 250px;
 }
 
 .socials {
