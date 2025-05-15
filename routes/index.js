@@ -2,10 +2,6 @@ var express = require('express');
 const db = require('../db/db');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
 router.get('/all-events', async function(req, res, next) {
   const [events] = await db.query(
@@ -13,12 +9,12 @@ router.get('/all-events', async function(req, res, next) {
       SELECT
           e.*,
           (
-          SELECT image_path
+          SELECT image_name
           FROM event_images
           WHERE event_id = e.event_id
           ORDER BY image_order
           LIMIT 1
-          ) AS image_path
+          ) AS image_name
       FROM events AS e
       `
   );
