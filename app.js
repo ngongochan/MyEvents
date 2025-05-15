@@ -14,7 +14,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var eventRouter = require('./routes/event');
-// var mailRouter = require('./routes/mail');
+var mailRouter = require('./routes/mail');
 var db = require('./db/db.js');
 
 
@@ -46,7 +46,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/event', eventRouter);
-// app.use('/mail', mailRouter);
+app.use('/mail', mailRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
