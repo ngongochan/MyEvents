@@ -1,6 +1,9 @@
 var express = require('express');
 const db = require('../db/db');
 var router = express.Router();
+var multer = require('multer');
+const { fileLoader } = require('ejs');
+var upload = multer({ dest: 'public/images/event_images/' });
 
 // return detail of event corresponding with the given id
 
@@ -10,20 +13,19 @@ router.get('/detail', async function(req, res, next) {
         const [rows] = await db.query(
             `SELECT
                 e.*,
-                i.image_path
+                i.image_name
             FROM events AS e
             LEFT JOIN event_images AS i
                 ON e.event_id = i.event_id
             WHERE e.event_id = ?`,
             [id]
         );
-        // only return 1 image need to fix this
-        const event = rows[0];
-        res.status(400).json(event);
+        res.status(200).json(rows);
     } else {
         res.redirect('/');
     }
 });
+
 
 // return event base on search keyword
 
@@ -35,12 +37,12 @@ router.get('/search', async function(req, res, next) {
             SELECT
                 e.*,
                 (
-                SELECT image_path
+                SELECT image_name
                 FROM event_images
                 WHERE event_id = e.event_id
                 ORDER BY image_order
                 LIMIT 1
-                ) AS image_path
+                ) AS image_name
             FROM events AS e
             WHERE e.title LIKE ?
             `,
@@ -53,12 +55,12 @@ router.get('/search', async function(req, res, next) {
             SELECT
                 e.*,
                 (
-                SELECT image_path
+                SELECT image_name
                 FROM event_images
                 WHERE event_id = e.event_id
                 ORDER BY image_order
                 LIMIT 1
-                ) AS image_path
+                ) AS image_name
             FROM events AS e
             `
         );
@@ -76,14 +78,15 @@ router.use('/create/*', function(req, res, next) {
 });
 
 // Add event into the database
-router.post('/create/submit', async function(req, res, next) {
-    const event = req.body;
-    if (event) {
+router.post('/create/submit', upload.array('file', 5), async function(req, res, next) {
+
+    try {
+        const event = req.body;
         const [insertedEvent] = await db.query(
             `INSERT INTO events
-            (owner, title, description, price, ticket_count,
-            event_date, event_location, start_time, end_time)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            (host, title, description, price, ticket_count,
+            event_date, event_location, start_time, end_time, event_type)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 req.session.user.id,
                 event.title,
@@ -93,24 +96,27 @@ router.post('/create/submit', async function(req, res, next) {
                 event.event_date,
                 event.event_location,
                 event.start_time,
-                event.end_time
+                event.end_time,
+                event.event_type
             ]
         );
         const event_id = insertedEvent.insertId;
-        if (Array.isArray(event.images) && event.images.length) {
+        if (req.files && req.files.length) {
             // build an array of promises
-            const inserts = event.images.map((path, i) => db.query(
+            console.log(`Uploading images...`);
+            const inserts = req.files.map((file, i) => db.query(
                     `INSERT INTO event_images
-                    (event_id, image_path, image_order)
+                    (event_id, image_name, image_order)
                     VALUES (?, ?, ?)`,
-                    [event_id, path, i + 1]
+                    [event_id, file.filename, i + 1]
             ));
             await Promise.all(inserts);
 
         }
         res.sendStatus(200);
-    } else {
-        res.sendStatus(401);
+    } catch(err) {
+        console.log('Unable to store event information');
+        res.sendStatus(err);
     }
 });
 module.exports = router;
