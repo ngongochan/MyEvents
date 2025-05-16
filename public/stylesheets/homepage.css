@@ -44,7 +44,7 @@ a {
 }
 
 .logo {
-  background-image: url("../images/logos/MyEvents-whitetext.png");  
+  background-image: url("../images/logos/MyEvents-whitetext.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -64,13 +64,13 @@ a {
 
 .nav-links {
   font-weight: bold;
-  display: flex;             
+  display: flex;
   gap: 2px;
 }
 
 .nav-item a {
-  display: block;             
-  padding: 10px 20px;          
+  display: block;
+  padding: 10px 20px;
   color: #fff;
   text-decoration: none;
   transition: transform .2s;
@@ -85,7 +85,7 @@ a {
   background-image: url("../images/homepageimg.jpg");
   background-position: center;
   background-size: cover;
-  height: 700px;             
+  height: 700px;
   margin-bottom: 20px;
 }
 
