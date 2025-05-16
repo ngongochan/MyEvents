@@ -84,15 +84,16 @@ router.post('/create/submit', upload.array('file', 5), async function(req, res, 
         const event = req.body;
         const [insertedEvent] = await db.query(
             `INSERT INTO events
-            (host, title, description, price, ticket_count,
+            (host, title, description, price, remaining, total_tickets,
             event_date, event_location, start_time, end_time, event_type)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 req.session.user.id,
                 event.title,
                 event.description,
                 event.price,
-                event.ticket_count,
+                event.total_tickets,
+                event.total_tickets,
                 event.event_date,
                 event.event_location,
                 event.start_time,

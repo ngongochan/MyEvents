@@ -12,9 +12,10 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var authRouter = require('./routes/auth');
+var authRouter = require('./routes/login.js');
 var eventRouter = require('./routes/event');
 var mailRouter = require('./routes/mail');
+// var adminRouter = require('./routes/admin');
 var db = require('./db/db.js');
 
 
@@ -47,6 +48,7 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/event', eventRouter);
 app.use('/mail', mailRouter);
+// app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

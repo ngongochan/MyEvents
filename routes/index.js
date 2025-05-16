@@ -7,7 +7,7 @@ router.get('/all-events', async function(req, res, next) {
   const [events] = await db.query(
       `
       SELECT
-          e.*,
+          e.event_id, e.title, e.description, e.price, e.event_type, e.start_time,
           (
           SELECT image_name
           FROM event_images
@@ -19,7 +19,7 @@ router.get('/all-events', async function(req, res, next) {
       `
   );
   res.status(200).json(events);
-  console.log("Sent event infor to homepage.");
+  console.log("Sent event info to homepage.");
 });
 
 module.exports = router;
