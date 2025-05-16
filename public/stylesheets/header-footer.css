@@ -1,0 +1,149 @@
+body {
+  font-family: 'Nunito';
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 50px;
+  font: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  /* margin-top: 60px;      = header height */
+  flex: 1;               /* fill the rest vertically before footer */
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/* Reset some basic styles */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to right, #ffcc66, #ff9933);
+  padding: 10px 20px;
+  height: 60px;
+}
+
+.logo {
+  background-image: url("../images/logos/MyEvents-whitetext.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: block;
+  width: 120px;
+  height: 32px;
+  overflow: hidden;
+  text-indent: -9999px;                 /* hide the fallback text */
+}
+
+.search-bar {
+  width: 40%;
+  padding: 8px;
+  border-radius: 25px;
+  border: none;
+}
+
+.nav-links {
+  font-weight: bold;
+  display: flex;
+  gap: 2px;
+}
+
+.nav-item a {
+  display: block;
+  padding: 10px 20px;
+  color: #fff;
+  text-decoration: none;
+  transition: transform .2s;
+}
+
+.nav-item:hover a {
+  transform: scale(1.1);
+}
+
+/* Footer */
+.footer-logo {
+  height: 80px;
+}
+.footer {
+  background: linear-gradient(to right, #ffcc66, #ff9933);
+  color: white;
+  font-weight: bold;
+  padding: 30px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer div {
+  margin-bottom: 10px;
+}
+
+.footer-info p {
+  text-align: left; /* Align inside text to the left */
+  margin: 0 auto; /* Center the block itself horizontally */
+}
+
+.socials {
+  text-align: right;
+  display: flex;
+  flex-direction: column; /* Stack text and icons vertically */
+  align-items: flex-end; /* Center align */
+  gap: 10px; /* Gap between text and icons */
+  color: white; /* Make sure text is visible */
+}
+
+.social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; /* Space between icons */
+}
+
+.social-icon {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  transition: transform 0.2s;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+}
+
+.socials a {
+  color: inherit; /* Default inherit */
+  transition: color 0.3s;
+}
+
+.socials a .fa-youtube {
+  color: #FF0000; /* YouTube red */
+}
+
+.socials a .fa-instagram {
+  color: #E4405F; /* Instagram pink/red */
+}
+
+.socials a .fa-facebook {
+  color: #1877F2; /* Facebook blue */
+}

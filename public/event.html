@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Event</title>
         <link rel="stylesheet" href="stylesheets/event.css">
+        <link rel="stylesheet" href="stylesheets/header-footer.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,17 +38,20 @@
             <div class="qty-row">
                 <h3 class="ticket-card-title">General Admission</h3>
                 <div class="ticket-card-qty">
-                    <button @click="decrement" :disabled="quantity<=1" class="ticket-card-btn">-</button>
+                    <button type="button" @click="decrement" :disabled="quantity<=1" class="ticket-card-btn">-</button>
                     <span class="ticket-card-count">{{quantity}}</span>
-                    <button @click="increment" class="ticket-card-btn">+</button>
+                    <button type="button" @click="increment" class="ticket-card-btn">+</button>
                 </div>
             </div>
-            <button @click="purchase" class="ticket-purchase">General Admission</button>
+            <button type="button" @click="purchase" class="ticket-purchase">General Admission</button>
         </div>
         </div>
-        
+
     </main>
         <footer class="footer">
+            <div>
+                <img class="footer-logo" src="/images/logos/MyEvents-whitetext.png" alt="">
+            </div>
             <div class="footer-info">
               <p>Hub Central Level 4, The University of Adelaide</p>
               <p>North Terrace, Adelaide, SA 5000</p>
@@ -62,6 +66,6 @@
                     <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook fa-2x"></i></a>
                 </div>
             </div>
-        </footer>  
+        </footer>
     </body>
 </html>
