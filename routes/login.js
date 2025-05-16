@@ -20,7 +20,7 @@ router.post('/signup/submit', async function (req, res, next) {
             [user.email]
         );
         if (rows[0].email_exists === 1) {
-            return res.status(409).send("Email already exists");
+            return res.status(400).send("Email already exists");
         }
 
         // 2) Hash password
@@ -51,7 +51,7 @@ router.post('/signup/submit', async function (req, res, next) {
             role: currUser.user_role
         };
 
-        res.status(200).send('Sign up successfully!');
+        res.sendStatus(200);
     } catch (err) {
       next(err);
     }
@@ -70,7 +70,7 @@ router.post('/login/submit', async function (req, res, next) {
 
         // 3) If no user, bail out
         if (rows.length === 0) {
-        return res.sendStatus(400);
+            return res.status(400).send("Invalid email or password!");
         }
 
         const storedHash = rows[0].user_password;
@@ -78,7 +78,7 @@ router.post('/login/submit', async function (req, res, next) {
         // 4) Compare plaintext to stored hash (bcrypt.compare under the hood)
         const isMatch = await comparePassword(password, storedHash);
         if (!isMatch) {
-        return res.sendStatus(400);
+            return res.status(400).send("Invalid email or password!");
         }
 
         const [data] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
