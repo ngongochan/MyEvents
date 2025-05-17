@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   user_role ENUM('admin','student','uoa_staff','guest') DEFAULT 'guest',
   student_id VARCHAR(20),
   email VARCHAR(100) NOT NULL UNIQUE,
-  phone_number VARCHAR(15) NOT NULL,
+  phone_number VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS events (
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS events (
   start_time TIME NOT NULL,
   end_time TIME,
   event_status ENUM('upcoming','ongoing','ended','canceled', 'soldout') DEFAULT 'upcoming',
-  event_type ENUM('workshop', 'networking', 'entertainment', 'cultural', 'NA') DEFAULT 'NA',
+  event_type ENUM('workshop', 'networking', 'entertainment', 'cultural', 'Others') DEFAULT 'Others',
   FOREIGN KEY (host) REFERENCES users(user_id) ON DELETE CASCADE
 );
 

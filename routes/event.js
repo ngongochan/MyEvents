@@ -1,12 +1,19 @@
-var express = require('express');
+const express = require('express');
 const db = require('../db/db');
-var router = express.Router();
-var multer = require('multer');
-const { fileLoader } = require('ejs');
-var upload = multer({ dest: 'public/images/event_images/' });
+const multer = require('multer');
+const path = require('path');
+const router = express.Router();
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) =>
+    cb(null, path.join(__dirname, '../public/images/event_images')),
+  filename: (req, file, cb) =>
+    cb(null, Date.now() + '-' + file.originalname)
+});
+const upload = multer({ storage });
 
 // return detail of event corresponding with the given id
-
 router.get('/detail', async function(req, res, next) {
     const id = req.query.event_id;
     if (id) {
@@ -78,7 +85,7 @@ router.use('/create/*', function(req, res, next) {
 });
 
 // Add event into the database
-router.post('/create/submit', upload.array('file', 5), async function(req, res, next) {
+router.post('/create/submit', upload.array('images', 5), async function(req, res, next) {
 
     try {
         const event = req.body;
@@ -102,22 +109,22 @@ router.post('/create/submit', upload.array('file', 5), async function(req, res, 
             ]
         );
         const event_id = insertedEvent.insertId;
+
         if (req.files && req.files.length) {
-            // build an array of promises
-            console.log(`Uploading images...`);
-            const inserts = req.files.map((file, i) => db.query(
-                    `INSERT INTO event_images
-                    (event_id, image_name, image_order)
-                    VALUES (?, ?, ?)`,
-                    [event_id, file.filename, i + 1]
+            const inserts = req.files.map((file, idx) =>
+            db.query(
+                `INSERT INTO event_images (event_id, image_name, image_order)
+                VALUES (?, ?, ?)`,
+                [event_id, file.filename, idx + 1]
             ));
             await Promise.all(inserts);
-
         }
-        res.sendStatus(200);
+
+        return res.json({ success: true, event_id });
     } catch(err) {
-        console.log('Unable to store event information');
-        res.sendStatus(err);
+        console.error('Error storing event:', err);
+        // send a 500 status with the error message
+        return res.status(500).json({ success: false, error: err.message });
     }
 });
 module.exports = router;

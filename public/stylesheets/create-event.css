@@ -203,4 +203,68 @@ h3 {
 }
 
 
+.orange-button {
+  background-color: #FF914D;
+  border: none;
+  font: bold;
+  color: #fff;
+}
 
+.error-message {
+  color: red;
+  margin:10px;
+  font-size: 15px;
+}
+
+.accept-message {
+  color: green;
+  margin:10px;
+  font-size: 15px;
+}
+
+.drag-drop-zone {
+  border: 2px dashed #ccc;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+}
+.drag-drop-zone.is-dragging {
+  border-color: #333;
+  background: #fafafa;
+}
+.visually-hidden {
+  position: absolute;
+  width: 0; height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+.previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.thumb {
+  position: relative;
+}
+.thumb img {
+  max-width: 100px;
+  border-radius: 4px;
+}
+.thumb button {
+  position: absolute;
+  top: 2px; right: 2px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  cursor: pointer;
+}
+
+.upDown {
+    margin-left: 40px;
+    margin-right: 40px;
+    box-sizing: border-box;
+    border:#333
+}

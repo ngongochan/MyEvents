@@ -72,7 +72,7 @@ createApp ({
                 return response.text();
                 })
                 .then((data) => {
-                console.log('Success:', data);
+                    console.log('Success:', data);
                     this.goToLogIn();
                 })
                 .catch((err) => {

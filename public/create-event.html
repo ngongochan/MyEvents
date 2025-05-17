@@ -13,82 +13,124 @@
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script type="module" src="/javascripts/create-event.js" defer></script>
     </head>
-    <body id="app">
-        <header class="header">
-            <div class="logo"></div>
-            <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
-            <nav class="nav-links">
-                <div class="nav-item"><a href="/tickets">My Tickets</a></div>
-                <div class="nav-item" v-if="!isLoggedIn"><a href="sign-up.html">Sign Up</a></div>
-                <div class="nav-item" v-if="!isLoggedIn"><a href="log-in.html">Log In</a></div>
-                <div class="nav-item" v-if="isLoggedIn"><a href="create-event.html">Create Event</a></div>
-                <div class="nav-item" v-if="isLoggedIn"><a href="create-event.html">My Profile</a></div>
-            </nav>
-        </header>
-        <main>
-            <h1>Let's host a new event</h1>
-            <div class="form-group">
-                <label>Event Title</label>
-                <input type="text" value="" placeholder="Enter event title">
-            </div>
-            <div class="form-group">
-                <label>Event Location</label>
-                <input type="text" value="" placeholder="Enter event location">
-            </div>
-            <div class="form-time">
-                <div class="form-group">
-                    <label>Event Date</label>
-                    <input type="date" value="">
-                </div>
-                <div class="form-group">
-                    <label>Start Time</label>
-                    <input type="time" value="">
-                </div>
-                <div class="form-group">
-                    <label>End Time</label>
-                    <input type="time" value="">
-                </div>
-            </div>
-            <div class="form-group" id="description">
-                <label>What is this event about?</label>
-                <textarea type="" value="" placeholder="Enter event description"></textarea>
-             </div>
-            <div class="ticket">
-                <label>Maximum Tickets Number</label>
-                <div class="ticket-card">
-                    <button type="button" class="ticket-card-btn">-</button>
-                    <input type="number" value="1">
-                    <button type="button" class="ticket-card-btn">+</button>
-                </div>
-            </div>
-            <div class="price">
-                <label>Price per Person</label>
-                <div class="price-row">
-                    <h3>$ AUD</h3>
-                    <div class="ticket-card">
-                        <button type="button" class="ticket-card-btn">-</button>
-                        <input type="number" value="0">
-                        <button type="button" class="ticket-card-btn">+</button>
+    <body >
+        <div id="app">
+            <header class="header">
+                <div class="logo"></div>
+                <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
+                <nav class="nav-links">
+                    <div class="nav-item"><a href="/tickets">My Tickets</a></div>
+                    <div class="nav-item" v-if="!isLoggedIn"><a href="sign-up.html">Sign Up</a></div>
+                    <div class="nav-item" v-if="!isLoggedIn"><a href="log-in.html">Log In</a></div>
+                    <div class="nav-item" v-if="isLoggedIn"><a href="create-event.html">Create Event</a></div>
+                    <div class="nav-item" v-if="isLoggedIn"><a href="create-event.html">My Profile</a></div>
+                </nav>
+            </header>
+            <main >
+                <h1>Let's host a new event</h1>
+                <form @submit.prevent="submitForm">
+                    <div class="form-group">
+                        <label>Event Title</label>
+                        <input type="text" value="" v-model="title" placeholder="Enter event title" required>
                     </div>
-                </div>
-            </div>
-                <div id="event-type" class="event-type">
-                    <label>Event Type</label>
-                    <div class="event-button">
-                        <button v-for="type in eventTypes" :key="type" type="button" @click="selectedType = type" :class="{ selected: selectedType === type }">
-                            {{type}}
-                        </button>
+                    <div class="form-group">
+                        <label>Event Location</label>
+                        <input type="text" value="" v-model="location" placeholder="Enter event location" required>
                     </div>
-                </div>
-            <div class="upload-image">
-                <label>Image</label>
-                <div class="drag-drop">
-                    <button type="button">Drag & drop to upload images</button>
-                    <span>Or</span>
-                    <button type="button">Browse files</button>
-                </div>
-            </div>
-        </main>
+                    <div class="form-time">
+                        <div class="form-group">
+                            <label>Event Date</label>
+                            <input type="date" value="" v-model="date"  required>
+                        </div>
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <input type="time" value="" v-model="start_time"  required>
+                        </div>
+                        <div class="form-group">
+                            <label>End Time</label>
+                            <input type="time" value="" v-model="end_time"  required>
+                        </div>
+                    </div>
+                    <div class="form-group" id="description">
+                        <label>What is this event about?</label>
+                        <textarea type="" value="" placeholder="Enter event description" v-model="description"  required></textarea>
+                    </div>
+                    <div class="ticket">
+                        <label>Maximum Tickets Number</label>
+                        <div class="ticket-card" >
+                            <button type="button" @click="downTicket" class="ticket-card-btn">-</button>
+                            <input type="number" v-model="total_tickets" class="upDown" required>
+                            <button type="button" @click="upTicket" class="ticket-card-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="price">
+                        <label>Price per Person</label>
+                        <div class="price-row">
+                            <h3>$ AUD</h3>
+                            <div class="ticket-card">
+                                <button type="button" @click='downPrice' class="ticket-card-btn">-</button>
+                                <input type="number" v-model="price" class="upDown"  required>
+                                <button type="button" @click='upPrice' class="ticket-card-btn">+</button>
+                            </div>
+                        </div>
+                    </div>
+                        <div id="event-type" class="event-type">
+                            <label>Event Type</label>
+                            <div class="event-button">
+                                <button v-for="type in eventTypes" :key="type" type="button" @click="selectedType = type" :class="{ selected: selectedType === type }">
+                                    {{type}}
+                                </button>
+                            </div>
+                        </div>
+                    <div class="upload-image">
+                        <label>Image</label>
+                        <br>
+                        <!-- <div class="drag-drop">
+                            <button type="button">Drag & drop to upload images</button>
+
+                            <span>Or</span>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                @change="onFileChange"
+                                ref="fileInput"
+                            >
+                            <button type="button" @click="$refs.fileInput.click()">Browse files</button>
+                        </div> -->
+                        <div
+                            class="drag-drop-zone"
+                            @dragover.prevent
+                            @dragenter.prevent="dragging = true"
+                            @dragleave.prevent="dragging = false"
+                            @drop.prevent="handleDrop"
+                            :class="{ 'is-dragging': dragging }"
+                            >
+                            <p>Drag & drop images here, or</p>
+                            <button type="button" @click="$refs.fileInput.click()">Browse files</button>
+                            <input
+                                type="file"
+                                ref="fileInput"
+                                accept="image/*"
+                                multiple
+                                class="visually-hidden"
+                                @change="handleFiles"
+                            >
+                            <div class="previews">
+                                <div v-for="(file, i) in upload_images" :key="i" class="thumb">
+                                    <img :src="file.previewUrl" />
+                                    <button @click="removeImage(i)">✕</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input  type="submit"
+                            value="Create"
+                            class="button orange-button">
+                        <!-- NEED TO FIX THE CSS FOR THIS BUTTON-->
+        </form>
+        <div v-if="success" class="accept-message">{{ success }}</div>
+            </main>
+        </div>
         <footer class="footer">
             <div>
                 <img class="footer-logo" src="/images/logos/MyEvents-whitetext.png" alt="">
