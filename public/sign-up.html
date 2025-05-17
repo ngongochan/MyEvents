@@ -12,63 +12,75 @@
 <body>
     <div class="body">
         <div class="left-div-signup split">
-            <div class="centered"><h1>Let's create a new account!</h1>
+            <div class="centered">
+                <h1>Let's create new account!</h1>
                 <form id="sign-up-form">
+                        <label for="first-name">First Name:</label><br>
                         <input  type="text"
                                 id="first-name"
                                 name="first-name"
                                 placeholder="First Name"
                                 required><br><br>
+                        <label for="last-name">Last Name:</label><br>
                         <input  type="text"
                                 id="last-name"
                                 name="last-name"
                                 placeholder="Last Name"
                                 required><br><br>
+                        <label for="password">Password:</label><br>
                         <input  type="password"
                                 id="password"
                                 name="password"
                                 placeholder="Password"
                                 required><br><br>
-                        <input  type="text"
+                        <label for="email-address">Email Address:</label><br>
+                        <input  type="email"
                                 id="email-address"
                                 name="email-address"
                                 placeholder="Email Address"
                                 required><br><br>
-                        <input  type="text"
-                                id="title"
-                                name="title"
-                                placeholder="Title"
-                                required><br><br>
-                        <input  type="text"
+                        <label for="title">Title:</label><br>
+                        <select name="title" id="title">
+                                <option value="mr">Mr.</option>
+                                <option value="mrs">Mrs.</option>
+                                <option value="ms">Ms.</option>
+                        </select><br><br>
+                        <!-- <input  type="text"
                                 id="gender"
                                 name="gender"
                                 placeholder="Gender"
-                                required><br><br>
-                        <input  type="text"
+                                required><br><br> -->
+                        <label for="phone-number">Phone Number:</label><br>
+                        <input  type="number"
                                 id="phone-number"
                                 name="phone-number"
                                 placeholder="Phone Number"
                                 required><br><br>
+                        <label for="student-id">Student ID (optional):</label><br>
                         <input  type="text"
                                 id="student-id"
                                 name="student-id"
                                 placeholder="Student ID"><br><br>
-                        <input  type="text"
-                                id="faculty"
-                                name="faculty"
-                                placeholder="Faculty"><br><br>
-                        <input  type="text"
-                                id="role"
-                                name="role"
-                                placeholder="Role"><br><br>
+                        <label for="faculty">Faculty:</label><br>
+                        <select name="faculty" id="faculty">
+                                <option value="able">ABLE</option>
+                                <option value="set">SET</option>
+                                <option value="hms">HMS</option>
+                        </select><br><br>
+                        <label for="role">Role:</label><br>
+                        <select name="role" id="role">
+                                <option value="student">Student</option>
+                                <option value="uoa_staff">UoA Staff</option>
+                                <option value="guest">Guest</option>
+                        </select><br><br>
                         <input  type="submit"
-                        value="Sign up"
-                        class="button yellow-button"><br><br>
+                                value="Sign up"
+                                class="button yellow-button"><br><br>
                         <hr>
                         <br>
                         <button type="button" class="button orange-button" >Already have an account</button>
                         <!-- <a href="/log-in.html" class="button orange-button">Already have an account</a> -->
-                         <!-- consider to change this button to this with modify the class and hyper text-->
+                        <!-- consider to change this button to this with modify the class and hyper text-->
                 </form>
             </div>
         </div>
