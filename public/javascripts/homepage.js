@@ -113,10 +113,10 @@ createApp({
   },
   mounted() {
     fetch('/all-events')
-    .then(res => res.json())
-    .then(js => {
-      this.events = js;
-    });
+        .then((res) => res.json())
+        .then((js) => {
+          this.events = js;
+        });
     fetch('/api/session-status')
         .then((res) => res.json())
         .then(({ isLoggedIn, email }) => {

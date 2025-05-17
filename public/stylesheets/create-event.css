@@ -1,0 +1,206 @@
+body {
+  font-family: 'Nunito';
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 50px;
+  font: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  margin-top: 100px;
+  margin-bottom: 0;
+  margin-left: 250px;
+  margin-right: 250px;
+  flex: 1;               /* fill the rest vertically before footer */
+  display: flex;
+  flex-direction: column;
+  font-size: 25px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/* Reset some basic styles */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-group input {
+    height: 40px;
+    border: 1px black solid;
+    border-radius: 8px;
+    font-size: 15px;
+    padding-left: 10px;
+    font-family: 'Nunito';
+    margin-bottom: 10px;
+    color: grey;
+}
+
+.form-group {
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.form-time {
+    display: flex;
+    gap: rem;
+    justify-content: space-between;
+}
+
+.form-time input {
+    width: 300px;
+}
+
+#description textarea {
+    padding-top: 10px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    border: 1px black solid;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: 'Nunito';
+    color: grey;
+    height: 200px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.ticket-card-btn {
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 50%;
+    background: #f79436;
+    color: #fff;
+    cursor: pointer;
+}
+
+.ticket-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: fit-content;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+.ticket-card input {
+    font-size: large;
+    width: 10px;
+    border: none;
+    background: none;
+}
+
+.ticket-card input:focus {
+    outline: none;       /* removes the default focus ring */
+}
+
+.price {
+    margin: 40px 0px;
+}
+
+.price-row {
+    align-items: center;
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+    padding-right: 8vh;
+    gap: 10px;
+}
+
+h3 {
+    width: fit-content;
+    padding-top: 10px;
+    font-size: large;
+}
+
+.event-type button {
+    width: 150px;
+    font-size: large;
+    padding: 10px;
+    color: #f79436 ;
+    background-color: #fff;
+    border: 2px solid #f79436;
+    border-radius: 60px;
+    display: inline;
+}
+
+.event-button {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding-top: 10px;
+}
+
+.event-type button.selected {
+    background-color: #f79436;
+    color: #fff;
+    border-color: #f79436;
+}
+
+.drag-drop {
+    margin: 3vh 0;
+    border: 2px solid #f79436;
+    height: 50vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+}
+
+.drag-drop button {
+    border: 2px solid #f79436;
+    height: 10vh;
+    font-size: medium;
+    width: 40vh;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #f79436;
+}
+
+.drag-drop button:hover {
+  background-color: #f79436;
+  color: #fff;
+  outline: none;
+}
+
+.upload-image {
+    padding-top: 5vh;
+}
+
+
+

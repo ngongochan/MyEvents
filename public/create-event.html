@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Event</title>
-        <link rel="stylesheet" href="stylesheets/create-event.css">
         <link rel="stylesheet" href="stylesheets/header-footer.css">
+        <link rel="stylesheet" href="stylesheets/create-event.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,15 +13,100 @@
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script type="module" src="/javascripts/create-event.js" defer></script>
     </head>
-    <body>
+    <body id="app">
         <header class="header">
             <div class="logo"></div>
             <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
             <nav class="nav-links">
-                <div class="nav-item"><a href="/">MyEvents</a></div>
-                <div class="nav-item"><a href="sign-up.html">Sign Up</a></div>
-                <div class="nav-item"><a href="log-in.html">Log In</a></div>
+                <div class="nav-item"><a href="/tickets">My Tickets</a></div>
+                <div class="nav-item" v-if="!isLoggedIn"><a href="sign-up.html">Sign Up</a></div>
+                <div class="nav-item" v-if="!isLoggedIn"><a href="log-in.html">Log In</a></div>
+                <div class="nav-item" v-if="isLoggedIn"><a href="create-event.html">Create Event</a></div>
+                <div class="nav-item" v-if="isLoggedIn"><a href="create-event.html">My Profile</a></div>
             </nav>
         </header>
+        <main>
+            <h1>Let's host a new event</h1>
+            <div class="form-group">
+                <label>Event Title</label>
+                <input type="text" value="" placeholder="Enter event title">
+            </div>
+            <div class="form-group">
+                <label>Event Location</label>
+                <input type="text" value="" placeholder="Enter event location">
+            </div>
+            <div class="form-time">
+                <div class="form-group">
+                    <label>Event Date</label>
+                    <input type="date" value="">
+                </div>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="time" value="">
+                </div>
+                <div class="form-group">
+                    <label>End Time</label>
+                    <input type="time" value="">
+                </div>
+            </div>
+            <div class="form-group" id="description">
+                <label>What is this event about?</label>
+                <textarea type="" value="" placeholder="Enter event description"></textarea>
+             </div>
+            <div class="ticket">
+                <label>Maximum Tickets Number</label>
+                <div class="ticket-card">
+                    <button type="button" class="ticket-card-btn">-</button>
+                    <input type="number" value="1">
+                    <button type="button" class="ticket-card-btn">+</button>
+                </div>
+            </div>
+            <div class="price">
+                <label>Price per Person</label>
+                <div class="price-row">
+                    <h3>$ AUD</h3>
+                    <div class="ticket-card">
+                        <button type="button" class="ticket-card-btn">-</button>
+                        <input type="number" value="0">
+                        <button type="button" class="ticket-card-btn">+</button>
+                    </div>
+                </div>
+            </div>
+                <div id="event-type" class="event-type">
+                    <label>Event Type</label>
+                    <div class="event-button">
+                        <button v-for="type in eventTypes" :key="type" type="button" @click="selectedType = type" :class="{ selected: selectedType === type }">
+                            {{type}}
+                        </button>
+                    </div>
+                </div>
+            <div class="upload-image">
+                <label>Image</label>
+                <div class="drag-drop">
+                    <button type="button">Drag & drop to upload images</button>
+                    <span>Or</span>
+                    <button type="button">Browse files</button>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <div>
+                <img class="footer-logo" src="/images/logos/MyEvents-whitetext.png" alt="">
+            </div>
+            <div class="footer-info">
+              <p>Hub Central Level 4, The University of Adelaide</p>
+              <p>North Terrace, Adelaide, SA 5000</p>
+              <p>myevents@email.com</p>
+              <p>+61 2345 6789</p>
+            </div>
+            <div class="socials">
+                <p>Follow us on socials</p>
+                <div class="social-icons">
+                    <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
+                    <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+                    <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook fa-2x"></i></a>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
