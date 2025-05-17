@@ -102,7 +102,7 @@ createApp({
       return this.events.filter(e => e.event_type === 'networking');
     },
     entertainEvent() {
-      return this.events.filter(e => e.event_type === 'entertain');
+      return this.events.filter(e => e.event_type === 'entertainment');
     },
     workshopEvent() {
       return this.events.filter(e => e.event_type === 'workshop');
