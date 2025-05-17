@@ -92,7 +92,9 @@ const { createApp } = Vue;
 createApp({
   data() {
     return {
-      events: []
+      events: [],
+      email: '',
+      isLoggedIn: false
     };
   },
   computed: {
@@ -115,8 +117,14 @@ createApp({
     .then(js => {
       this.events = js;
     });
+    fetch('/api/session-status')
+        .then((res) => res.json())
+        .then(({ isLoggedIn, email }) => {
+            this.isLoggedIn = isLoggedIn;
+            this.email = email || '';
+        });
   }
-}).mount('.show-event');
+}).mount('#app');
 
 function renderCards(list, containerId) {
   const container = document.getElementById(containerId);

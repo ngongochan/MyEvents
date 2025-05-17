@@ -20,7 +20,7 @@ createApp ({
     methods: {
         submitForm() {
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/login/login/submit', true);
+            xhr.open('POST', '/auth/login/submit', true);
             xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
