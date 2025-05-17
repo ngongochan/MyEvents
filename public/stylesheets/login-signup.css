@@ -5,7 +5,7 @@ body {
   display: flex;
 }
 
-input, .button {
+select, input, .button {
   width: 400px;
   height: 40px;
   border-radius: 10px;
@@ -13,9 +13,13 @@ input, .button {
   box-sizing: border-box;
 }
 
-input {
+select, input {
   border: 0.5px #B3B3B3 solid;
   padding-left: 16px;
+}
+
+select {
+  background-color: #fff;
 }
 
 .yellow-button {
@@ -71,6 +75,11 @@ hr {
 
 .centered {
   text-align: center;
+}
+
+#sign-up-form {
+  display: inline-block;
+  text-align: left;
 }
 
 .body {

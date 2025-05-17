@@ -11,7 +11,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script src="javascripts/homepage.js" defer></script>
+        <script type="module" src="javascripts/homepage.js" defer></script>
       </head>
     <body>
         <header class="header">
@@ -25,7 +25,30 @@
         </header>
     <main>
         <div class="hero"></div>
-        <section id="app">
+        <div class="show-event">
+            <section v-if="networkingEvent.length" class="category-block">
+                <h2>Networking events</h2>
+                <div id="networking" class="events-grid"></div>
+            </section>
+
+            <section v-if="entertainEvent.length" class="category-block">
+                <h2>Entertainment events</h2>
+                <div id="entertain" class="events-grid"></div>
+            </section>
+
+            <section v-if="workshopEvent.length" class="category-block">
+                <h2>Workshop</h2>
+                <div id="workshop" class="events-grid"></div>
+            </section>
+
+            <section v-if="culturalEvent.length" class="category-block">
+                <h2>Cultural events</h2>
+                <div id="cultural" class="events-grid"></div>
+            </section>
+        </div>
+
+
+        <!-- <section id="app">
             <div v-for="(events, category) in grouped" :key="category" class="category-block">
                 <h2>{{ category }}</h2>
                 <div class="events-grid">
@@ -39,7 +62,7 @@
                     </a>
                 </div>
             </div>
-        </section>
+        </section> -->
     </main>
         <footer class="footer">
             <div>
