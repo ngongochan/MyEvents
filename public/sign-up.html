@@ -4,43 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/stylesheets/login-signup.css">
+    <script src="javascripts/signup.js" defer></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito');
     </style>
     <title>Sign Up</title>
 </head>
-<body>
-    <div class="body">
+<body >
+    <div class="body" id="app">
         <div class="left-div-signup split">
             <div class="centered">
                 <h1>Let's create new account!</h1>
-                <form id="sign-up-form">
+                <form id="sign-up-form" @submit.prevent="submitForm">
                         <label for="first-name">First Name:</label><br>
                         <input  type="text"
                                 id="first-name"
                                 name="first-name"
+                                v-model = "first_name"
                                 placeholder="First Name"
                                 required><br><br>
                         <label for="last-name">Last Name:</label><br>
                         <input  type="text"
                                 id="last-name"
                                 name="last-name"
+                                v-model = "last_name"
                                 placeholder="Last Name"
                                 required><br><br>
                         <label for="password">Password:</label><br>
                         <input  type="password"
                                 id="password"
                                 name="password"
+                                v-model="password"
                                 placeholder="Password"
                                 required><br><br>
                         <label for="email-address">Email Address:</label><br>
                         <input  type="email"
                                 id="email-address"
                                 name="email-address"
+                                v-model="email"
                                 placeholder="Email Address"
                                 required><br><br>
+                        <div v-if="errorMessage" style="color:red; margin: 10px">{{ errorMessage }}</div>
                         <label for="title">Title:</label><br>
-                        <select name="title" id="title">
+                        <select name="title" id="title" v-model="title">
                                 <option value="mr">Mr.</option>
                                 <option value="mrs">Mrs.</option>
                                 <option value="ms">Ms.</option>
@@ -54,21 +61,23 @@
                         <input  type="number"
                                 id="phone-number"
                                 name="phone-number"
+                                v-model="phone_number"
                                 placeholder="Phone Number"
                                 required><br><br>
                         <label for="student-id">Student ID (optional):</label><br>
                         <input  type="text"
                                 id="student-id"
                                 name="student-id"
+                                v-model="student_id"
                                 placeholder="Student ID"><br><br>
-                        <label for="faculty">Faculty:</label><br>
-                        <select name="faculty" id="faculty">
+                        <!-- <label for="faculty">Faculty:</label><br>
+                        <select name="faculty" id="faculty" v-model="">
                                 <option value="able">ABLE</option>
                                 <option value="set">SET</option>
-                                <option value="hms">HMS</option>
-                        </select><br><br>
+                                <option value="hms">HMS</option> -->
+                        <!-- </select><br><br> -->
                         <label for="role">Role:</label><br>
-                        <select name="role" id="role">
+                        <select name="role" id="role" v-model="user_role">
                                 <option value="student">Student</option>
                                 <option value="uoa_staff">UoA Staff</option>
                                 <option value="guest">Guest</option>
@@ -78,11 +87,9 @@
                                 class="button yellow-button"><br><br>
                         <hr>
                         <br>
-                        <button type="button" class="button orange-button" >Already have an account</button>
-                        <!-- <a href="/log-in.html" class="button orange-button">Already have an account</a> -->
-                        <!-- consider to change this button to this with modify the class and hyper text-->
+                <button type="button" class="button orange-button" @click="goToLogIn">Already have an account</button>
                 </form>
-            </div>
+]            </div>
         </div>
         <div class="right-div split">
             <div class="centered">

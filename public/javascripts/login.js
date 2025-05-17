@@ -41,6 +41,9 @@ createApp ({
                 email: this.email,
                 password: this.password
             }));
+        },
+        goToSignUp() {
+            window.location.href = 'sign-up.html';
         }
     }
 }).mount('#app');

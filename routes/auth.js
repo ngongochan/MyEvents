@@ -24,7 +24,6 @@ router.post('/signup/submit', async function (req, res, next) {
         }
 
         // 2) Hash password
-        // const hashed = hashPassword(user.password);
         const hashed = await bcrypt.hash(user.password, 10);
 
         // 3) Insert new user (avatar and user_id are auto-handled by MySQL)
@@ -43,7 +42,7 @@ router.post('/signup/submit', async function (req, res, next) {
             user.role || 'guest'
             ]
         );
-        res.status(200).redirect('/log-in.html');
+        res.status(200).send();
     } catch (err) {
       next(err);
     }
