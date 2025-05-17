@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Event</title>
+        <link rel="stylesheet" href="stylesheets/create-event.css">
+        <link rel="stylesheet" href="stylesheets/header-footer.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script type="module" src="/javascripts/create-event.js" defer></script>
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo"></div>
+            <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
+            <nav class="nav-links">
+                <div class="nav-item"><a href="/">MyEvents</a></div>
+                <div class="nav-item"><a href="sign-up.html">Sign Up</a></div>
+                <div class="nav-item"><a href="log-in.html">Log In</a></div>
+            </nav>
+        </header>
+    </body>
+</html>
