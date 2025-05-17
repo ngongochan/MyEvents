@@ -1,11 +1,33 @@
+import { formatDate, formatTime } from './utility.js';
 const { createApp } = Vue;
+
 createApp({
     data() {
         return {
+            event: null,
             quantity: 1
         };
     },
+
+    mounted() {
+        // initDetailPage()
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('event_id');
+        if (!id) {
+            return window.location.replace('/');
+        }
+        fetch(`/event/detail?event_id=${encodeURIComponent(id)}`)
+        .then(res => res.json())
+        .then(rows => {
+            [this.event] = rows;
+            this.initTicketCard();
+        })
+        .catch(console.error);
+    },
+
     methods: {
+        formatDate,
+        formatTime,
         increment() {
             this.quantity++;
         },
@@ -13,7 +35,7 @@ createApp({
             if (this.quantity > 1) this.quantity--;
         },
         purchase() {
-            alert(`Purchasing ${this.quantity} general admission ticket(s)!`);
+            alert(`Purchasing ${this.quantity} ticket(s)!`);
         }
     }
-}).mount('#ticket-card');
+}).mount('#event-app');
