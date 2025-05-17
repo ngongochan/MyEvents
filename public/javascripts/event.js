@@ -5,7 +5,9 @@ createApp({
     data() {
         return {
             event: null,
-            quantity: 1
+            quantity: 1,
+            email: '',
+            isLoggedIn: false
         };
     },
 
@@ -23,6 +25,12 @@ createApp({
             this.initTicketCard();
         })
         .catch(console.error);
+        fetch('/api/session-status')
+        .then((res) => res.json())
+        .then(({ isLoggedIn, email }) => {
+            this.isLoggedIn = isLoggedIn;
+            this.email = email || '';
+        });
     },
 
     methods: {
@@ -38,4 +46,4 @@ createApp({
             alert(`Purchasing ${this.quantity} ticket(s)!`);
         }
     }
-}).mount('#event-app');
+}).mount('#app');
