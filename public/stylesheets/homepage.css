@@ -1,3 +1,37 @@
+body {
+  font-family: 'Nunito';
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 50px;
+  font: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  /* margin-top: 60px;      = header height */
+  flex: 1;               /* fill the rest vertically before footer */
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/* Reset some basic styles */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* Hero section */
 .hero {
   background-image: url("../images/homepageimg.jpg");
