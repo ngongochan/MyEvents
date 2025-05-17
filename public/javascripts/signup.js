@@ -12,6 +12,7 @@ createApp ({
             student_id: '',
             user_role: '',
             errorMessage: '',
+            confirm_password: '',
             isLoggedIn: false
         };
     },
@@ -30,13 +31,20 @@ createApp ({
             if (!/[A-Z]/.test(this.password))errs.push('One uppercase letter');
             if (!/[a-z]/.test(this.password))errs.push('One lowercase letter');
             if (!/[0-9]/.test(this.password)) errs.push('One digit');
-            if (!/[!@#$%^&*]/.test(this.password)) errs.push('One special character (!@#$%^&*)');
+            if (!/[!@#$%^&*.]/.test(this.password)) errs.push('One special character (!@#$%^&*)');
             return errs;
+        },
+        passwordMatch() {
+            if(this.password === this.confirm_password) {
+                return true;
+            }
+            return false;
         }
+
     },
     methods: {
         submitForm() {
-            if(this.password && this.passwordErrors().length) {
+            if(this.password && this.passwordErrors.length) {
                 this.errorMessage = 'Please fix your password before submitting.';
                 return;
             }

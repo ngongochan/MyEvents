@@ -94,3 +94,15 @@ hr {
 .font-36 {
   font-size: 3.6vh;
 }
+
+.error-message {
+  color: red;
+  margin:10px;
+  font-size: 15px;
+}
+
+.accept-message {
+  color: green;
+  margin:10px;
+  font-size: 15px;
+}

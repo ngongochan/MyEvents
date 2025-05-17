@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/stylesheets/login-signup.css">
-    <script src="javascripts/signup.js" defer></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="javascripts/signup.js" defer></script>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito');
     </style>
@@ -38,13 +38,23 @@
                                 v-model="password"
                                 placeholder="Password"
                                 required>
-                        <div v-if="password && passwordErrors.length" style="color:red; margin: 10px; font-size: 15px">
+                        <div v-if="password && passwordErrors.length" class="error-message">
                                 <p>Password must containt at least:</p>
                                 <ul>
                                         <li v-for="err in passwordErrors" :key="err">{{err}}</li>
                                 </ul>
                         </div>
                         <br v-if="!password || !passwordErrors.length"><br>
+                        <label for="Confirmpassword">Confirm your password:</label><br>
+                        <input  type="password"
+                                id="Confirmpassword"
+                                name="password"
+                                v-model="confirm_password"
+                                placeholder="Password"
+                                required>
+                        <div v-if="password && confirm_password && !passwordMatch" class="error-message">Password do not match. Please try again!</div>
+                        <div v-if="password && !passwordErrors.length && confirm_password && passwordMatch" class="accept-message">Password Match!</div>
+                        <br><br>
                         <label for="email-address">Email Address:</label><br>
                         <input  type="email"
                                 id="email-address"
@@ -52,7 +62,7 @@
                                 v-model="email"
                                 placeholder="Email Address"
                                 required>
-                        <div v-if="errorMessage" style="color:red; margin: 10px ; font-size: 15px">{{ errorMessage }}</div>
+                        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
                         <br><br>
                         <label for="title">Title:</label><br>
                         <select name="title" id="title" v-model="title">
