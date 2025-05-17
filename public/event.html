@@ -11,42 +11,43 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script src="javascripts/homepage.js" defer></script>
+        <script type="module" src="/javascripts/event.js" defer></script>
     </head>
     <body>
         <header class="header">
             <div class="logo"></div>
             <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
             <nav class="nav-links">
-                <div class="nav-item"><a href="index.html">MyEvents</a></div>
+                <div class="nav-item"><a href="/">MyEvents</a></div>
                 <div class="nav-item"><a href="sign-up.html">Sign Up</a></div>
                 <div class="nav-item"><a href="log-in.html">Log In</a></div>
             </nav>
         </header>
-    <main>
-        <div class="hero"></div>
-        <div class="event-container">
+    <main id="event-app">
+        <img v-if="event" class="hero" :src="`/images/event_images/${event.image_name}`" alt="">
+            <div class="event-container">
             <div id="event-detail">
-            <section class="event-detail" v-if="event">
-                <h1>{{ event.name }}</h1>
-                <p><strong>Location:</strong><br> {{ event.location }}</p>
-                <p><strong>Date & Time:</strong><br> {{ event.datetime }}</p>
-                <p><strong>Price:</strong><br> ${{ event.price }}</p>
-            </section>
-        </div>
-        <div id="ticket-card" class="ticket-card">
-            <div class="qty-row">
-                <h3 class="ticket-card-title">General Admission</h3>
-                <div class="ticket-card-qty">
-                    <button type="button" @click="decrement" :disabled="quantity<=1" class="ticket-card-btn">-</button>
-                    <span class="ticket-card-count">{{quantity}}</span>
-                    <button type="button" @click="increment" class="ticket-card-btn">+</button>
-                </div>
+                <section class="event-detail" v-if="event">
+                    <h1><strong></strong>{{ event.title }}</h1>
+                    <p><strong>Date:</strong><br>{{ formatDate(event.event_date) }}</p>
+                    <p><strong>Start Time:</strong><br>{{ formatTime(event.start_time) }}</p>
+                    <p><strong>Location:</strong><br>{{ event.event_location }}</p>
+                    <p><strong>Price:</strong><br>{{ event.price }}</p>
+                    <p><strong>Description:</strong><br>{{ event.description }}</p>
+                </section>
             </div>
-            <button type="button" @click="purchase" class="ticket-purchase">General Admission</button>
+            <div id="ticket-card" class="ticket-card" v-if="event">
+                <div class="qty-row">
+                    <h3 class="ticket-card-title">General Admission</h3>
+                    <div class="ticket-card-qty">
+                        <button type="button" @click="decrement" :disabled="quantity<=1" class="ticket-card-btn">-</button>
+                        <span class="ticket-card-count">{{ quantity }}</span>
+                        <button type="button" @click="increment" class="ticket-card-btn">+</button>
+                    </div>
+                </div>
+                <button type="button" @click="purchase" class="ticket-purchase">General Admission</button>
+            </div>
         </div>
-        </div>
-
     </main>
         <footer class="footer">
             <div>
