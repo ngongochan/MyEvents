@@ -23,8 +23,23 @@ createApp ({
             this.email = email || '';
         });
     },
+    computed: {
+        passwordErrors() {
+            const errs = [];
+            if (this.password.length < 8) errs.push('At least 8 characters');
+            if (!/[A-Z]/.test(this.password))errs.push('One uppercase letter');
+            if (!/[a-z]/.test(this.password))errs.push('One lowercase letter');
+            if (!/[0-9]/.test(this.password)) errs.push('One digit');
+            if (!/[!@#$%^&*]/.test(this.password)) errs.push('One special character (!@#$%^&*)');
+            return errs;
+        }
+    },
     methods: {
         submitForm() {
+            if(this.password && this.passwordErrors().length) {
+                this.errorMessage = 'Please fix your password before submitting.';
+                return;
+            }
             fetch('/auth/signup/submit', {
                 method: 'POST',
                 headers: {

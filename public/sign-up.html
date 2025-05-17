@@ -37,15 +37,23 @@
                                 name="password"
                                 v-model="password"
                                 placeholder="Password"
-                                required><br><br>
+                                required>
+                        <div v-if="password && passwordErrors.length" style="color:red; margin: 10px; font-size: 15px">
+                                <p>Password must containt at least:</p>
+                                <ul>
+                                        <li v-for="err in passwordErrors" :key="err">{{err}}</li>
+                                </ul>
+                        </div>
+                        <br v-if="!password || !passwordErrors.length"><br>
                         <label for="email-address">Email Address:</label><br>
                         <input  type="email"
                                 id="email-address"
                                 name="email-address"
                                 v-model="email"
                                 placeholder="Email Address"
-                                required><br><br>
-                        <div v-if="errorMessage" style="color:red; margin: 10px">{{ errorMessage }}</div>
+                                required>
+                        <div v-if="errorMessage" style="color:red; margin: 10px ; font-size: 15px">{{ errorMessage }}</div>
+                        <br><br>
                         <label for="title">Title:</label><br>
                         <select name="title" id="title" v-model="title">
                                 <option value="mr">Mr.</option>
@@ -58,7 +66,7 @@
                                 placeholder="Gender"
                                 required><br><br> -->
                         <label for="phone-number">Phone Number:</label><br>
-                        <input  type="number"
+                        <input  type="tel"
                                 id="phone-number"
                                 name="phone-number"
                                 v-model="phone_number"
