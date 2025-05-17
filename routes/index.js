@@ -22,4 +22,19 @@ router.get('/all-events', async function(req, res, next) {
   console.log("Sent event info to homepage.");
 });
 
+
+
+router.get('/api/session-status', (req, res) => {
+
+  if (req.session.user) {
+    res.json(
+      {
+      isLoggedIn: !!req.session.user,
+      email: req.session.user.email
+    }
+  );
+  }
+});
+
+
 module.exports = router;

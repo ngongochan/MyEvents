@@ -43,15 +43,7 @@ router.post('/signup/submit', async function (req, res, next) {
             user.role || 'guest'
             ]
         );
-        const [data] = await db.query("SELECT * FROM users WHERE email = ?", [user.email]);
-        const currUser = data[0];
-        req.session.user = {
-            id: currUser.user_id,
-            email: currUser.email,
-            role: currUser.user_role
-        };
-
-        res.sendStatus(200);
+        res.status(200).redirect('/log-in.html');
     } catch (err) {
       next(err);
     }

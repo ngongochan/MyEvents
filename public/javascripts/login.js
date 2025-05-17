@@ -5,8 +5,17 @@ createApp ({
         return {
             email: '',
             password: '',
-            errorMessage: ''
+            errorMessage: '',
+            isLoggedIn: false
         };
+    },
+    mounted() {
+        fetch('/api/session-status')
+        .then((res) => res.json())
+        .then(({ isLoggedIn, email }) => {
+            this.isLoggedIn = isLoggedIn;
+            this.email = email || '';
+        });
     },
     methods: {
         submitForm() {

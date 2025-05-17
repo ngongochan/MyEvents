@@ -5,12 +5,13 @@ CREATE TABLE IF NOT EXISTS users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
+  title ENUM('mr', 'ms', 'mrs', 'none') DEFAULT 'none',
   user_password VARCHAR(60) NOT NULL,
   avatar VARCHAR(255) DEFAULT 'default_avatar.png',
-  user_role ENUM('admin','col_stu','bs_stu','ms_stu','phd_stu','uoa_staff','guest') DEFAULT 'guest',
+  user_role ENUM('admin','student','uoa_staff','guest') DEFAULT 'guest',
   student_id VARCHAR(20),
   email VARCHAR(100) NOT NULL UNIQUE,
-  phone_number VARCHAR(15) NOT NULL
+  phone_number VARCHAR(15) NOT NULL,
 );
 
 CREATE TABLE IF NOT EXISTS events (

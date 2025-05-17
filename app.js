@@ -12,7 +12,7 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/login');
+var authRouter = require('./routes/auth');
 var eventRouter = require('./routes/event');
 var mailRouter = require('./routes/mail');
 // var adminRouter = require('./routes/admin');
@@ -45,7 +45,7 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/login', loginRouter);
+app.use('/auth', authRouter);
 app.use('/event', eventRouter);
 app.use('/mail', mailRouter);
 // app.use('/admin', adminRouter);
