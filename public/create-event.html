@@ -16,7 +16,7 @@
     <body >
         <div id="app">
             <header class="header">
-                <div class="logo"></div>
+                <a href="/"><div class="logo"></div></a>
                 <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
                 <nav class="nav-links">
                     <div class="nav-item"><a href="/tickets">My Tickets</a></div>
@@ -124,11 +124,11 @@
                         </div>
                     </div>
                     <input  type="submit"
-                            value="Create"
+                            value="Create Event"
                             class="button orange-button">
                         <!-- NEED TO FIX THE CSS FOR THIS BUTTON-->
-        </form>
-        <div v-if="success" class="accept-message">{{ success }}</div>
+                </form>
+                <div v-if="success" class="accept-message">{{ success }}</div>
             </main>
         </div>
         <footer class="footer">

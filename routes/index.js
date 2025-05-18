@@ -7,7 +7,7 @@ router.get('/all-events', async function(req, res, next) {
   const [events] = await db.query(
       `
       SELECT
-          e.event_id, e.title, e.description, e.price, e.event_type, e.start_time,
+          e.event_id, e.title, e.description, e.price, e.event_type, e.start_time, e.event_location, e.event_date,
           (
           SELECT image_name
           FROM event_images

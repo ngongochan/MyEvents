@@ -112,3 +112,5 @@ dist
 .vscode/
 
 .env
+# Image
+/public/images/event_images/

@@ -91,12 +91,20 @@ createApp({
             this.total_tickets = this.total_tickets + 1;
         },
         downTicket() {
+            if (this.total_tickets <= 0) {
+                this.total_tickets = 0;
+                return;
+            }
             this.total_tickets = this.total_tickets - 1;
         },
         upPrice() {
             this.price = this.price + 1;
         },
         downPrice() {
+            if (this.price <= 0) {
+                this.price = 0;
+                return;
+            }
             this.price = this.price - 1;
         }
     }

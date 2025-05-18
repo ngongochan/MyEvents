@@ -15,7 +15,7 @@
     </head>
     <body id="app">
         <header class="header">
-            <div class="logo"></div>
+            <a href="/"><div class="logo"></div></a>
             <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
             <nav class="nav-links">
                 <div class="nav-item"><a href="/tickets">My Tickets</a></div>
@@ -46,6 +46,11 @@
             <section v-if="culturalEvent.length" class="category-block">
                 <h2>Cultural events</h2>
                 <div id="cultural" class="events-grid"></div>
+            </section>
+
+            <section v-if="otherEvent.length" class="category-block">
+                <h2>Others</h2>
+                <div id="others" class="events-grid"></div>
             </section>
         </div>
 

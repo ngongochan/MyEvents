@@ -118,8 +118,10 @@ input[type=number] {
 
 .ticket-card input {
     font-size: large;
-    width: 10px;
+    width: 30px;
     border: none;
+    align-content: center;
+    text-align: center;
     background: none;
 }
 
@@ -154,7 +156,6 @@ h3 {
     background-color: #fff;
     border: 2px solid #f79436;
     border-radius: 60px;
-    display: inline;
 }
 
 .event-button {
@@ -170,26 +171,8 @@ h3 {
     border-color: #f79436;
 }
 
-.drag-drop {
-    margin: 3vh 0;
-    border: 2px solid #f79436;
-    height: 50vh;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem;
-}
-
-.drag-drop button {
-    border: 2px solid #f79436;
-    height: 10vh;
-    font-size: medium;
-    width: 40vh;
-    border-radius: 10px;
-    background-color: #fff;
-    color: #f79436;
+.drag-drop-zone button {
+  padding: 2px;
 }
 
 .drag-drop button:hover {
@@ -200,14 +183,6 @@ h3 {
 
 .upload-image {
     padding-top: 5vh;
-}
-
-
-.orange-button {
-  background-color: #FF914D;
-  border: none;
-  font: bold;
-  color: #fff;
 }
 
 .error-message {
@@ -267,4 +242,19 @@ h3 {
     margin-right: 40px;
     box-sizing: border-box;
     border:#333
+}
+
+.orange-button {
+  color: #fff;
+  background-color: #f79436;
+  border: 2px solid #f79436;
+  padding: 10px;
+  font-size: large;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+input.button.orange-button {
+  display: block;
+  margin: 2rem auto; /* adjust top/bottom as you like */
 }

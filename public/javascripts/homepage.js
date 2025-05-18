@@ -109,6 +109,9 @@ createApp({
     },
     culturalEvent() {
       return this.events.filter(e => e.event_type === 'cultural');
+    },
+    otherEvent() {
+      return this.events.filter(e => e.event_type === 'Others');
     }
   },
   mounted() {
@@ -162,11 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const entertain = events.filter(e => e.event_type.startsWith('entertain'));
       const workshop = events.filter(e => e.event_type.startsWith('workshop'));
       const cultural = events.filter(e => e.event_type.startsWith('cultural'));
+      const other = events.filter(e => e.event_type.startsWith('Others'));
 
       renderCards(networking, 'networking');
       renderCards(entertain, 'entertain');
       renderCards(workshop, 'workshop');
       renderCards(cultural, 'cultural');
+      renderCards(other, 'others');
     })
     .catch(console.error);
 });
