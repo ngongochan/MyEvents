@@ -3,42 +3,299 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><=% title %=></title>
-        <link rel="stylesheet" href="stylesheets/header-footer.css">
+        <title>Admin</title>
+        <link rel="stylesheet" href="/stylesheets/admin.css">
+        <link rel="stylesheet" href="/stylesheets/header-footer.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script src="javascripts/admin.js" defer></script>
-      </head>
-    <body>
-        <header class="header">
-            <div class="logo"></div>
-            <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
-            <nav class="nav-links">
-                <div class="nav-item"><a href="/tickets">My Tickets</a></div>
-                <div class="nav-item"><a href="sign-up.html">Sign Up</a></div>
-                <div class="nav-item"><a href="log-in.html">Log In</a></div>
-            </nav>
+        <script type="module" src="/javascripts/admin.js" defer></script>
+    </head>
+    <body id="app">
+        <header class="header admin_header">
+            <a href="/"><div class="logo"></div></a>
+            <div class = "title">Admin Dashboard</div>
         </header>
     <main>
-        <div class="hero"></div>
-        <section id="app">
-            <div v-for="(events, category) in grouped" :key="category" class="category-block">
-                <h2>{{ category }}</h2>
-                <div class="events-grid">
-                    <a v-for="event in events" :key="event.id" :href="`event.html?id=${event.id}`" class="event-card-link">
-                        <div class="event-card">
-                            <h3>{{ event.name }}</h3>
-                            <p>{{ event.location }}</p>
-                            <p>{{ event.datetime }}</p>
-                            <p>${{ event.price }}</p>
-                        </div>
-                    </a>
-                </div>
+        <!-- User management section for manage user within the database -->
+        <div>
+            <h1>User Management</h1>
+
+            <div class="control-bar">
+                <form @submit.prevent="searchUser">
+                    <input type="text" name = "email" v-model="email_search" placeholder="Enter email">
+                    <input type="Submit" value="Search">
+                </form>
+                <button type="button" @click="openInsertModal">Add User</button>
+                <button type="button" class="hide-button" @click="user_table_change()">{{user_table ? "Hide" : "Show"}}</button>
             </div>
-        </section>
+            <br>
+            <div class="admin-table" v-if="user_table">
+                <table class="user-table">
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            First Name
+                        </th>
+                        <th>
+                            Last Name
+                        </th>
+                        <th>
+                            Role
+                        </th>
+                        <th>
+                            Student ID
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Phone Number
+                        </th>
+                        <th>
+                            Edit
+                        </th>
+                    </tr>
+                    <% users.forEach((user) => { %>
+                        <tr>
+                            <td><%= user.user_id %></td>
+                            <td><%= user.first_name %></td>
+                            <td><%= user.last_name %></td>
+                            <td><%= user.user_role %></td>
+                            <td><%= user.student_id %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.phone_number %></td>
+                            <td><button @click="openEditModal(<%= JSON.stringify(user) %>)">Edit</button></td>
+                        </tr>
+                    <% }); %>
+                </table>
+            </div>
+            <button type="button"  v-if="email_searched" @click="showAllUser">Show all</button>
+        </div>
+        <br>
+        <div>
+            <h1>Event Management</h1>
+
+            <div class="control-bar">
+                <form @submit.prevent="searchEvent">
+                    <input type="text" v-model="title_search" name="title" placeholder="Enter title">
+                    <input type="Submit" value="Search">
+                </form>
+                <button type="button" @click="addEvent">Add Event</button>
+                <button type="button" class="hide-button" @click="event_table_change">{{event_table ? "Hide" : "Show"}}</button>
+            </div>
+            <br>
+            <div class="admin-table" v-if="event_table">
+                <table class="event-table">
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Host ID
+                        </th>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                        <th>
+                            Edit
+                        </th>
+                    </tr>
+                    <% events.forEach((event) => { %>
+                        <tr>
+                            <td><%= event.event_id %></td>
+                            <td><%= event.host %></td>
+                            <td><%= event.title %></td>
+                            <td><%= event.rice %></td>
+                            <td><%= event.event_date %></td>
+                            <td><%= event.event_status %></td>
+                            <td><%= event.event_type %></td>
+                            <td><button @click="openEditEventModal(<%= JSON.stringify(event) %>)">Edit</button></td>
+                        </tr>
+                    <% }); %>
+                </table>
+            </div>
+            <button type="button" v-if="title_searched" @click="showAllEvent">Show all</button>
+        </div>
+        <div v-if="showUserModal" class="modal-overlay" @click.self="closeEditModal('userEdit')">
+            <div class="modal-content">
+                <h3>User: {{ selectedUser.first_name }} {{ selectedUser.last_name }}</h3>
+                <form @submit.prevent="saveUser">
+                    <img :src="avatarPreview?.url || '/images/user_avatar/' + selectedUser.avatar" alt="Avatar" class="avatar-img" />
+                    <input
+                        type="file"
+                        ref="avatarInput"
+                        @change="onAvatarChange"
+                        style="display: none"
+                        accept="image/*"
+                    />
+                    <button type="button" @click="$refs.avatarInput.click()">Edit avatar</button>
+
+                    <label>First Name</label>
+                    <input v-model="selectedUser.first_name" type="text" required>
+
+                    <label>Last Name</label>
+                    <input v-model="selectedUser.last_name" type="text" required>
+
+                    <label>Title</label>
+                    <select v-model="selectedUser.title" required>
+                        <option value="mr">Mr</option>
+                        <option value="ms">Ms</option>
+                        <option value="mrs">Mrs</option>
+                        <option value="none">None</option>
+                    </select>
+
+                    <label>Email</label>
+                    <input v-model="selectedUser.email" type="email" required>
+
+                    <label>Student ID</label>
+                    <input v-model="selectedUser.student_id" type="text">
+
+                    <label>Phone Number</label>
+                    <input v-model="selectedUser.phone_number" type="tel" required>
+
+                    <label>Role</label>
+                    <select v-model="selectedUser.user_role">
+                        <option value="admin">Admin</option>
+                        <option value="student">Student</option>
+                        <option value="uoa_staff">UOA Staff</option>
+                        <option value="guest">Guest</option>
+                    </select>
+
+                    <button type="button" name="Delete" @click="deleteUser">Delete</button>
+                    <button type="submit">Save</button>
+                    <button type="button" @click="closeEditModal('userEdit')">Cancel</button>
+                    <div v-model="adjust_message">{{ adjust_message}}</div>
+                </form>
+            </div>
+        </div>
+        <div v-if="showInsertUserModal" class="modal-overlay" @click.self="closeEditModal('userInsert')">
+            <div class="modal-content">
+                <h3>Insert New User</h3>
+                <form @submit.prevent="addUser">
+                    <img :src="avatarPreview?.url || '/images/user_avatar/' + newUser.avatar" alt="Avatar" class="avatar-img" />
+                    <input
+                        type="file"
+                        ref="avatarInput"
+                        @change="onAvatarChange"
+                        style="display: none"
+                        accept="image/*"
+                    />
+                    <button type="button" @click="$refs.avatarInput.click()">Edit avatar</button>
+
+                    <label>First Name</label>
+                    <input v-model="newUser.first_name" type="text" required>
+
+                    <label>Last Name</label>
+                    <input v-model="newUser.last_name" type="text" required>
+
+                    <label>Title</label>
+                    <select v-model="newUser.title" required>
+                        <option value="mr">Mr</option>
+                        <option value="ms">Ms</option>
+                        <option value="mrs">Mrs</option>
+                        <option value="none">None</option>
+                    </select>
+
+
+                    <label>Email</label>
+                    <input v-model="newUser.email" type="email" required>
+
+                    <label>Password</label>
+                    <input v-model="newUser.user_password" type="password" required>
+
+                    <label>Student ID</label>
+                    <input v-model="newUser.student_id" type="text">
+
+                    <label>Phone Number</label>
+                    <input v-model="newUser.phone_number" type="tel" required>
+
+                    <label>Role</label>
+                    <select v-model="newUser.user_role">
+                        <option value="admin">Admin</option>
+                        <option value="student">Student</option>
+                        <option value="uoa_staff">UOA Staff</option>
+                        <option value="guest">Guest</option>
+                    </select>
+
+                    <button type="submit">Save</button>
+                    <button type="button" @click="closeEditModal('userInsert')">Cancel</button>
+                    <div v-model="adjust_message">{{ adjust_message}}</div>
+                </form>
+            </div>
+        </div>
+        <div v-if="showEventModal" class="modal-overlay" @click.self="closeEditModal('eventEdit')">
+            <div class="modal-content">
+                <h3>Event: {{ selectedEvent.title }}</h3>
+                <form @submit.prevent="saveEvent">
+                    <label>Title</label>
+                    <input v-model="selectedEvent.title" type="text" required>
+
+                    <label>Description</label>
+                    <input v-model="selectedEvent.description" type="text" required>
+
+                    <label>Price</label>
+                    <input v-model="selectedEvent.price" type="number">
+
+                    <label>Remaining</label>
+                    <input v-model="selectedEvent.remaining" type="number" required>
+
+                    <label>Total tickets</label>
+                    <input v-model="selectedEvent.total_tickets" type="number" required>
+
+                    <label>Event Date</label>
+                    <input v-model="selectedEvent.event_date" type="date" required>
+
+                    <label>Location</label>
+                    <input v-model="selectedEvent.event_location" type="text" required>
+
+                    <label>Start time</label>
+                    <input v-model="selectedEvent.start_time" type="time" required>
+
+                    <label>End time</label>
+                    <input v-model="selectedEvent.end_time" type="time" required>
+
+                    <label>Event Status</label>
+                    <select v-model="selectedEvent.event_status">
+                        <option value="upcoming">Upcoming</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="ended">Ended</option>
+                        <option value="canceled">Canceled</option>
+                        <option value="soldout">Sold Out</option>
+                    </select>
+
+                    <label>Event Type</label>
+                    <select v-model="selectedEvent.event_type">
+                        <option value="workshop">Workshop</option>
+                        <option value="networking">Networking</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="cultural">Cultural</option>
+                        <option value="Others">Others</option>
+                    </select>
+
+                    <button type="button" name="Delete" @click="deleteEvent">Delete</button>
+                    <button type="submit">Save</button>
+                    <button type="button" @click="closeEditModal('eventEdit')">Cancel</button>
+                    <div v-model="adjust_message">{{ adjust_message}}</div>
+                </form>
+            </div>
+        </div>
     </main>
         <footer class="footer">
             <div>
@@ -48,7 +305,7 @@
               <p>Hub Central Level 4, The University of Adelaide</p>
               <p>North Terrace, Adelaide, SA 5000</p>
               <p>myevents@email.com</p>
-              <p>+61 2345 6789</p>
+              <p>+61 1234 5678</p>
             </div>
             <div class="socials">
                 <p>Follow us on socials</p>

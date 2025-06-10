@@ -15,7 +15,7 @@ var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var eventRouter = require('./routes/event');
 var mailRouter = require('./routes/mail');
-// var adminRouter = require('./routes/admin');
+var adminRouter = require('./routes/admin');
 var db = require('./db/db.js');
 
 
@@ -24,6 +24,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
@@ -47,7 +48,7 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/event', eventRouter);
 app.use('/mail', mailRouter);
-// app.use('/admin', adminRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

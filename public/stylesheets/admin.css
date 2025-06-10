@@ -1,0 +1,126 @@
+body {
+  font-family: 'Nunito';
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 50px;
+  font: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  margin-left: 20px;
+}
+
+h1 {
+    display: flex;
+    position: relative;
+}
+
+.admin_header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  padding: 0 20px;
+  z-index: 15;
+}
+
+
+.admin_header .title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: white;
+  font-weight: 700;
+  font-size: x-large;
+}
+
+.control-bar {
+    position:relative;
+    display: flex;
+    align-items: center;
+}
+
+.hide-button {
+    /* position: absolute;
+    right: 5% */
+    margin-left: auto;
+    margin-right: 5%;
+}
+
+.admin-table {
+    position: relative;
+    width: 95%;;
+    max-height: 70%;
+}
+
+.admin-table th {
+    background-color: #d9d9d9;
+    text-align:left;
+    padding-left: 1%;
+    width: 12.5%;
+}
+
+
+.admin-table tr:nth-child(odd) {
+    background-color: #e9e9e9;
+}
+.admin-table tr:nth-child(even) {
+    background-color: white;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+}
+.modal-content h3 {
+  margin-top: 0;
+}
+.modal-content form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.modal-content form input,
+.modal-content form select {
+  width: 100%;
+  padding: 6px;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+.modal-content form button {
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}

@@ -12,6 +12,9 @@ router.post('/signup/submit', async function (req, res, next) {
     try {
         const user = req.body;
 
+        // if (user.role.toLowerCase() === 'admin') {
+        //     res.render('error');
+        // }
         // 1) Check email existence
         const [rows] = await db.query(
             `SELECT EXISTS(

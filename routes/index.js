@@ -37,4 +37,7 @@ router.get('/api/session-status', (req, res) => {
 });
 
 
+router.get('/error', (req, res) => {
+  res.render('error');
+});
 module.exports = router;
