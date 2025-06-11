@@ -24,16 +24,24 @@ router.get('/all-events', async function(req, res, next) {
 
 
 
-router.get('/api/session-status', (req, res) => {
+// router.get('/api/session-status', (req, res) => {
 
-  if (req.session.user) {
-    res.json(
-      {
-      isLoggedIn: !!req.session.user,
-      email: req.session.user.email
-    }
-  );
-  }
+//   if (req.session.user) {
+//     res.json(
+//       {
+//       isLoggedIn: !!req.session.user,
+//       email: req.session.user.email
+//     }
+//   );
+//   }
+// });
+
+router.get('/api/session-status', (req, res) => {
+  const isLoggedIn = Boolean(req.session.user);
+  res.json({
+    isLoggedIn,
+    email: isLoggedIn ? req.session.user.email : ''
+  });
 });
 
 

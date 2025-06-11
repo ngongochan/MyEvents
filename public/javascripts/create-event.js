@@ -16,7 +16,7 @@ createApp({
             upload_images: [],
             email: '',
             isLoggedIn: false,
-            eventTypes: ['Entertainment', 'Networking', 'Culture', 'Workshop', 'Others'],
+            eventTypes: ['Entertainment', 'Networking', 'Cultural', 'Workshop', 'Others'],
             success: '',
             dragging: false,
             exceed: '',
