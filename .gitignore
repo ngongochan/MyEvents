@@ -111,6 +111,3 @@ dist
 # VSCode configs
 .vscode/
 
-.env
-# Image
-/public/images/event_images/
