@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS email_logs (
   email_id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   email_type ENUM('ticket','event_update','event_cancellation','reminder','welcome') NOT NULL,
-  send_at DATETIME NOT NULL,
+  send_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   is_send BOOLEAN DEFAULT FALSE,
   FOREIGN KEY (user_id)   REFERENCES users(user_id)   ON DELETE CASCADE
 );
@@ -93,11 +93,12 @@ CREATE TABLE IF NOT EXISTS event_images (
 INSERT INTO users
   (first_name, last_name, title, user_password, avatar, user_role, student_id, email, phone_number)
 VALUES
-  ('Alice',   'Smith',   'ms',  'password123', 'alice.png',   'admin',      NULL,     'alice.smith@university.edu',    '0411122233'),
-  ('Bob',     'Nguyen',  'mr',  'password123', 'bob.png',     'uoa_staff',  NULL,     'bob.nguyen@university.edu',     '0412233445'),
-  ('Carmen',  'Lee',     'mrs', 'password123', 'carmen.png',  'student',   'S1001',   'carmen.lee@university.edu',     '0413344556'),
-  ('Daniel',  'Wong',    'mr',  'password123', 'daniel.png',  'student',   'S1002',   'daniel.wong@university.edu',    '0414455667'),
-  ('Eva',     'Taylor',  'ms',  'password123', 'eva.png',     'student',   'S1003',   'eva.taylor@university.edu',     '0415566778'),
+  ('Admin',   'MyEvents',   'none',  '$2b$10$vombYJW4HB68YcmnG7hlN.gG4Aw0uCHma8gim8rveDXY7ISovGCli', 'default_avatar.png',   'admin',      NULL,     'admin.myevent@uoa.com',    '0411122233'),
+  ('Anh Khoa',   'Le',   'mr',  '$2b$10$vombYJW4HB68YcmnG7hlN.gG4Aw0uCHma8gim8rveDXY7ISovGCli', 'default_avatar.png',   'admin',      NULL,     'anhkhoa.wm@gmail.com',    '0411122233'),
+  ('Luong Phuoc',     'Nguyen',  'mr',  '$2b$10$vombYJW4HB68YcmnG7hlN.gG4Aw0uCHma8gim8rveDXY7ISovGCli', 'default_avatar.png',     'admin',  NULL,     'luongphuoctdn@gmail.com',     '0412233445'),
+  ('Ngoc Han',  'Ngo',     'ms', '$2b$10$vombYJW4HB68YcmnG7hlN.gG4Aw0uCHma8gim8rveDXY7ISovGCli', 'default_avatar.png',  'admin',   NULL,   'ngongochan@gmail.com',     '0413344556'),
+  ('Daniel',  'Wong',    'mr',  '$2b$10$vombYJW4HB68YcmnG7hlN.gG4Aw0uCHma8gim8rveDXY7ISovGCli', 'daniel.png',  'student',   'S1002',   'daniel.wong@university.edu',    '0414455667'),
+  ('Eva',     'Taylor',  'ms',  '$2b$10$vombYJW4HB68YcmnG7hlN.gG4Aw0uCHma8gim8rveDXY7ISovGCli', 'eva.png',     'student',   'S1003',   'eva.taylor@university.edu',     '0415566778'),
   ('Frank',   'Brown',   'mr',  'password123', 'frank.png',   'guest',      NULL,     'frank.brown@example.com',       '0416677889'),
   ('Grace',   'Chen',    'ms',  'password123', 'grace.png',   'student',   'S1004',   'grace.chen@university.edu',     '0417788990'),
   ('Hank',    'Patel',   'mr',  'password123', 'hank.png',    'uoa_staff',  NULL,     'hank.patel@university.edu',     '0418899001'),

@@ -18,14 +18,6 @@ createApp ({
             passwordIndication: ''
         };
     },
-    mounted() {
-        fetch('/api/session-status')
-        .then((res) => res.json())
-        .then(({ isLoggedIn, email }) => {
-            this.isLoggedIn = isLoggedIn;
-            this.email = email || '';
-        });
-    },
     computed: {
         // 1) Pure function, no side-effects, no recursive calls
         passwordErrors() {
@@ -88,11 +80,12 @@ createApp ({
         }
     },
     methods: {
-        submitForm() {
+        async submitForm() {
             if(this.password && this.passwordErrors.length) {
                 this.errorMessage = 'Please fix your password before submitting.';
                 return;
             }
+            const thisEmail = this.email;
             fetch('/auth/signup/submit', {
                 method: 'POST',
                 headers: {
@@ -116,13 +109,30 @@ createApp ({
                 }
                 return response.text();
                 })
-                .then((data) => {
+                .then(async (data) => {
                     console.log('Success:', data);
+                    await this.sendMail(thisEmail);
                     this.goToLogIn();
                 })
                 .catch((err) => {
                 console.error('Error:', err);
                 this.errorMessage = err.message || "Something went wrong";
+                });
+        },
+        sendMail(thisEmail) {
+            fetch('/mail/welcome', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: thisEmail
+                })
+                })
+                .then((res) => {
+                    if (!res.ok) {
+                    return res.text().then((msg) => { throw new Error(msg) });
+                    }
                 });
         },
         goToLogIn() {
