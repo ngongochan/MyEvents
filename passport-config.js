@@ -5,6 +5,8 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const bcrypt = require('bcrypt');
 const db = require('./db/db');
 
+require('dotenv').config();
+
 // keep just user_id in session
 passport.serializeUser((user, done) => done(null, user.user_id))
 passport.deserializeUser(async (id, done) => {
@@ -45,8 +47,8 @@ passport.use(new LocalStrategy({
 
 
 passport.use(new GoogleStrategy({
-    clientID: "731223551359-ifkbkdcvq3sbvq6jplgdb3vce3se793f.apps.googleusercontent.com",
-    clientSecret: "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",
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
     callbackURL: 'http://localhost:8080/auth/login/google/callback'
   },
   async (accessToken, refreshToken, profile, done) => {
