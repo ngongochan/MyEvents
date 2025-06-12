@@ -1,0 +1,103 @@
+/* .modal {
+  display: none;
+} */
+
+
+/* modals hidden by default - this is for testing */
+#edit_profile_modal {
+  display: none;
+}
+
+/* body {
+  font: 18px "Nunito", Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  display: flex;
+} */
+
+.modal {
+  width: 50vw;
+  height: auto;
+  background-color: #fff;
+  margin: 10vh auto 10vh auto;
+  border: #000 solid 1px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;     /* Horizontal centering */
+  justify-content: center; /* Vertical centering (if desired) */
+  font: 18px "Nunito", Helvetica, Arial, sans-serif;
+}
+
+.modal-content {
+  /* width: 25vw; */
+  margin: 5vh auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* Horizontal centering */
+  justify-content: center; /* Vertical centering (if desired) */
+}
+
+select, input, .button {
+  width: 40vw;
+  height: 40px;
+  border-radius: 10px;
+  font: 18px "Nunito";
+  box-sizing: border-box;
+}
+
+select, input {
+  border: 0.5px #B3B3B3 solid;
+  padding-left: .4vw;
+  margin-top: .5vh;
+}
+
+select {
+  background-color: #fff;
+}
+
+.orange-button {
+  background-color: #FF914D;
+  border: none;
+  font: bold;
+  color: #fff;
+  margin-bottom: 5vh;
+}
+
+#id-title-role {
+  display: flex;
+  justify-content: space-between;
+}
+
+#student-id {
+  width: 15vw;
+}
+
+#title, #role {
+  width: 10.8vw;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-button {
+  width: 10vw;
+  height: 3.6vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  overflow: hidden;
+}
+
+textarea {
+  border-radius: 10px;
+  font: 18px "Nunito", Helvetica, Arial, sans-serif;
+  width: 40vw;
+  height: 40vh;
+  padding-left: .5vw;
+}
+
+#delete_account_button {
+  color: white;
+  background-color: red;
+  border: none;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../stylesheets/user-profile-modal.css">
+    <link rel="stylesheet" href="../stylesheets/user-profile.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito');
+    </style>
+    <title>Report an Error</title>
+</head>
+<body>
+    <div class="modal" id="change_password_modal">
+        <div class="modal-content">
+            <h1>Report an Error</h1>
+            <form id="report-error-form">
+                <label class="bold-text" for="error-title">Title:</label><br>
+                <input  type="text"
+                        id="error-title"
+                        name="error-title"
+                        required><br><br>
+                <label class="bold-text" for="error-content">What error are you facing?</label><br>
+                <textarea id="error-content"
+                        name="error-content"
+                        placeholder="Enter your error"
+                        required></textarea>
+                <br><br>
+                <!-- <br> -->
+            <!-- <button type="submit" class="button orange-button"">Save changes</button> -->
+            </form>
+            <br>
+            <div class="modal-buttons">
+                <button id="discard_changes_button" class="white-button modal-button">Discard changes</button>
+                <br>
+                <button type="submit" form="report-error-form" class="modal-button button orange-button"">Save changes</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../stylesheets/user-profile-modal.css">
+    <link rel="stylesheet" href="../stylesheets/user-profile.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito');
+    </style>
+    <title>Edit your profile</title>
+</head>
+<body>
+    <div class="modal" id="edit_profile_modal">
+        <div class="modal-content">
+            <h1>Edit your profile</h1>
+            <form id="edit-profile-form">
+                <label class="bold-text" for="first-name">First Name:</label><br>
+                <input  type="text"
+                        id="first-name"
+                        name="first-name"
+                        placeholder="First Name"
+                        required><br><br>
+                <label class="bold-text" for="last-name">Last Name:</label><br>
+                <input  type="text"
+                        id="last-name"
+                        name="last-name"
+                        placeholder="Last Name"
+                        required><br><br>
+                <label class="bold-text" for="email-address">Email Address:</label><br>
+                <input  type="email"
+                        id="email-address"
+                        name="email-address"
+                        v-model="email"
+                        placeholder="Email Address"
+                        required><br><br>
+                <label class="bold-text" for="phone-number">Phone Number:</label><br>
+                <input  type="tel"
+                        id="phone-number"
+                        name="phone-number"
+                        v-model="phone_number"
+                        placeholder="Phone Number"
+                        required><br><br>
+                <div id="id-title-role">
+                    <div>
+                        <label class="bold-text" for="student-id">Student ID (optional):</label><br>
+                        <input  type="text"
+                            id="student-id"
+                            name="student-id"
+                            v-model="student_id"
+                            placeholder="Student ID"><br><br>
+                    </div>
+                    <div>
+                        <label class="bold-text" for="title">Title:</label><br>
+                        <select name="title" id="title" v-model="title">
+                                <option value="mr">Mr.</option>
+                                <option value="mrs">Mrs.</option>
+                                <option value="ms">Ms.</option>
+                        </select><br><br>
+                    </div>
+                    <div>
+                        <label class="bold-text" for="role">Role:</label><br>
+                        <select name="role" id="role" v-model="user_role">
+                                <option value="student">Student</option>
+                                <option value="uoa_staff">UoA Staff</option>
+                                <option value="guest">Guest</option>
+                        </select><br><br>
+                    </div>
+                </div>
+                <!-- <br> -->
+            <!-- <button type="submit" class="button orange-button"">Save changes</button> -->
+            </form>
+            <br>
+            <div class="modal-buttons">
+                <button id="discard_changes_button" class="white-button modal-button">Discard changes</button>
+                <br>
+                <button type="submit" form="edit-profile-form" class="modal-button button orange-button"">Save changes</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
