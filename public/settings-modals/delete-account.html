@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../stylesheets/user-profile-modal.css">
+    <link rel="stylesheet" href="../stylesheets/user-profile.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito');
+    </style>
+    <title>Change your Password</title>
+</head>
+<body>
+    <div class="modal" id="change_password_modal">
+        <div class="modal-content">
+            <h1>Delete your Account</h1>
+            <div style="width: 90%; margin: 1vw auto">
+                <p class="bold-text">
+                    We're really sorry to see you go. Remember this is permanent and cannot be undone. Are you sure you'd still like to delete your account? 😭
+                </p>
+                <br>
+                <label for="password">To delete, please enter your password:</label>
+                <input  type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your current password"
+                            style="width: 100%"
+                            required><br><br>
+            </div>
+            <div class="modal-buttons">
+                <button style="color: green; border-color: green;" id="discard_changes_button" class="white-button modal-button">Keep my Account</button>
+                <button id="delete_account_button" class="modal-button button">Delete my Account</button>
+                <br><br><br>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
