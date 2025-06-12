@@ -120,11 +120,73 @@ router.post('/create/submit', upload.array('images', 5), async function(req, res
             await Promise.all(inserts);
         }
 
-        return res.json({ success: true, event_id });
+        return res.status(200).render('createdEvent');
     } catch(err) {
         console.error('Error storing event:', err);
         // send a 500 status with the error message
         return res.status(500).json({ success: false, error: err.message });
     }
 });
+
+router.get('/created', (req,res) => {
+    res.render('createdEvent');
+});
+
+// Buy ticket
+router.post('/ticket', async function(req, res) {
+  try {
+    if (!req.session.user) {
+      return res.sendStatus(400);
+    }
+
+    const { event_id, quantity, price } = req.body;
+
+    // 1) fetch remaining tickets
+    const [rows] = await db.query(
+      `SELECT remaining FROM events WHERE event_id = ?`,
+      [event_id]
+    );
+    if (!rows.length) {
+      return res.sendStatus(404);
+    }
+    const [{ remaining }] = rows;
+
+    if (remaining < quantity) {
+      return res.sendStatus(400);
+    }
+
+    // 2) create the order
+    const [orderResult] = await db.query(
+      `INSERT INTO orders
+         (user_id, event_id, number_of_tickets, total_price)
+       VALUES (?, ?, ?, ?)`,
+      [req.session.user.id, event_id, quantity, price]
+    );
+    const orderId = orderResult.order_id;
+
+    // 3) insert each ticket
+    const inserts = Array.from({ length: ticket.quantity }, () => db.query(
+            `INSERT INTO tickets (order_id) VALUES (?)`,
+            [orderId]
+    ));
+
+
+    await Promise.all(inserts);
+
+    // 4) update remaining
+    await db.query(
+      `UPDATE events SET remaining = ? WHERE event_id = ?`,
+      [remaining - quantity, event_id]
+    );
+
+    return res.sendStatus(200);
+
+  } catch (err) {
+    console.error('Error storing ticket:', err);
+    return res
+      .status(500)
+      .json({ success: false, error: err.message });
+  }
+});
+
 module.exports = router;

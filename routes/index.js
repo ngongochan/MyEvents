@@ -48,4 +48,8 @@ router.get('/api/session-status', (req, res) => {
 router.get('/error', (req, res) => {
   res.render('error');
 });
+
+router.get('/launching', (req, res) => {
+  res.render('launchingSoon');
+});
 module.exports = router;

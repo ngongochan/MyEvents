@@ -13,7 +13,9 @@ createApp ({
             user_role: '',
             errorMessage: '',
             confirm_password: '',
-            isLoggedIn: false
+            isLoggedIn: false,
+            passwordStrength: null,
+            passwordIndication: ''
         };
     },
     mounted() {
@@ -25,22 +27,65 @@ createApp ({
         });
     },
     computed: {
+        // 1) Pure function, no side-effects, no recursive calls
         passwordErrors() {
             const errs = [];
             if (this.password.length < 8) errs.push('At least 8 characters');
-            if (!/[A-Z]/.test(this.password))errs.push('One uppercase letter');
-            if (!/[a-z]/.test(this.password))errs.push('One lowercase letter');
+            if (!/[A-Z]/.test(this.password)) errs.push('One uppercase letter');
+            if (!/[a-z]/.test(this.password)) errs.push('One lowercase letter');
             if (!/[0-9]/.test(this.password)) errs.push('One digit');
-            if (!/[!@#$%^&*.]/.test(this.password)) errs.push('One special character (!@#$%^&*)');
+            if (!/[!@#$%^&*.]/.test(this.password)) errs.push('One special character (!@#$%^&*.)');
             return errs;
         },
-        passwordMatch() {
-            if(this.password === this.confirm_password) {
-                return true;
-            }
-            return false;
-        }
 
+        // 2) New pure computed for strength
+        passwordCharsetSize() {
+            let R = 0;
+            if (/[A-Z]/.test(this.password)) R += 26;
+            if (/[a-z]/.test(this.password)) R += 26;
+            if (/[0-9]/.test(this.password)) R += 10;
+            if (/[!@#$%^&*.]/.test(this.password)) R += 9;
+            return R;
+        },
+
+        // 3) Strength of password range(0,10)
+        passwordStrengthComputed() {
+            const L = this.password.length;
+            const R = this.passwordCharsetSize;
+            const strength = (L > 0 && R > 0)
+            ? Math.round(((L * Math.log2(R)) / 90) * 100)
+            : null;
+            if (strength >= 100) {
+                return 100;
+            }
+            return strength;
+        },
+
+        strengthPercent() {
+            if(this.passwordCharsetSize) {
+                const percent = this.passwordStrengthComputed;
+                if (percent > 100) {
+                    return 100;
+                }
+                return Math.round(percent);
+            }
+            return 0;
+        },
+        strengthColor() {
+            const percent = this.strengthPercent;
+            if (percent < 30) return '#e74c3c';
+            if (percent < 70) return '#f1c40f';
+            return '#2ecc71';
+        },
+        strengthMessage() {
+            const percent = this.strengthPercent;
+            if (percent < 30) return "Weak Password";
+            if (percent < 70) return "Moderate password";
+            return "Strong Password";
+        },
+        passwordMatch() {
+            return this.password && this.password === this.confirm_password;
+        }
     },
     methods: {
         submitForm() {
@@ -82,6 +127,9 @@ createApp ({
         },
         goToLogIn() {
             window.location.href = 'log-in.html';
+        },
+        googleLogin() {
+            window.location.href = 'auth/google';
         }
     }
 }).mount('#app');

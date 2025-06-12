@@ -87,18 +87,7 @@
                     <div class="upload-image">
                         <label>Image</label>
                         <br>
-                        <!-- <div class="drag-drop">
-                            <button type="button">Drag & drop to upload images</button>
 
-                            <span>Or</span>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                @change="onFileChange"
-                                ref="fileInput"
-                            >
-                            <button type="button" @click="$refs.fileInput.click()">Browse files</button>
-                        </div> -->
                         <div
                             class="drag-drop-zone"
                             @dragover.prevent
@@ -119,8 +108,8 @@
                             >
                             <div class="previews">
                                 <div v-for="(file, i) in upload_images" :key="i" class="thumb">
-                                    <img :src="file.previewUrl" />
-                                    <button @click="removeImage(i)">✕</button>
+                                    <img :src="file.previewUrl"  alt="Event image" />
+                                    <button type="button" @click="removeImage(i)">✕</button>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +117,6 @@
                     <input  type="submit"
                             value="Create Event"
                             class="button orange-button">
-                        <!-- NEED TO FIX THE CSS FOR THIS BUTTON-->
                 </form>
                 <div v-if="success" class="accept-message">{{ success }}</div>
             </main>

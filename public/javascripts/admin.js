@@ -88,7 +88,8 @@ createApp({
       .then((res) => {
         if (!res.ok) return res.text().then((t) => Promise.reject(t));
         this.adjust_message = "Deleted user!";
-        this.closeEditModal();
+        window.location.reload();
+        this.closeEditModal('userEdit');
         return res.json();
       })
       .catch((err) => {

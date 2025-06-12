@@ -9,6 +9,7 @@
     </style>
     <script src="javascripts/login.js" defer></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://kit.fontawesome.com/af154aa422.js" crossorigin="anonymous"></script>
     <title>Log In</title>
 </head>
 <body id = "app">
@@ -37,8 +38,11 @@
                                 value="Log in"
                                 class="button yellow-button"><br><br>
                     </form>
-                    <a href="#">Forgot password?</a><br><br>
+                    <a href="/launching">Forgot password?</a><br><br>
                     <button type="button" class="button orange-button" @click="goToSignUp">Create a new account</button>
+                    <br>
+                    <br>
+                    <button type="button" class="button orange-button" @click="googleLogin"><i class="fa-brands fa-google-plus-g" style="color: #ffffff;"></i> Log in with google</button>
                 </div>
             </div>
         </div>

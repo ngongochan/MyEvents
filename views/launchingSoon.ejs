@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Error</title>
+        <title>Luanching Soon</title>
         <link rel="stylesheet" href="/stylesheets/homepage.css">
         <link rel="stylesheet" href="/stylesheets/header-footer.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,10 +15,8 @@
     </head>
     <body id="app">
         <header class="header">
-            <div class="logo"></div>
-            <form action="search.html" class="search-bar">
-                <input type="search" v-model="searchQuery" placeholder="Search for events..." class="search-input">
-            </form>
+            <a href="/"><div class="logo"></div></a>
+            <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
             <nav class="nav-links">
                 <div class="nav-item"><a href="/tickets">My Tickets</a></div>
                 <div class="nav-item" v-if="!isLoggedIn"><a href="/sign-up.html">Sign Up</a></div>
@@ -28,7 +26,7 @@
             </nav>
         </header>
     <main style="background-color: white; justify-content: center; align-items: center;">
-         <img src="/images/utility/Access_Denied.png" alt="Access Denied" width="30%">
+         <img src="/images/utility/LaunchingSoon.png" alt="Congratulation! You hosted an event!" width="30%">
     </main>
         <footer class="footer">
             <div>
