@@ -48,10 +48,10 @@ With MyEvents, no one in our community will miss out on the experiences they car
 > [!WARNING]
 > The Google OAuth login/signup only works on `http://localhost:8080` due to our Google API setup.
 
-4. To explore the admin features, you can use the provided account below to sign in
+4. To explore the admin features, you can use the provided account below to log in
    ```bash
    Email: admin.myevents@uoa.com
-   Password: Password123
+   Password: password123
    ``` 
 ---
 
