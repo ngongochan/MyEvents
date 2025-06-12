@@ -3,7 +3,7 @@ body {
   background-color: #f9f9f9;
   color: #333;
   padding: 50px;
-  font: 14px;
+  font-size: 18px;
   display: flex;
   flex-direction: column;
 }
@@ -37,7 +37,9 @@ h1 {
   z-index: 15;
 }
 
-
+.management-car {
+  margin: 5%;
+}
 .admin_header .title {
   position: absolute;
   left: 50%;
@@ -55,16 +57,35 @@ h1 {
 }
 
 .hide-button {
-    /* position: absolute;
-    right: 5% */
     margin-left: auto;
     margin-right: 5%;
+    border-radius: 10%;
+}
+
+.add-button {
+  margin-left: 5px;
+
+}
+
+.yellow-button {
+  background-color: #FFDE59;
+  border: none;
+  font: bold;
+  border-radius: 2px;
+}
+.orange-button {
+  background-color: #FF914D;
+  border: none;
+  font: bold;
+  color: #fff;
+  border-radius: 2px;
 }
 
 .admin-table {
     position: relative;
     width: 95%;;
-    max-height: 70%;
+    max-height: 200px;
+    overflow: scroll;
 }
 
 .admin-table th {
@@ -74,7 +95,9 @@ h1 {
     width: 12.5%;
 }
 
-
+.admin-table tr {
+  padding: 0.5%;
+}
 .admin-table tr:nth-child(odd) {
     background-color: #e9e9e9;
 }
@@ -96,6 +119,7 @@ h1 {
   padding: 20px;
   border-radius: 8px;
   width: 400px;
+  position: relative;
 }
 .modal-content h3 {
   margin-top: 0;

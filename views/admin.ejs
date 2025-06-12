@@ -20,46 +20,47 @@
         </header>
     <main>
         <!-- User management section for manage user within the database -->
-        <div>
+        <div class="management-car">
             <h1>User Management</h1>
 
             <div class="control-bar">
                 <form @submit.prevent="searchUser">
                     <input type="text" name = "email" v-model="email_search" placeholder="Enter email">
-                    <input type="Submit" value="Search">
+                    <input type="Submit" value="Search" class="yellow-button search-button">
                 </form>
-                <button type="button" @click="openInsertModal">Add User</button>
-                <button type="button" class="hide-button" @click="user_table_change()">{{user_table ? "Hide" : "Show"}}</button>
+                <button type="button" @click="openInsertModal" class="orange-button add-button">Add User</button>
+                <button type="button" class="hide-button orange-button" @click="user_table_change()">{{user_table ? "Hide" : "Show"}}</button>
             </div>
             <br>
             <div class="admin-table" v-if="user_table">
                 <table class="user-table">
                     <tr>
-                        <th>
+                        <th style="width: 4%">
                             ID
                         </th>
-                        <th>
+                        <th style="width: 10%">
                             First Name
                         </th>
-                        <th>
+                        <th style="width: 10%">
                             Last Name
                         </th>
-                        <th>
+                        <th style="width: 8%">
                             Role
                         </th>
-                        <th>
+                        <th style="width: 8%">
                             Student ID
                         </th>
-                        <th>
+                        <th style="width: 30%">
                             Email
                         </th>
-                        <th>
+                        <th style="width: 14%">
                             Phone Number
                         </th>
-                        <th>
+                        <th style="width: 4%">
                             Edit
                         </th>
                     </tr>
+
                     <% users.forEach((user) => { %>
                         <tr>
                             <td><%= user.user_id %></td>
@@ -76,44 +77,43 @@
             </div>
             <button type="button"  v-if="email_searched" @click="showAllUser">Show all</button>
         </div>
-        <br>
-        <div>
+        <div class="management-car">
             <h1>Event Management</h1>
 
             <div class="control-bar">
                 <form @submit.prevent="searchEvent">
                     <input type="text" v-model="title_search" name="title" placeholder="Enter title">
-                    <input type="Submit" value="Search">
+                    <input type="Submit" value="Search" class="yellow-button">
                 </form>
-                <button type="button" @click="addEvent">Add Event</button>
-                <button type="button" class="hide-button" @click="event_table_change">{{event_table ? "Hide" : "Show"}}</button>
+                <button type="button" @click="addEvent" class="add-button orange-button">Add Event</button>
+                <button type="button" class="hide-button orange-button" @click="event_table_change">{{event_table ? "Hide" : "Show"}}</button>
             </div>
             <br>
             <div class="admin-table" v-if="event_table">
-                <table class="event-table">
+                <table>
                     <tr>
-                        <th>
+                        <th style="width: 4%">
                             ID
                         </th>
-                        <th>
+                        <th style="width: 4%">
                             Host ID
                         </th>
-                        <th>
+                        <th style="width: 10%">
                             Title
                         </th>
-                        <th>
+                        <th style="width: 4%">
                             Price
                         </th>
-                        <th>
+                        <th style="width: 10%">
                             Date
                         </th>
-                        <th>
+                        <th style="width: 4%">
                             Status
                         </th>
-                        <th>
+                        <th style="width: 7%">
                             Type
                         </th>
-                        <th>
+                        <th style="width: 4%">
                             Edit
                         </th>
                     </tr>
@@ -131,6 +131,8 @@
                     <% }); %>
                 </table>
             </div>
+            <br>
+            <br>
             <button type="button" v-if="title_searched" @click="showAllEvent">Show all</button>
         </div>
         <div v-if="showUserModal" class="modal-overlay" @click.self="closeEditModal('userEdit')">
@@ -145,7 +147,7 @@
                         style="display: none"
                         accept="image/*"
                     />
-                    <button type="button" @click="$refs.avatarInput.click()">Edit avatar</button>
+                    <button type="button" class="orange-button"  @click="$refs.avatarInput.click()">Edit avatar</button>
 
                     <label>First Name</label>
                     <input v-model="selectedUser.first_name" type="text" required>
@@ -178,9 +180,9 @@
                         <option value="guest">Guest</option>
                     </select>
 
-                    <button type="button" name="Delete" @click="deleteUser">Delete</button>
-                    <button type="submit">Save</button>
-                    <button type="button" @click="closeEditModal('userEdit')">Cancel</button>
+                    <button type="button" name="Delete" class="orange-button"  @click="deleteUser">Delete</button>
+                    <button type="submit" class="orange-button" >Save</button>
+                    <button type="button" class="yellow-button" @click="closeEditModal('userEdit')">Cancel</button>
                     <div v-model="adjust_message">{{ adjust_message}}</div>
                 </form>
             </div>
@@ -197,7 +199,7 @@
                         style="display: none"
                         accept="image/*"
                     />
-                    <button type="button" @click="$refs.avatarInput.click()">Edit avatar</button>
+                    <button type="button" @click="$refs.avatarInput.click()" class="orange-button">Edit avatar</button>
 
                     <label>First Name</label>
                     <input v-model="newUser.first_name" type="text" required>
@@ -234,8 +236,8 @@
                         <option value="guest">Guest</option>
                     </select>
 
-                    <button type="submit">Save</button>
-                    <button type="button" @click="closeEditModal('userInsert')">Cancel</button>
+                    <button type="submit" class="orange-button">Save</button>
+                    <button type="button" class="yellow-button" @click="closeEditModal('userInsert')">Cancel</button>
                     <div v-model="adjust_message">{{ adjust_message}}</div>
                 </form>
             </div>
@@ -289,9 +291,9 @@
                         <option value="Others">Others</option>
                     </select>
 
-                    <button type="button" name="Delete" @click="deleteEvent">Delete</button>
-                    <button type="submit">Save</button>
-                    <button type="button" @click="closeEditModal('eventEdit')">Cancel</button>
+                    <button type="button" class="orange-button"  name="Delete" @click="deleteEvent">Delete</button>
+                    <button type="submit" class="orange-button"  >Save</button>
+                    <button type="button" class="yellow-button" @click="closeEditModal('eventEdit')">Cancel</button>
                     <div v-model="adjust_message">{{ adjust_message}}</div>
                 </form>
             </div>

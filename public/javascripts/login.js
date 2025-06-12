@@ -44,6 +44,9 @@ createApp ({
         },
         goToSignUp() {
             window.location.href = 'sign-up.html';
+        },
+        googleLogin() {
+            window.location.href = 'auth/google';
         }
     }
 }).mount('#app');

@@ -16,7 +16,7 @@ createApp({
             upload_images: [],
             email: '',
             isLoggedIn: false,
-            eventTypes: ['Entertainment', 'Networking', 'Culture', 'Workshop', 'Others'],
+            eventTypes: ['Entertainment', 'Networking', 'Cultural', 'Workshop', 'Others'],
             success: '',
             dragging: false,
             exceed: '',
@@ -55,14 +55,7 @@ createApp({
             })
             .then((res) => {
                 if (!res.ok) return res.text().then((t) => Promise.reject(t));
-                return res.json();
-            })
-            .then((data) => {
-                this.success = 'Congratulations! Event created.';
-            })
-            .catch((err) => {
-                console.error(err);
-                this.errorMessage = typeof err === 'string' ? err : err.message;
+                return window.location.href('/event/created');
             });
         },
         handleFiles(e) {

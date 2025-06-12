@@ -6,12 +6,21 @@ CREATE TABLE IF NOT EXISTS users (
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   title ENUM('mr', 'ms', 'mrs', 'none') DEFAULT 'none',
-  user_password VARCHAR(60) NOT NULL,
+  user_password VARCHAR(60) DEFAULT 'MyEvent01!',
   avatar VARCHAR(255) DEFAULT 'default_avatar.png',
   user_role ENUM('admin','student','uoa_staff','guest') DEFAULT 'guest',
   student_id VARCHAR(20),
-  email VARCHAR(100) NOT NULL UNIQUE,
-  phone_number VARCHAR(15) NOT NULL
+  email VARCHAR(100) UNIQUE NOT NULL,
+  phone_number VARCHAR(15)
+);
+
+CREATE TABLE IF NOT EXISTS auth_credentials (
+  auth_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  strategy ENUM('local', 'google') NOT NULL,
+  provider_id VARCHAR(100),
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+  UNIQUE KEY provider_strategy (strategy, provider_id)
 );
 
 CREATE TABLE IF NOT EXISTS events (

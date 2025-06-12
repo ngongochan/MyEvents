@@ -19,18 +19,18 @@ createApp({
             return window.location.replace('/');
         }
         fetch(`/event/detail?event_id=${encodeURIComponent(id)}`)
-        .then(res => res.json())
-        .then(rows => {
+        .then((res) => res.json())
+        .then((rows) => {
             [this.event] = rows;
             this.initTicketCard();
-        })
-        .catch(console.error);
+        });
         fetch('/api/session-status')
         .then((res) => res.json())
         .then(({ isLoggedIn, email }) => {
             this.isLoggedIn = isLoggedIn;
             this.email = email || '';
         });
+        return null;
     },
 
     methods: {

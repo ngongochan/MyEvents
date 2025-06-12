@@ -2,20 +2,20 @@ var express = require('express');
 const db = require('../db/db');
 const bcrypt = require('bcrypt');
 var router = express.Router();
+var passport = require('passport');
 
-async function comparePassword(password, storedHash) {
-    const ans = await bcrypt.compare(password, storedHash);
-    return ans;
-}
 
 router.post('/signup/submit', async function (req, res, next) {
     try {
+        if (req.session.user) {
+            return res.render('error');
+        }
         const user = req.body;
 
-        // if (user.role.toLowerCase() === 'admin') {
-        //     res.render('error');
-        // }
-        // 1) Check email existence
+        // Prevent user signup as admin
+        if (user.role.toLowerCase() === 'admin') {
+            return res.render('error');
+        }
         const [rows] = await db.query(
             `SELECT EXISTS(
             SELECT 1 FROM users WHERE email = ?
@@ -51,59 +51,97 @@ router.post('/signup/submit', async function (req, res, next) {
     }
   });
 
-router.post('/login/submit', async function (req, res, next) {
+router.post('/login/submit', (req, res, next) => {
+  passport.authenticate('local', async (err, user, info) => {
     try {
-        // 1) Destructure as properties, not array
-        const { email, password } = req.body;
+      if (err) {
+        console.error('Auth error:', err);
+        return res.status(500).send('Server error');
+      }
+      if (!user) {
 
-        // 2) Look up the user by email
-        const [rows] = await db.query(
-        'SELECT user_password FROM users WHERE email = ?',
-        [email]
-        );
+        return res.status(400).send(info.message || 'Invalid email or password');
+      }
 
-        // 3) If no user, bail out
-        if (rows.length === 0) {
-            return res.status(400).send("Invalid email or password!");
+
+      req.logIn(user, async (loginErr) => {
+        if (loginErr) {
+          console.error('Login error:', loginErr);
+          return res.status(500).send('Login failed');
         }
 
-        const storedHash = rows[0].user_password;
 
-        // 4) Compare plaintext to stored hash (bcrypt.compare under the hood)
-        const isMatch = await comparePassword(password, storedHash);
-        if (!isMatch) {
-            return res.status(400).send("Invalid email or password!");
-        }
-
-        const [data] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-        const currUser = data[0];
         req.session.user = {
-            id: currUser.user_id,
-            email: currUser.email,
-            role: currUser.user_role
+          id: user.user_id,
+          email: user.email,
+          role: user.user_role
         };
 
-        // 5) Success
-        res.sendStatus(200);
-    } catch (err) {
-        next(err);
+        return res.sendStatus(200);
+      });
+    } catch (e) {
+      return res.sendStatus(500);
     }
+  })(req, res, next);
 });
 
 router.get('/signout', (req, res, next) => {
-    if (req.session.user) {
-        next();
-    } else {
-        res.sendStatus(402);
+  // 1) If they’re not logged in, show an error
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
+    return res.status(401).render('error');
+  }
+
+  // 2) Passport logout
+  req.logout(function(err) {
+    if (err) {
+      console.error('Logout error:', err);
+      return next(err);
     }
+
+    // 3) Destroy session
+    req.session.destroy((error) => {
+      if (error) {
+        console.error('Session destroy error:', error);
+        return res.sendStatus(500);
+      }
+
+      // 4) Clear the cookie
+      res.clearCookie('connect.sid', { path: '/' });
+
+      // 5) Redirect or send status
+      return res.redirect('/');
+    });
+  });
 });
 
-router.get('/signout', (req, res) => {
-    req.session.destroy((err) => {
-      if (err) return res.sendStatus(500);
-      res.clearCookie('sid');
-      return res.sendStatus(200);
-    });
-});
+
+
+router.get('/google', passport.authenticate('google',{ scope:['profile','email'] }));
+
+router.get(
+  '/login/google/callback',
+  (req, res, next) => {
+    passport.authenticate('google', (err, user, info) => {
+      if (err) return res.status(500).send('Server error');
+      if (!user) return res.redirect('/error');
+
+
+      req.logIn(user, (loginErr) => {
+        if (loginErr) {
+          console.error('Login error:', loginErr);
+          return res.status(500).send('Login failed');
+        }
+        req.session.user = {
+          id: user.user_id,
+          email: user.email,
+          role: user.user_role
+        };
+
+        return res.redirect('/');
+      });
+    })(req, res, next);
+  }
+);
+
 
 module.exports = router;

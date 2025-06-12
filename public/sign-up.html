@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/login-signup.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="javascripts/signup.js" defer></script>
+    <script src="https://kit.fontawesome.com/af154aa422.js" crossorigin="anonymous"></script>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito');
     </style>
@@ -38,6 +39,15 @@
                                 v-model="password"
                                 placeholder="Password"
                                 required>
+                        <div class="strength-message" v-if="strengthMessage && password" :style="{ color: strengthColor}">{{ strengthMessage }}</div>
+                        <div class="strength-meter" v-if="passwordStrengthComputed !== null" >
+                                <div
+                                class="strength-meter__fill"
+                                :style="{
+                                        width: strengthPercent + '%',
+                                        backgroundColor: strengthColor
+                                }"></div>
+                        </div>
                         <div v-if="password && passwordErrors.length" class="error-message">
                                 <p>Password must containt at least:</p>
                                 <ul>
@@ -69,31 +79,22 @@
                                 <option value="mr">Mr.</option>
                                 <option value="mrs">Mrs.</option>
                                 <option value="ms">Ms.</option>
+                                <option value="none">Others</option>
                         </select><br><br>
-                        <!-- <input  type="text"
-                                id="gender"
-                                name="gender"
-                                placeholder="Gender"
-                                required><br><br> -->
+
                         <label for="phone-number">Phone Number:</label><br>
                         <input  type="tel"
                                 id="phone-number"
                                 name="phone-number"
                                 v-model="phone_number"
-                                placeholder="Phone Number"
-                                required><br><br>
-                        <label for="student-id">Student ID (optional):</label><br>
+                                placeholder="Phone Number(optional)"
+                                ><br><br>
+                        <label for="student-id">Student ID:</label><br>
                         <input  type="text"
                                 id="student-id"
                                 name="student-id"
                                 v-model="student_id"
-                                placeholder="Student ID"><br><br>
-                        <!-- <label for="faculty">Faculty:</label><br>
-                        <select name="faculty" id="faculty" v-model="">
-                                <option value="able">ABLE</option>
-                                <option value="set">SET</option>
-                                <option value="hms">HMS</option> -->
-                        <!-- </select><br><br> -->
+                                placeholder="Student ID(optional)"><br><br>
                         <label for="role">Role:</label><br>
                         <select name="role" id="role" v-model="user_role">
                                 <option value="student">Student</option>
@@ -106,6 +107,9 @@
                         <hr>
                         <br>
                 <button type="button" class="button orange-button" @click="goToLogIn">Already have an account</button>
+                <br>
+                <br>
+                <button type="button" class="button orange-button" @click="googleLogin"><i class="fa-brands fa-google-plus-g" style="color: #ffffff;"></i> Log in with google</button>
                 </form>
             </div>
         </div>

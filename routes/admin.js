@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.use(function(req, res, next) {
-    if(session.user && req.session.user.role === 'admin') {
+    if(req.session.user && req.session.user.role === 'admin') {
         next();
     } else {
         res.render('error');
@@ -48,7 +48,7 @@ router.get('/dashboard', async function(req, res) {
 router.post('/event/delete', async function(req, res) {
     try {
         const id = req.body.event_id;
-        console.log(id);
+        console.log("Deleting event", id);
         const [events] = await db.query(
             `SELECT event_id
             FROM events
@@ -71,7 +71,6 @@ router.post('/event/delete', async function(req, res) {
 router.post('/event/adjust', async function(req, res) {
     try {
         const event = req.body;
-        console.log("ebasfds");
         console.log(event.event_id);
         const [ids] = await db.query(
             `SELECT event_id
@@ -124,8 +123,19 @@ router.post('/user/delete', async function(req, res) {
     try {
         const userId = req.body.user_id;
         console.log("Deleting user:", userId);
+
+        const [user] = await db.query(
+            `SELECT user_id
+            FROM users
+            WHERE user_id = ?`,
+            [userId]
+        );
+        if (user.length === 0) {
+            return res.sendStatus(404);
+        }
+
         await db.query("DELETE FROM users WHERE user_id = ?", [userId]);
-        res.status(200);
+        res.sendStatus(200);
     } catch (error) {
         console.error("Error deleting user:", error);
         res.status(500).send("Server error while deleting user.");
