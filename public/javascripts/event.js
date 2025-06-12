@@ -1,16 +1,18 @@
 import { formatDate, formatTime } from './utility.js';
 const { createApp } = Vue;
-
+const OPEN_WEATHER_API_KEY = "990d64b95987f27ebf8e5487543898c1";
+const lat = '-34.921230';
+const lon = '138.599503';
 createApp({
     data() {
         return {
             event: null,
             quantity: 1,
             email: '',
-            isLoggedIn: false
+            isLoggedIn: false,
+            weatherDescription: ''
         };
     },
-
     mounted() {
         // initDetailPage()
         const params = new URLSearchParams(window.location.search);
@@ -22,16 +24,34 @@ createApp({
         .then((res) => res.json())
         .then((rows) => {
             [this.event] = rows;
-            this.initTicketCard();
+
+            const eventDate = new Date(this.event.event_date);
+            const now = new Date();
+            const maxForecastDate = new Date();
+            maxForecastDate.setDate(now.getDate() + 8);
+
+            if (eventDate <= maxForecastDate) {
+            fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=current,hourly,minutely,alerts&appid=${OPEN_WEATHER_API_KEY}&units=metric`)
+                .then((res) => res.json())
+                .then((data) => {
+                const eventUnix = Math.floor(eventDate.getTime() / 1000);
+                const matchedDay = data.daily.find((d) => {
+                    const dayUnix = d.dt;
+                    const dayStart = dayUnix;
+                    const dayEnd = dayUnix + 86400;
+                    return eventUnix >= dayStart && eventUnix < dayEnd;
+                });
+
+                if (matchedDay) {
+                    const maxTemp = Math.round(matchedDay.temp.max);
+                    const minTemp = Math.round(matchedDay.temp.min);
+                    this.weatherDescription = `${matchedDay.summary}. Temperatures range from ${minTemp}°C to ${maxTemp}°C.`;
+                }
+                });
+            }
         });
-        fetch('/api/session-status')
-        .then((res) => res.json())
-        .then(({ isLoggedIn, email }) => {
-            this.isLoggedIn = isLoggedIn;
-            this.email = email || '';
-        });
-        return null;
     },
+
 
     methods: {
         formatDate,

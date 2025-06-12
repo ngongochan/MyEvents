@@ -37,6 +37,11 @@
                     <p><strong>Start Time:</strong><br>{{ formatTime(event.start_time) }}</p>
                     <p><strong>Location:</strong><br>{{ event.event_location }}</p>
                     <p><strong>Price:</strong><br>{{ event.price }}</p>
+                    <p v-if="weatherDescription">
+                        <strong>Weather Forecast:</strong>
+                        <br>
+                        {{ weatherDescription }}
+                    </p>
                     <p><strong>Description:</strong><br>{{ event.description }}</p>
                 </section>
             </div>

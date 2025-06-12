@@ -48,6 +48,11 @@ With MyEvents, no one in our community will miss out on the experiences they car
 > [!WARNING]
 > The Google OAuth login/signup only works on `http://localhost:8080` due to our Google API setup.
 
+4. To explore the admin features, you can use the provided account below to sign in
+   ```bash
+   Email: admin.myevents@uoa.com
+   Password: Password123
+   ``` 
 ---
 
 ### Features & Functionality
@@ -66,7 +71,7 @@ With MyEvents, no one in our community will miss out on the experiences they car
 | **Event Management**           |       |      |         |
 | • Search & Filter Events       |   ✓   |   ✓  |    ✓    |
 | • List All Events              |   ✓   |   ✓  |    ✓    |
-| • Create & Edit Events         |   ✓   |   ✓  |    ✓    |
+| • Create & Edit Events         |   ✓   |   ✓  |         |
 | • Upload Event Images          |   ✓   |   ✓  |    ✓    |
 | • Delete Events                |   ✓   |      |         |
 | **Event Browsing & Ticketing** |       |      |         |
@@ -93,7 +98,7 @@ With MyEvents, no one in our community will miss out on the experiences they car
 ### Optional Features
 
 * **Password Strength Meter:** real‑time visual feedback during registration
-* **Email Notifications:** automatic reminders and updates via email
+* **Email Notifications:** automatic send email to welcome and confirm when buying tickets
 
 ---
 

@@ -179,7 +179,7 @@ router.post('/ticket', async function(req, res) {
       [remaining - quantity, event_id]
     );
 
-    return res.sendStatus(200);
+    return res.status(200).render('ticketed');
 
   } catch (err) {
     console.error('Error storing ticket:', err);
