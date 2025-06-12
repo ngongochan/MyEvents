@@ -9,6 +9,7 @@
   position: fixed;
   right: 0;
   left: 0;
+  z-index: 1000;
 }
 
 .logo {
@@ -24,10 +25,16 @@
 }
 
 .search-bar {
-  width: 40%;
+  width: 50%;
+}
+
+.search-input {
+  width: 100%;
   padding: 8px;
   border-radius: 25px;
   border: none;
+  outline: none;
+  font-family: 'Nunito';
 }
 
 .nav-links {

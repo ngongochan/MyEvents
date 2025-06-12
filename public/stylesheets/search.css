@@ -1,0 +1,129 @@
+body {
+  font-family: 'Nunito';
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 50px;
+  font: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  flex: 1;               /* fill the rest vertically before footer */
+  display: flex;
+  flex-direction: column;
+  margin-top: 8vh;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/* Reset some basic styles */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Events grid */
+.category-block {
+  text-align: left;
+  padding: 50px;
+}
+.event-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.events-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding-top: 20px;
+  justify-content: left;
+}
+
+.event-card p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.event-card h3 {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.event-card {
+  background-color: transparent;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 250px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.event-img {
+  width: 100%;
+  height: 120px;       /* or whatever */
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.error-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+  font-weight: bold;
+}
+
+.search-select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 100px;
+  font-weight: bold;
+}
+
+.filters {
+  display: flex;
+  gap: 2rem;
+  padding-left: 5vh;
+  padding-top: 5vh;
+}
+
+.filter {
+  color: #333;
+  position: relative;
+  flex: 1;
+  max-width: 200px;
+}
+
+.filter select {
+  width: 100%;
+  padding: 0.6rem;
+  padding-right: 2.5rem;
+  border:solid #ff9933;
+  color: #333;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}

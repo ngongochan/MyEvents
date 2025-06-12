@@ -4,20 +4,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>MyEvents</title>
-        <link rel="stylesheet" href="stylesheets/homepage.css">
+        <link rel="stylesheet" href="stylesheets/search.css">
         <link rel="stylesheet" href="stylesheets/header-footer.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script type="module" src="javascripts/homepage.js" defer></script>
+        <script type="module" src="javascripts/search.js" defer></script>
     </head>
     <body id="app">
         <header class="header">
             <a href="/"><div class="logo"></div></a>
             <form class="search-bar" @submit.prevent="onSubmitSearch">
-                <input v-model="searchQuery" type="search" placeholder="Search for events" class="search-input">
+                <input type="search" v-model="queryInput" placeholder="Search for events..." class="search-input">
             </form>
             <nav class="nav-links">
                 <div class="nav-item"><a href="/tickets">My Tickets</a></div>
@@ -27,24 +27,55 @@
                 <div class="nav-item" v-if="isLoggedIn"><a href="create-event.html">My Profile</a></div>
             </nav>
         </header>
-    <main>
-        <div class="hero"></div>
-        <div class="show-event">
-            <section v-for="group in filteredGroups" :key="group.key" class="category-block">
-                <h2>{{ group.label }}</h2>
-                <div class="events-grid">
-                    <a v-for="e in group.items" :key="e.event_id" :href="`/event.html?event_id=${e.event_id}`" class="event-card-link">
-                        <div class="event-card">
-                            <img v-if="e.image_name" :src="`/images/event_images/${e.image_name}`" :alt="e.title" class="event-img">
-                            <div v-else class="event-img"></div>
-                            <h3>{{ e.title }}</h3>
-                            <p>{{ e.event_location }}</p>
-                            <p>{{ formatDate(e.event_date) }} {{ formatTime(e.start_time) }}</p>
-                            <p>${{ e.price }}</p>
-                        </div>
-                    </a>
-                </div>
-            </section>
+    <main id="search-app">
+        <div class="filters">
+            <div class="filter">
+                <select v-model="dateFilter" id="dateFilter">
+                    <option selected>All dates</option>
+                    <option>Today</option>
+                    <option>This week</option>
+                    <option>This month</option>
+                </select>
+            </div>
+            <div class="filter">
+                <select v-model="priceFilter" id="priceFilter">
+                    <option selected>Prices</option>
+                    <option>Free</option>
+                    <option>Paid</option>
+                </select>
+            </div>
+            <div class="filter">
+                <select v-model="categoryFilter" id="categoryFilter">
+                    <option selected>Categories</option>
+                    <option>Networking</option>
+                    <option>Entertainment</option>
+                    <option>Workshop</option>
+                    <option>Cultural</option>
+                    <option>Others</option>
+                </select>
+            </div>
+        </div>
+        <div v-if="groupedFilteredEvent.length">
+            <template v-for="group in groupedFilteredEvent" :key="group.key">
+                <section class="category-block">
+                    <h2>{{ group.label }}</h2>
+                    <div class="events-grid">
+                        <a v-for="e in group.items" :key="e.event_id" :href="`/event.html?event_id=${e.event_id}`" class="event-card-link">
+                            <div class="event-card">
+                                <img v-if="e.image_name" :src="`/images/event_images/${e.image_name}`" :alt="e.title" class="event-img">
+                                <div v-else class="event-img"></div>
+                                <h3>{{ e.title }}</h3>
+                                <p>{{ e.event_location }}</p>
+                                <p>{{ formatDate(e.event_date) }} {{ formatTime(e.start_time) }}</p>
+                                <p>${{ e.price }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+            </template>
+        </div>
+        <div v-else class="error-type">
+        <p>No matching events found.</p>
         </div>
     </main>
         <footer class="footer">
