@@ -58,7 +58,8 @@ createApp({
             })
             .then((res) => {
                 if (!res.ok) return res.text().then((t) => Promise.reject(t));
-                return window.location.href('/event/created');
+                window.location.href ='/event/created';
+                return null;
             });
         },
         handleFiles(e) {
