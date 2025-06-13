@@ -44,7 +44,7 @@ createApp({
         .then((res) => res.json())
         .then((js) => {
           this.events = js;
-        }).catch(err => console.error('Failed to load events:', err));
+        }).catch((err) => console.error('Failed to load events:', err));
     fetch('/api/session-status')
         .then((res) => res.json())
         .then(({ isLoggedIn, email }) => {

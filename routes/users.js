@@ -19,8 +19,8 @@ async function comparePassword(password, storedHash) {
 }
 
 
-router.use(function(req, res, next) {
-    if(session.user) {
+router.use('/*', function(req, res, next) {
+    if(req.session.user) {
         next();
     } else {
         res.status(404).render('error');
@@ -34,7 +34,7 @@ router.get('/info', async function(req, res) {
     WHERE user_id = ?`,
     [req.session.user.id]
   );
-  res.json(user).sendStatus(200);
+  res.status(200).json(user);
 });
 
 router.get('/upcommingevent', async function(req, res) {

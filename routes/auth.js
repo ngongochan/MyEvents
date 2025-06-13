@@ -95,7 +95,7 @@ router.get('/signout', (req, res, next) => {
   req.logout(function(err) {
     if (err) {
       console.error('Logout error:', err);
-      return next(err);
+      return res.sendStatus(400);
     }
 
     // 3) Destroy session

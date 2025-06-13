@@ -18,6 +18,17 @@ createApp ({
             passwordIndication: ''
         };
     },
+    mounted() {
+        fetch('/api/session-status')
+        .then((res) => res.json())
+        .then(({ isLoggedIn, email }) => {
+            this.isLoggedIn = isLoggedIn;
+            this.email = email || '';
+            if (this.isLoggedIn) {
+              window.location.href = '/error';
+            }
+        });
+    },
     computed: {
         // 1) Pure function, no side-effects, no recursive calls
         passwordErrors() {

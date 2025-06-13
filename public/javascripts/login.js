@@ -15,6 +15,9 @@ createApp ({
         .then(({ isLoggedIn, email }) => {
             this.isLoggedIn = isLoggedIn;
             this.email = email || '';
+            if (this.isLoggedIn) {
+              window.location.href = '/error';
+            }
         });
     },
     methods: {
