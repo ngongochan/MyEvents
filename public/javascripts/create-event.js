@@ -85,6 +85,7 @@ createApp({
             this.upload_images.splice(index, 1);
         },
         upTicket() {
+            if (!this.total_tickets) { this.total_tickets = 0; }
             this.total_tickets = this.total_tickets + 1;
         },
         downTicket() {
@@ -95,6 +96,7 @@ createApp({
             this.total_tickets = this.total_tickets - 1;
         },
         upPrice() {
+            if (!this.price) { this.price = 0; }
             this.price = this.price + 1;
         },
         downPrice() {

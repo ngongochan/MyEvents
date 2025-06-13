@@ -157,11 +157,14 @@ input[type="text"] {
   z-index: 100;
 }
 .modal-content {
+  margin-top: 10vh;
   background: white;
   padding: 20px;
   border-radius: 8px;
   width: 400px;
   position: relative;
+  height: 80vh;
+  overflow: scroll;
 }
 .modal-content h3 {
   margin-top: 0;

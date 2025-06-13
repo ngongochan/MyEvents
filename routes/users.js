@@ -181,7 +181,7 @@ router.post('/edit', upload.single('avatar_file'), async function(req,res) {
   } else {
       avatar = user.avatar;
   }
-  if (user.user_role === "admin") {
+  if (user.user_role === "admin" && req.session.user.role !== "admin") {
     return res.sendStatus(400);
   }
   await db.query(

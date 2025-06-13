@@ -107,6 +107,8 @@ textarea {
   width: 50vw;
   position: relative;
   font: 18px "Nunito", Helvetica, Arial, sans-serif;
+  max-height: 80vh;
+  overflow: scroll;
 }
 
 .modal-content h3 {
@@ -126,7 +128,7 @@ textarea {
   margin-top: 4px;
   box-sizing: border-box;
 }
-/* 
+/*
 #description-box {
   height: 50vh;
 } */
