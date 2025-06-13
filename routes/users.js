@@ -157,7 +157,7 @@ router.post('/edit', upload.single('avatar_file'), async function(req,res) {
     user_role = ?,
     student_id = ?,
     email = ?,
-    phone_number = ?,
+    phone_number = ?
     WHERE user_id = ?`,
     [
       user.first_name, user.last_name,

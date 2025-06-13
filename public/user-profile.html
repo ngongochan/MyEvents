@@ -32,36 +32,44 @@
             <!-- navigation bar -->
             <div class="container">
                 <div class="left-column">
-                    <div id="user-info-card" class="card">
+                    <div v-if="user" id="user-info-card" class="card">
                         <div class="photo-name">
-                            <img src="./images/user_avatar/default_avatar.png" alt="Profile Photo" class="user-profile-img">
-                            <h2>First Name Last Name</h2><br>
+                            <img :src="`./images/user_avatar/${user.avatar}`" alt="Profile Photo" class="user-profile-img">
+                            <h2>{{ user.first_name }} {{user.last_name}}</h2><br>
                         </div>
                         <div class="user-info">
-                            <span class="bold-text">Email Address:</span>
-                            <br>
-                            <span>example@gmail.com</span>
-                            <br>
-                            <br>
-                            <span class="bold-text">Phone Number:</span>
-                            <br>
-                            <span>+61 2345 6789</span>
-                            <br>
-                            <br>
-                            <span class="bold-text">Role:</span>
-                            <br>
-                            <span>Student</span>
-                            <br>
-                            <br>
-                            <span class="bold-text">Student ID:</span>
-                            <br>
-                            <span>a1234567</span>
+                            <div v-if="user.email" >
+                                <span v-if="user.email" class="bold-text">Email Address:</span>
+                                <br>
+                                <span v-if="user.email">{{user.email}}</span>
+                                <br>
+                            </div>
+                            <div v-if="user.phone_number">
+                                <br>
+                                <span v-if="user.phone_number" class="bold-text">Phone Number:</span>
+                                <br>
+                                <span v-if="user.phone_number" >{{ user.phone_number}}</span>
+                                <br>
+                            </div>
+                            <div v-if="user.user_role">
+                                <br>
+                                <span v-if="user.user_role" class="bold-text">Role:</span>
+                                <br>
+                                <span v-if="user.user_role">{{ user.user_role}}</span>
+                                <br>
+                            </div>
+                            <div v-if="user.student_id">
+                                <br>
+                                <span v-if="user.student_id" class="bold-text">Student ID:</span>
+                                <br>
+                                <span v-if="user.student_id" >{{ user.student_id}}</span>
+                            </div>
                         </div>
                     </div>
                     <div id="user-settings-card" class="card">
                         <h2>Settings</h2>
                         <div class="user-settings">
-                            <button type="button" id="edit_profile_button" class="user-settings-button">Edit profile</button><br>
+                            <button type="button" id="edit_profile_button" @click="showEditProfile = true" class="user-settings-button">Edit profile</button><br>
                             <button type="button" id="change_password_button" @click="showChangePasword = true" class="user-settings-button">Change password</button><br>
                             <button type="button" class="user-settings-button" @click="showDeleteCf = true" style="color: red">Delete account</button><br>
                             <button type="button" @click="showErrorReport = true" id="report_error_button" class="user-settings-button">Report error</button><br>
@@ -203,72 +211,82 @@
                 </div>
             </div>
         </div>
-        <!-- modals to be hidden by default -->
-        <div class="modal" v-if="showEditProfile" id="edit_profile_modal">
+        <div v-if="showEditProfile" class="modal-overlay" @click.self="closeEditModal('EditProfile')">
             <div class="modal-content">
-                <h1>Edit your profile</h1>
-                <form id="edit-profile-form">
-                    <label class="bold-text" for="first-name">First Name:</label><br>
+                <h3>Edit your profile</h3>
+                <form id="edit-profile-form" @submit.prevent="editProfile">
+                    <img :src="avatarPreview?.url || '/images/user_avatar/' + user.avatar" alt="Avatar" class="avatar-img" />
+                    <input
+                        type="file"
+                        ref="avatarInput"
+                        @change="onAvatarChange"
+                        style="display: none"
+                        accept="image/*"
+                    />
+                    <button type="button" class="orange-button"  @click="$refs.avatarInput.click()">Edit avatar</button>
+
+                    <label class="bold-text">First Name:</label><br>
                     <input  type="text"
                             id="first-name"
                             name="first-name"
+                            v-model="user.first_name"
                             placeholder="First Name"
                             required><br><br>
-                    <label class="bold-text" for="last-name">Last Name:</label><br>
+                    <label class="bold-text">Last Name:</label><br>
                     <input  type="text"
                             id="last-name"
                             name="last-name"
+                            v-model="user.last_name"
                             placeholder="Last Name"
                             required><br><br>
-                    <label class="bold-text" for="email-address">Email Address:</label><br>
+                    <label class="bold-text" >Email Address:</label><br>
                     <input  type="email"
                             id="email-address"
                             name="email-address"
-                            v-model="email"
+                            v-model="user.email"
                             placeholder="Email Address"
                             required><br><br>
-                    <label class="bold-text" for="phone-number">Phone Number:</label><br>
+                    <label class="bold-text">Phone Number:</label><br>
                     <input  type="tel"
                             id="phone-number"
                             name="phone-number"
-                            v-model="phone_number"
+                            v-model="user.phone_number"
                             placeholder="Phone Number"
                             required><br><br>
                     <div id="id-title-role">
                         <div>
-                            <label class="bold-text" for="student-id">Student ID (optional):</label><br>
+                            <label class="bold-text">Student ID (optional):</label><br>
                             <input  type="text"
                                 id="student-id"
                                 name="student-id"
-                                v-model="student_id"
+                                v-model="user.student_id"
                                 placeholder="Student ID"><br><br>
                         </div>
                         <div>
                             <label class="bold-text" for="title">Title:</label><br>
-                            <select name="title" id="title" v-model="title">
+                            <select name="title" id="title" v-model="user.title">
                                     <option value="mr">Mr.</option>
                                     <option value="mrs">Mrs.</option>
                                     <option value="ms">Ms.</option>
+                                    <option value="none">None</option>
                             </select><br><br>
                         </div>
                         <div>
                             <label class="bold-text" for="role">Role:</label><br>
-                            <select name="role" id="role" v-model="user_role">
+                            <select name="role" id="role" v-model="user.user_role">
                                     <option value="student">Student</option>
                                     <option value="uoa_staff">UoA Staff</option>
                                     <option value="guest">Guest</option>
                             </select><br><br>
                         </div>
                     </div>
-                    <!-- <br> -->
-                <!-- <button type="submit" class="button orange-button"">Save changes</button> -->
+                    <div class="modal-buttons">
+                        <button type = "button" id="discard_changes_button" class="white-button modal-button" @click="closeEditModal('EditProfile')">Discard changes</button>
+                        <br>
+                        <button type="submit" form="edit-profile-form" class="modal-button button orange-button">Save changes</button>
+                    </div>
                 </form>
                 <br>
-                <div class="modal-buttons">
-                    <button type = "button" id="discard_changes_button" class="white-button modal-button">Discard changes</button>
-                    <br>
-                    <button type="submit" form="edit-profile-form" class="modal-button button orange-button">Save changes</button>
-                </div>
             </div>
         </div>
         <div v-if="showErrorReport" class="modal-overlay" @click.self="closeEditModal('ErrorReport')">
