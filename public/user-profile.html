@@ -19,7 +19,6 @@
             <a href="/"><div class="logo"></div></a>
             <input type="text" v-model="searchQuery" placeholder="Search for events..." class="search-bar">
             <nav class="nav-links">
-                <div class="nav-item"><a href="/tickets">My Tickets</a></div>
                 <div class="nav-item" v-if="!isLoggedIn"><a href="sign-up.html">Sign Up</a></div>
                 <div class="nav-item" v-if="!isLoggedIn"><a href="log-in.html">Log In</a></div>
                 <div class="nav-item" v-if="isLoggedIn"><a href="create-event.html">Create Event</a></div>

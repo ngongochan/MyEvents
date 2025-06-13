@@ -42,8 +42,42 @@ createApp({
         decrement() {
             if (this.quantity > 1) this.quantity--;
         },
-        purchase() {
-            alert(`Purchasing ${this.quantity} ticket(s)!`);
+        async purchase() {
+            if (!this.isLoggedIn) {
+                alert('Please log in to purchase tickets!');
+                return;
+            }
+            try {
+                const ticketResult = await fetch('/event/ticket', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event_id: this.event.event_id,
+                        quantity: this.quantity,
+                        price: this.event.price * this.quantity
+                    })
+                });
+                if (!ticketResult.ok) {
+                    alert('Not enough tickets or error in purchase!');
+                    return;
+                }
+                const emailResult = await fetch('/mail/confirmation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        eventTitle: this.event.title
+                    })
+                });
+                if (!emailResult.ok) {
+                    alert('Purchase complete, but email failed to send.');
+                    return;
+                }
+
+                alert('Purchase successful! Check your email for confirmation.');
+            } catch (err) {
+                alert('Something went wrong. Please try again.');
+                console.error(err);
+            }
         }
     }
 }).mount('#app');
