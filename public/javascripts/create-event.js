@@ -102,6 +102,12 @@ createApp({
                 return;
             }
             this.price = this.price - 1;
+        },
+        onSubmitSearch() {
+            const q = this.searchQuery.trim();
+            if (q) {
+                window.location.href = `/search.html?q=${encodeURIComponent(q)}`;
+            }
         }
     }
 }).mount('#app');

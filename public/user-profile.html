@@ -7,14 +7,13 @@
     <link rel="stylesheet" href="./stylesheets/user-profile.css">
     <link rel="stylesheet" href="./stylesheets/user-profile-modal.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script  src="javascripts/user.js" defer></script>
+    <script type="module" src="javascripts/user.js" defer></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito');
     </style>
-
     <title>User Profile</title>
 </head>
-<body >
+<body>
     <div id="app">
         <div id="overlay">
             <header class="header">
@@ -29,304 +28,156 @@
                     <div class="nav-item" v-if="isLoggedIn"><a href="/user-profile.html">My Profile</a></div>
                 </nav>
             </header>
-            <!-- navigation bar -->
             <div class="container">
                 <div class="left-column">
                     <div id="user-info-card" class="card">
                         <div class="photo-name">
                             <img src="./images/user_avatar/default_avatar.png" alt="Profile Photo" class="user-profile-img">
-                            <h2>First Name Last Name</h2><br>
+                            <h2>{{ firstName }} {{ lastName }}</h2>
                         </div>
                         <div class="user-info">
-                            <span class="bold-text">Email Address:</span>
-                            <br>
-                            <span>example@gmail.com</span>
-                            <br>
-                            <br>
-                            <span class="bold-text">Phone Number:</span>
-                            <br>
-                            <span>+61 2345 6789</span>
-                            <br>
-                            <br>
-                            <span class="bold-text">Role:</span>
-                            <br>
-                            <span>Student</span>
-                            <br>
-                            <br>
-                            <span class="bold-text">Student ID:</span>
-                            <br>
-                            <span>a1234567</span>
+                            <span class="bold-text">Email Address:</span><br>
+                            <span>{{ email }}</span><br><br>
+                            <span class="bold-text">Phone Number:</span><br>
+                            <span>{{ phone_number }}</span><br><br>
+                            <span class="bold-text">Role:</span><br>
+                            <span>{{ user_role }}</span><br><br>
+                            <span class="bold-text">Student ID:</span><br>
+                            <span>{{ student_id }}</span>
                         </div>
                     </div>
                     <div id="user-settings-card" class="card">
                         <h2>Settings</h2>
                         <div class="user-settings">
-                            <button type="button" id="edit_profile_button" class="user-settings-button">Edit profile</button><br>
-                            <button type="button" id="change_password_button" @click="showChangePasword = true" class="user-settings-button">Change password</button><br>
+                            <button type="button" @click="showEditProfile = true" class="user-settings-button">Edit profile</button><br>
+                            <button type="button" @click="showChangePasword = true" class="user-settings-button">Change password</button><br>
                             <button type="button" class="user-settings-button" @click="showDeleteCf = true" style="color: red">Delete account</button><br>
-                            <button type="button" @click="showErrorReport = true" id="report_error_button" class="user-settings-button">Report error</button><br>
-                            <button type="button" @click="signOut" id="log_out_button" class="user-settings-button">Log out</button><br>
+                            <button type="button" @click="showErrorReport = true" class="user-settings-button">Report error</button><br>
+                            <button type="button" @click="signOut" class="user-settings-button">Log out</button><br>
                         </div>
                     </div>
                 </div>
                 <div class="right-column">
                     <div id="attending-events">
                         <h2>Attending Events</h2>
-                        <div class="event-card card">
-                            <img src="./images/user_avatar/default_avatar.png" alt="Event Card Image" class="event-card-img">
+                        <div v-if="upcomingEvents.length === 0" class="event-card card" style="text-align:center;">
+                            <img src="./images/calendar.jpg" alt="No Events" class="event-card-img">
+                            <div class="event-card-info">
+                                <p>You don't have any upcoming events.</p>
+                            </div>
+                        </div>
+                        <div class="event-card card" v-for="ev in upcomingEvents" :key="ev.event_id">
+                            <img :src="getEventImage(ev)" alt="Event Card Image" class="event-card-img">
                             <div class="event-card-info">
                                 <div class="title-location-date-time">
                                     <div class="title-location">
-                                        <span class="bold-text">Event Title: </span><span>Event Name</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Location: </span><span>Barr Smith Library</span>
+                                        <span class="bold-text">Event Title: </span><span>{{ ev.title }}</span><br><br>
+                                        <span class="bold-text">Location: </span><span>{{ ev.event_location }}</span>
                                     </div>
                                     <div class="date-time">
-                                        <span class="bold-text">Date: </span><span>01/01/2026</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Start Time: </span><span>16:00</span>
+                                        <span class="bold-text">Date: </span><span>{{ formatDate(ev.event_date) }}</span><br><br>
+                                        <span class="bold-text">Start Time: </span><span>{{ formatTime(ev.start_time) }}</span>
                                     </div>
                                 </div>
                                 <div class="description">
-                                    <span class="bold-text">Description: </span><span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo, cum eaque? Maxime molestiae itaque eveniet incidunt mollitia officia cum tenetur sint natus necessitatibus quaerat delectus iure, nesciunt iusto doloremque! </span>
+                                    <span class="bold-text">Description: </span><span>{{ ev.description }}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="event-card card">
-                            <img src="./images/user_avatar/default_avatar.png" alt="Event Card Image" class="event-card-img">
-                            <div class="event-card-info">
-                                <div class="title-location-date-time">
-                                    <div class="title-location">
-                                        <span class="bold-text">Event Title: </span><span>Event Name</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Location: </span><span>Barr Smith Library</span>
-                                    </div>
-                                    <div class="date-time">
-                                        <span class="bold-text">Date: </span><span>01/01/2026</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Start Time: </span><span>16:00</span>
-                                    </div>
-                                </div>
-                                <div class="description">
-                                    <span class="bold-text">Description: </span><span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo, cum eaque? Maxime molestiae itaque eveniet incidunt mollitia officia cum tenetur sint natus necessitatibus quaerat delectus iure, nesciunt iusto doloremque! </span>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="show-more-button white-button">Show more events</button>
                     </div>
                     <div id="attended-events">
                         <h2>Attended Events</h2>
-                        <div class="event-card card">
-                            <img src="./images/user_avatar/default_avatar.png" alt="Event Card Image" class="event-card-img">
+                        <div v-if="pastEvents.length === 0" class="event-card card" style="text-align:center;">
+                            <img src="./images/calendar.jpg" alt="No Events" class="event-card-img">
+                            <div class="event-card-info">
+                                <p>You don't have any attended events.</p>
+                            </div>
+                        </div>
+                        <div class="event-card card" v-for="ev in pastEvents" :key="ev.event_id">
+                            <img :src="getEventImage(ev)" alt="Event Card Image" class="event-card-img">
                             <div class="event-card-info">
                                 <div class="title-location-date-time">
                                     <div class="title-location">
-                                        <span class="bold-text">Event Title: </span><span>Event Name</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Location: </span><span>Barr Smith Library</span>
+                                        <span class="bold-text">Event Title: </span><span>{{ ev.title }}</span><br><br>
+                                        <span class="bold-text">Location: </span><span>{{ ev.event_location }}</span>
                                     </div>
                                     <div class="date-time">
-                                        <span class="bold-text">Date: </span><span>01/01/2026</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Start Time: </span><span>16:00</span>
+                                        <span class="bold-text">Date: </span><span>{{ formatDate(ev.event_date) }}</span><br><br>
+                                        <span class="bold-text">Start Time: </span><span>{{ formatTime(ev.start_time) }}</span>
                                     </div>
                                 </div>
                                 <div class="description">
-                                    <span class="bold-text">Description: </span><span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo, cum eaque? Maxime molestiae itaque eveniet incidunt mollitia officia cum tenetur sint natus necessitatibus quaerat delectus iure, nesciunt iusto doloremque! </span>
+                                    <span class="bold-text">Description: </span><span>{{ ev.description }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="hosting-events">
                         <h2>Hosting Events</h2>
-                        <div class="event-card card" style="display: block; text-align: center; align-items: center;">
-                            <img src="./images/calendar.jpg" alt="Event Card Image" class="event-card-img">
+                        <div v-if="hostEvents.length === 0" class="event-card card" style="text-align:center;">
+                            <img src="./images/calendar.jpg" alt="No Events" class="event-card-img">
                             <div class="event-card-info">
                                 <p>You don't have any hosting events.</p>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="event-card card" v-for="ev in hostEvents" :key="ev.event_id">
+                                <img :src="getEventImage(ev)" alt="Event Card Image" class="event-card-img">
+                                <div class="event-card-info">
+                                    <div class="title-location-date-time">
+                                        <div class="title-location">
+                                            <span class="bold-text">Event Title: </span><span>{{ ev.title }}</span><br><br>
+                                            <span class="bold-text">Location: </span><span>{{ ev.event_location }}</span>
+                                        </div>
+                                        <div class="date-time">
+                                            <span class="bold-text">Date: </span><span>{{ formatDate(ev.event_date) }}</span><br><br>
+                                            <span class="bold-text">Start Time: </span><span>{{ formatTime(ev.start_time) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="description">
+                                        <span class="bold-text">Description: </span><span>{{ ev.description }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div id="hosted-events">
                         <h2>Hosted Events</h2>
-                        <div class="event-card card">
-                            <img src="./images/user_avatar/default_avatar.png" alt="Event Card Image" class="event-card-img">
+                        <div v-if="hostedEvents.length === 0" class="event-card card" style="text-align:center;">
+                            <img src="./images/calendar.jpg" alt="No Events" class="event-card-img">
                             <div class="event-card-info">
-                                <div class="title-location-date-time">
-                                    <div class="title-location">
-                                        <span class="bold-text">Event Title: </span><span>Event Name</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Location: </span><span>Barr Smith Library</span>
+                                <p>You don't have any hosted events.</p>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="event-card card" v-for="ev in hostedEvents" :key="ev.event_id">
+                                <img :src="getEventImage(ev)" alt="Event Card Image" class="event-card-img">
+                                <div class="event-card-info">
+                                    <div class="title-location-date-time">
+                                        <div class="title-location">
+                                            <span class="bold-text">Event Title: </span><span>{{ ev.title }}</span><br><br>
+                                            <span class="bold-text">Location: </span><span>{{ ev.event_location }}</span>
+                                        </div>
+                                        <div class="date-time">
+                                            <span class="bold-text">Date: </span><span>{{ formatDate(ev.event_date) }}</span><br><br>
+                                            <span class="bold-text">Start Time: </span><span>{{ formatTime(ev.start_time) }}</span>
+                                        </div>
                                     </div>
-                                    <div class="date-time">
-                                        <span class="bold-text">Date: </span><span>01/01/2026</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Start Time: </span><span>16:00</span>
+                                    <div class="description">
+                                        <span class="bold-text">Description: </span><span>{{ ev.description }}</span>
                                     </div>
-                                </div>
-                                <div class="description">
-                                    <span class="bold-text">Description: </span><span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo, cum eaque? Maxime molestiae itaque eveniet incidunt mollitia officia cum tenetur sint natus necessitatibus quaerat delectus iure, nesciunt iusto doloremque! </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="event-card card">
-                            <img src="./images/user_avatar/default_avatar.png" alt="Event Card Image" class="event-card-img">
-                            <div class="event-card-info">
-                                <div class="title-location-date-time">
-                                    <div class="title-location">
-                                        <span class="bold-text">Event Title: </span><span>Event Name</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Location: </span><span>Barr Smith Library</span>
-                                    </div>
-                                    <div class="date-time">
-                                        <span class="bold-text">Date: </span><span>01/01/2026</span>
-                                        <br>
-                                        <br>
-                                        <span class="bold-text">Start Time: </span><span>16:00</span>
-                                    </div>
-                                </div>
-                                <div class="description">
-                                    <span class="bold-text">Description: </span><span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo, cum eaque? Maxime molestiae itaque eveniet incidunt mollitia officia cum tenetur sint natus necessitatibus quaerat delectus iure, nesciunt iusto doloremque! </span>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="show-more-button white-button">Show more events</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- modals to be hidden by default -->
-        <div class="modal" v-if="showEditProfile" id="edit_profile_modal">
-            <div class="modal-content">
-                <h1>Edit your profile</h1>
-                <form id="edit-profile-form">
-                    <label class="bold-text" for="first-name">First Name:</label><br>
-                    <input  type="text"
-                            id="first-name"
-                            name="first-name"
-                            placeholder="First Name"
-                            required><br><br>
-                    <label class="bold-text" for="last-name">Last Name:</label><br>
-                    <input  type="text"
-                            id="last-name"
-                            name="last-name"
-                            placeholder="Last Name"
-                            required><br><br>
-                    <label class="bold-text" for="email-address">Email Address:</label><br>
-                    <input  type="email"
-                            id="email-address"
-                            name="email-address"
-                            v-model="email"
-                            placeholder="Email Address"
-                            required><br><br>
-                    <label class="bold-text" for="phone-number">Phone Number:</label><br>
-                    <input  type="tel"
-                            id="phone-number"
-                            name="phone-number"
-                            v-model="phone_number"
-                            placeholder="Phone Number"
-                            required><br><br>
-                    <div id="id-title-role">
-                        <div>
-                            <label class="bold-text" for="student-id">Student ID (optional):</label><br>
-                            <input  type="text"
-                                id="student-id"
-                                name="student-id"
-                                v-model="student_id"
-                                placeholder="Student ID"><br><br>
-                        </div>
-                        <div>
-                            <label class="bold-text" for="title">Title:</label><br>
-                            <select name="title" id="title" v-model="title">
-                                    <option value="mr">Mr.</option>
-                                    <option value="mrs">Mrs.</option>
-                                    <option value="ms">Ms.</option>
-                            </select><br><br>
-                        </div>
-                        <div>
-                            <label class="bold-text" for="role">Role:</label><br>
-                            <select name="role" id="role" v-model="user_role">
-                                    <option value="student">Student</option>
-                                    <option value="uoa_staff">UoA Staff</option>
-                                    <option value="guest">Guest</option>
-                            </select><br><br>
-                        </div>
-                    </div>
-                    <!-- <br> -->
-                <!-- <button type="submit" class="button orange-button"">Save changes</button> -->
-                </form>
-                <br>
-                <div class="modal-buttons">
-                    <button type = "button" id="discard_changes_button" class="white-button modal-button">Discard changes</button>
-                    <br>
-                    <button type="submit" form="edit-profile-form" class="modal-button button orange-button">Save changes</button>
-                </div>
-            </div>
-        </div>
-        <div v-if="showErrorReport" class="modal-overlay" @click.self="closeEditModal('ErrorReport')">
-            <div class="modal-content">
-                <h3>Report an Error</h3>
-                <form @submit.prevent="saveReport">
-                    <label>Summary</label>
-                    <input v-model="reportSummary" type="text" required>
-
-                    <label>Description</label>
-                    <input v-model="reportDescription" type="text" required>
-
-
-                    <button type="submit" class="modal-button button orange-button"  >Send</button>
-                    <button type="button" class="white-button modal-button" @click="closeEditModal('ErrorReport')">Cancel</button>
-                    <div v-model="adjust_message">{{ adjust_message}}</div>
-                </form>
-            </div>
-        </div>
-        <div v-if="showDeleteCf" class="modal-overlay" @click.self="closeEditModal('Delete')">
-            <div class="modal-content">
-                <h3> Confirm you are delete this account permaniently</h3>
-                <form @submit.prevent="deleteAccount">
-                    <button type="submit" class="modal-button button orange-button"  >Yes</button>
-                    <button type="button" class="white-button modal-button" @click="closeEditModal('Delete')">Cancel</button>
-                    <div v-model="adjust_message">{{ adjust_message}}</div>
-                </form>
-            </div>
-        </div>
-        <div v-if="showChangePasword" class="modal-overlay" @click.self="closeEditModal('ChangePassword')">
-            <div class="modal-content">
-                <h3>Change Password</h3>
-                <form @submit.prevent="changePassword">
-                    <label>Enter your current password</label>
-                    <input v-model="curPass" type="password" required>
-
-                    <label>Enter your new password</label>
-                    <input v-model="newPass" type="password" required>
-
-                    <div v-if="newPass && passwordErrors.length" class="error-message">
-                            <p>Password must containt at least:</p>
-                            <ul>
-                                    <li v-for="err in passwordErrors" :key="err">{{err}}</li>
-                            </ul>
-                    </div>
-
-                    <label>Re-connfirm you password</label>
-                    <input v-model="confirmPass" type="password" required>
-
-                    <div v-if="newPass && confirmPass && !passwordMatch" class="error-message">Password do not match. Please try again!</div>
-                    <div v-if="newPass && !passwordErrors.length && confirmPass && passwordMatch" class="accept-message">Password Match!</div>
-                    <div v-if="errorPassword" class="error-message">{{errorPassword}}</div>
-                    <button type="submit" class="modal-button button orange-button"  >Change Password</button>
-                    <button type="button" class="white-button modal-button" @click="closeEditModal('ChangePassword')">Cancel</button>
-                    <div v-model="adjust_message">{{ adjust_message}}</div>
-                </form>
-            </div>
-        </div>
+        <!-- Modals unchanged -->
+        <div class="modal" v-if="showEditProfile" id="edit_profile_modal"> … </div>
+        <div v-if="showErrorReport" class="modal-overlay" @click.self="closeEditModal('ErrorReport')"> … </div>
+        <div v-if="showDeleteCf" class="modal-overlay" @click.self="closeEditModal('Delete')"> … </div>
+        <div v-if="showChangePasword" class="modal-overlay" @click.self="closeEditModal('ChangePassword')"> … </div>
     </div>
 </body>
 </html>

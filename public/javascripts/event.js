@@ -24,7 +24,7 @@ createApp({
         .then((res) => res.json())
         .then((rows) => {
             [this.event] = rows;
-
+            this.initTicketCard();
             const eventDate = new Date(this.event.event_date);
             const now = new Date();
             const maxForecastDate = new Date();
@@ -50,6 +50,12 @@ createApp({
                 });
             }
         });
+        fetch('/api/session-status')
+        .then((res) => res.json())
+        .then(({ isLoggedIn, email }) => {
+            this.isLoggedIn = isLoggedIn;
+            this.email = email || '';
+        });
     },
 
 
@@ -58,6 +64,12 @@ createApp({
         formatTime,
         increment() {
             this.quantity++;
+        },
+        onSubmitSearch() {
+            const q = this.searchQuery.trim();
+            if (q) {
+                window.location.href = `/search.html?q=${encodeURIComponent(q)}`;
+            }
         },
         decrement() {
             if (this.quantity > 1) this.quantity--;

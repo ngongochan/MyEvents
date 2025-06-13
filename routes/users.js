@@ -39,7 +39,7 @@ router.get('/info', async function(req, res) {
 
 router.get('/upcommingevent', async function(req, res) {
   const [events] = await db.query(
-    `SELECT e.event_id, e.title, e.description,
+    `SELECT DISTINCT e.event_id, e.title, e.description,
     e.event_date, e.event_location, e.start_time
     FROM events e
     INNER JOIN orders o
@@ -54,7 +54,7 @@ router.get('/upcommingevent', async function(req, res) {
 
 router.get('/pastevent', async function(req, res) {
   const [events] = await db.query(
-      `SELECT
+      `SELECT DISTINCT
          e.event_id,
          e.title,
          e.description,
@@ -73,7 +73,7 @@ router.get('/pastevent', async function(req, res) {
 
 router.get('/hostevent', async function(req, res) {
   const [events] = await db.query(
-    `SELECT
+    `SELECT DISTINCT
       e.event_id,
       e.title,
       e.description,
@@ -90,7 +90,7 @@ router.get('/hostevent', async function(req, res) {
 
 router.get('/hostedevent', async function(req, res) {
   const [events] = await db.query(
-    `SELECT
+    `SELECT DISTINCT
       e.event_id,
       e.title,
       e.description,
