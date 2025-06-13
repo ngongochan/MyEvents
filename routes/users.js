@@ -39,13 +39,25 @@ router.get('/info', async function(req, res) {
 
 router.get('/upcommingevent', async function(req, res) {
   const [events] = await db.query(
-    `SELECT DISTINCT e.event_id, e.title, e.description,
-    e.event_date, e.event_location, e.start_time
-    FROM events e
-    INNER JOIN orders o
-    ON e.event_id = o.event_id
+    `SELECT DISTINCT
+      e.event_id,
+      e.title,
+      e.description,
+      e.event_date,
+      e.event_location,
+      e.start_time,
+      (
+        SELECT image_name
+        FROM event_images
+        WHERE event_id = e.event_id
+        ORDER BY image_order
+        LIMIT 1
+      ) AS image_name
+    FROM events AS e
+    INNER JOIN orders AS o
+      ON e.event_id = o.event_id
     WHERE o.user_id = ?
-    AND e.event_date >= CURDATE()`,
+      AND e.event_date >= CURDATE()`,
     [req.session.user.id]
   );
   res.json(events);
@@ -55,17 +67,24 @@ router.get('/upcommingevent', async function(req, res) {
 router.get('/pastevent', async function(req, res) {
   const [events] = await db.query(
       `SELECT DISTINCT
-         e.event_id,
-         e.title,
-         e.description,
-         e.event_date,
-         e.event_location,
-         e.start_time
-       FROM events e
-       INNER JOIN orders o
-         ON e.event_id = o.event_id
-       WHERE o.user_id = ?
-         AND e.event_date < CURDATE()`,
+        e.event_id,
+        e.title,
+        e.description,
+        e.event_date,
+        e.event_location,
+        e.start_time,
+        (
+          SELECT image_name
+          FROM event_images
+          WHERE event_id = e.event_id
+          ORDER BY image_order
+          LIMIT 1
+        ) AS image_name
+      FROM events AS e
+      INNER JOIN orders AS o
+        ON e.event_id = o.event_id
+      WHERE o.user_id = ?
+        AND e.event_date < CURDATE()`,
       [req.session.user.id]
     );
     res.json(events);
@@ -79,10 +98,17 @@ router.get('/hostevent', async function(req, res) {
       e.description,
       e.event_date,
       e.event_location,
-      e.start_time
-    FROM events e
+      e.start_time,
+      (
+        SELECT image_name
+        FROM event_images
+        WHERE event_id = e.event_id
+        ORDER BY image_order
+        LIMIT 1
+      ) AS image_name
+    FROM events AS e
     WHERE e.host = ?
-    AND e.event_date > CURDATE()`,
+      AND e.event_date > CURDATE()`,
     [req.session.user.id]
   );
   res.json(events);
@@ -96,10 +122,17 @@ router.get('/hostedevent', async function(req, res) {
       e.description,
       e.event_date,
       e.event_location,
-      e.start_time
-    FROM events e
+      e.start_time,
+      (
+        SELECT image_name
+        FROM event_images
+        WHERE event_id = e.event_id
+        ORDER BY image_order
+        LIMIT 1
+      ) AS image_name
+    FROM events AS e
     WHERE e.host = ?
-    AND e.event_date < CURDATE()`,
+      AND e.event_date < CURDATE()`,
     [req.session.user.id]
   );
   res.json(events);
@@ -147,6 +180,9 @@ router.post('/edit', upload.single('avatar_file'), async function(req,res) {
       avatar = req.file.filename;
   } else {
       avatar = user.avatar;
+  }
+  if (user.user_role === "admin") {
+    return res.sendStatus(400);
   }
   await db.query(
     `UPDATE users
