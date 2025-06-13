@@ -20,11 +20,10 @@
                 <input type="search" v-model="searchQuery" placeholder="Search for events..." class="search-input">
             </form>
             <nav class="nav-links">
-                <div class="nav-item"><a href="/tickets">My Tickets</a></div>
                 <div class="nav-item" v-if="!isLoggedIn"><a href="/sign-up.html">Sign Up</a></div>
                 <div class="nav-item" v-if="!isLoggedIn"><a href="/log-in.html">Log In</a></div>
                 <div class="nav-item" v-if="isLoggedIn"><a href="/create-event.html">Create Event</a></div>
-                <div class="nav-item" v-if="isLoggedIn"><a href="/create-event.html">My Profile</a></div>
+                <div class="nav-item" v-if="isLoggedIn"><a href="/user-profile.html">My Profile</a></div>
             </nav>
         </header>
     <main style="background-color: white; justify-content: center; align-items: center;">

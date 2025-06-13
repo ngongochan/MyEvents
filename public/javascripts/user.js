@@ -16,7 +16,9 @@ createApp({
       newPass: '',
       confirmPass: '',
       showEditProfile: false,
-      errorPassword: ''
+      errorPassword: '',
+      user: null,
+      avatarPreview: null
     };
   },
   computed: {
@@ -124,7 +126,45 @@ createApp({
       console.error("Error:", err);
       this.errorPassword = err.message || "An unexpected error occurred.";
     });
-  }
+    },
+    editProfile() {
+      console.log('Saving user:', this.user);
+
+      const formData = new FormData();
+      if (this.avatarPreview && this.avatarPreview.file) {
+        formData.append('avatar_file', this.avatarPreview.file);
+      }
+
+      for (const key in this.user) {
+          if (key !== '') {
+            formData.append(key, this.user[key]);
+        }
+      }
+      fetch('/users/edit', {
+          method: 'POST',
+          body: formData
+      })
+      .then((res) => {
+          if (!res.ok) return console.log("Error");
+          console.log("User information saved");
+          window.location.reload();
+          this.closeEditModal('EditProfile');
+      })
+      .catch((err) => {
+          console.error(err);
+      });
+    },
+    onAvatarChange(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.avatarPreview = {
+          file: file,
+          url: URL.createObjectURL(file)
+        };
+      } else {
+        this.avatarPreview = null;
+      }
+    }
 
   },
   mounted() {
@@ -137,5 +177,20 @@ createApp({
             }
             this.email = email || '';
         });
+
+      fetch('/users/info')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch user info");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        [this.user] = data;
+      })
+      .catch((err) => {
+        console.error("Error fetching user info:", err);
+      });
+
   }
 }).mount('#app');
