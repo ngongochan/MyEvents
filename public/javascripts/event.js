@@ -1,8 +1,8 @@
 import { formatDate, formatTime } from './utility.js';
 const { createApp } = Vue;
 const OPEN_WEATHER_API_KEY = "990d64b95987f27ebf8e5487543898c1";
-const lat = '-34.921230';
-const lon = '138.599503';
+const lat = -34.921230;
+const lon = 138.599503;
 createApp({
     data() {
         return {
@@ -13,7 +13,7 @@ createApp({
             weatherDescription: ''
         };
     },
-    mounted() {
+    async mounted() {
         // initDetailPage()
         const params = new URLSearchParams(window.location.search);
         const id = params.get('event_id');
@@ -24,31 +24,7 @@ createApp({
         .then((res) => res.json())
         .then((rows) => {
             [this.event] = rows;
-            this.initTicketCard();
-            const eventDate = new Date(this.event.event_date);
-            const now = new Date();
-            const maxForecastDate = new Date();
-            maxForecastDate.setDate(now.getDate() + 8);
-
-            if (eventDate <= maxForecastDate) {
-                fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?lat=${lat}&lon=${lon}&cnt=16&appid=${OPEN_WEATHER_API_KEY}`)
-                .then((res) => res.json())
-                .then((data) => {
-                const eventUnix = Math.floor(eventDate.getTime() / 1000);
-                const matchedDay = data.daily.find((d) => {
-                    const dayUnix = d.dt;
-                    const dayStart = dayUnix;
-                    const dayEnd = dayUnix + 86400;
-                    return eventUnix >= dayStart && eventUnix < dayEnd;
-                });
-
-                if (matchedDay) {
-                    const maxTemp = Math.round(matchedDay.temp.max);
-                    const minTemp = Math.round(matchedDay.temp.min);
-                    this.weatherDescription = `${matchedDay.summary}. Temperatures range from ${minTemp}°C to ${maxTemp}°C.`;
-                }
-                });
-            }
+            this.fetchWeatherForEvent();
         });
         fetch('/api/session-status')
         .then((res) => res.json())
@@ -109,6 +85,48 @@ createApp({
             } catch (err) {
                 alert('Something went wrong. Please try again.');
                 console.error(err);
+            }
+        },
+        async fetchWeatherForEvent() {
+
+            const eventDate = new Date(this.event.event_date);
+
+
+            const now = new Date();
+            const cutoff = new Date();
+            cutoff.setDate(now.getDate() + 16);
+            if (eventDate > cutoff) return;
+
+            const url = `https://api.openweathermap.org/data/2.5/forecast/daily`
+            + `?lat=${lat}`
+            + `&lon=${lon}`
+            + `&cnt=16`
+            + `&units=metric`
+            + `&appid=${OPEN_WEATHER_API_KEY}`;
+
+            try {
+            const res = await fetch(url);
+            if (!res.ok) {
+                console.error('Weather API error', await res.json());
+                return;
+            }
+            const data = await res.json();
+
+            // v2.5 returns .list, not .daily
+            const timestamp = Math.floor(eventDate.getTime() / 1000);
+            const day = (data.list || []).find(d =>
+                timestamp >= d.dt && timestamp < d.dt + 86400
+            );
+
+            if (day) {
+                const maxTemp = Math.round(day.temp.max);
+                const minTemp = Math.round(day.temp.min);
+                const desc   = day.weather[0].description;
+                this.weatherDescription =
+                `${desc.charAt(0).toUpperCase() + desc.slice(1)} — ${minTemp}°C to ${maxTemp}°C.`;
+            }
+            } catch (err) {
+            console.error('Fetch failed:', err);
             }
         }
     }
