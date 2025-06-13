@@ -111,8 +111,6 @@ createApp({
                 return;
             }
             const data = await res.json();
-
-            // v2.5 returns .list, not .daily
             const timestamp = Math.floor(eventDate.getTime() / 1000);
             const day = (data.list || []).find(d =>
                 timestamp >= d.dt && timestamp < d.dt + 86400
