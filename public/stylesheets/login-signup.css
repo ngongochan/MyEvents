@@ -115,8 +115,8 @@ hr {
   overflow: hidden;
   margin-top: 4px;
   margin-left: 10px;
-
 }
+
 .strength-meter__fill {
   height: 100%;
   transition: width 0.3s ease;
@@ -126,4 +126,58 @@ hr {
   margin-top: 4px;
   margin-left: 10px;
   font-size: 15px;
+}
+
+@media only screen and (max-width: 1170px) {
+  .body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .split {
+    width: 100vw;
+    flex-basis: auto;
+  }
+
+  .right-div {
+    position: static;
+    order: -1;
+    width: 100%;
+    text-align: center;
+    margin: 2rem 0;
+    top: auto;
+    right: auto;
+  }
+
+  #party {
+    width: 60vw;
+  }
+
+  .left-div-login,
+  .left-div-signup {
+    width: 100vw;
+    padding: 8vh 5vw 2vh;
+    order: 1;
+    left: 0;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  body {
+    padding: 0;
+  }
+
+  .left-div-login,
+  .left-div-signup {
+    padding-top: 10vh;
+  }
+
+  #party {
+    width: 80vw;
+  }
+
+  select, input, .button {
+    height: 36px;
+    font-size: 16px;
+  }
 }

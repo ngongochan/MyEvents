@@ -43,7 +43,7 @@ createApp({
     formatDate,
     formatTime,
     getEventImage(ev) {
-      return `/images/event_images/${ev.event_id}.png`;
+      return `/images/event_images/${ev.image_name}`;
     },
     onSubmitSearch() {
       const q = this.searchQuery.trim();

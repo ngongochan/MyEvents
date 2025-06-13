@@ -21,7 +21,7 @@
   width: 120px;
   height: 32px;
   overflow: hidden;
-  text-indent: -9999px;                 /* hide the fallback text */
+  text-indent: -9999px;
 }
 
 .search-bar {
@@ -75,24 +75,24 @@
 }
 
 .footer-info p {
-  text-align: left; /* Align inside text to the left */
-  margin: 0 auto; /* Center the block itself horizontally */
+  text-align: left;
+  margin: 0 auto;
 }
 
 .socials {
   text-align: right;
   display: flex;
-  flex-direction: column; /* Stack text and icons vertically */
-  align-items: flex-end; /* Center align */
-  gap: 10px; /* Gap between text and icons */
-  color: white; /* Make sure text is visible */
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  color: white;
 }
 
 .social-icons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px; /* Space between icons */
+  gap: 20px;
 }
 
 .social-icon {
@@ -107,20 +107,20 @@
 }
 
 .socials a {
-  color: inherit; /* Default inherit */
+  color: inherit;
   transition: color 0.3s;
 }
 
 .socials a .fa-youtube {
-  color: #FF0000; /* YouTube red */
+  color: #FF0000;
 }
 
 .socials a .fa-instagram {
-  color: #E4405F; /* Instagram pink/red */
+  color: #E4405F;
 }
 
 .socials a .fa-facebook {
-  color: #1877F2; /* Facebook blue */
+  color: #1877F2;
 }
 
 @media only screen and (max-width: 768px) {

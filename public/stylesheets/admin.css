@@ -44,7 +44,7 @@ h1 {
   justify-content: center;
   height: 80px;
   padding: 0 20px;
-  z-index: 15;
+  z-index: 10;
 }
 
 .management-card {
@@ -126,8 +126,8 @@ input[type="text"] {
 .admin-table {
     position: relative;
     width: 95%;;
-    max-height: 200px;
-    overflow: scroll;
+    max-height: 400px;
+    overflow-y: scroll;
 }
 
 .admin-table th {

@@ -8,6 +8,14 @@ createApp({
       isLoggedIn: false
     };
   },
+  methods: {
+    onSubmitSearch() {
+            const q = this.searchQuery.trim();
+            if (q) {
+                window.location.href = `/search.html?q=${encodeURIComponent(q)}`;
+            }
+        }
+  },
   mounted() {
     fetch('/api/session-status')
         .then((res) => res.json())
