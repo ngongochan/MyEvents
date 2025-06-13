@@ -138,7 +138,7 @@ router.post('/ticket', async function(req, res) {
     if (!req.session.user) {
       return res.sendStatus(400);
     }
-
+    console.log('500');
     const { event_id, quantity, price } = req.body;
 
     // 1) fetch remaining tickets
@@ -162,10 +162,10 @@ router.post('/ticket', async function(req, res) {
        VALUES (?, ?, ?, ?)`,
       [req.session.user.id, event_id, quantity, price]
     );
-    const orderId = orderResult.order_id;
+    const orderId = orderResult.insertId;
 
     // 3) insert each ticket
-    const inserts = Array.from({ length: ticket.quantity }, () => db.query(
+    const inserts = Array.from({ length: quantity }, () => db.query(
             `INSERT INTO tickets (order_id) VALUES (?)`,
             [orderId]
     ));

@@ -15,7 +15,7 @@ html, body {
 }
 
 main {
-  /* margin-top: 60px;      = header height */
+  margin-top: 60px; /*header height*/
   flex: 1;               /* fill the rest vertically before footer */
   display: flex;
   flex-direction: column;
@@ -37,9 +37,8 @@ a {
   background-image: url("../images/homepageimg.jpg");
   background-position: center;
   background-size: cover;
-  height: 700px;
-  margin-bottom: 20px;
-}
+  height: 50vw;
+  }
 
 /* Events grid */
 .category-block {
@@ -93,4 +92,62 @@ a {
 .event-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+@media only screen and (max-width: 768px) {
+  .hero {
+    height: 50vw;
+    background-size: cover;
+  }
+
+  .category-block {
+    padding: 20px;
+  }
+
+  .events-grid {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .event-card {
+    padding: 15px;
+  }
+
+  .event-card h3 {
+    font-size: 18px;
+  }
+
+  .event-card p {
+    font-size: 13px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .category-block {
+    padding: 20px;
+  }
+  .hero {
+    height: 50vw;
+    background-size: cover;
+  }
+
+  .event-img {
+    height: 100px;
+  }
+
+  .events-grid {
+    justify-content: center;
+  }
+
+  .event-card {
+    padding: 15px;
+  }
+
+  .event-card h3 {
+    font-size: 18px;
+  }
+
+  .event-card p {
+    font-size: 13px;
+  }
 }
