@@ -103,6 +103,7 @@
                             </div>
                         </div>
                     </div>
+                    <br>
                     <div id="attended-events">
                         <h2>Attended Events</h2>
                         <div v-if="pastEvents.length === 0" class="event-card card" style="text-align:center;">
@@ -194,39 +195,44 @@
         <div v-if="showEditProfile" class="modal-overlay" @click.self="closeEditModal('EditProfile')">
             <div class="modal-content">
                 <h3>Edit your profile</h3>
+                <br>
                 <form id="edit-profile-form" @submit.prevent="editProfile">
-                    <img :src="avatarPreview?.url || '/images/user_avatar/' + user.avatar" alt="Avatar" class="avatar-img" />
-                    <input
-                        type="file"
-                        ref="avatarInput"
-                        @change="onAvatarChange"
-                        style="display: none"
-                        accept="image/*"
-                    />
-                    <button type="button" class="orange-button"  @click="$refs.avatarInput.click()">Edit avatar</button>
+                    <div id="new-photo-input">
+                        <img :src="avatarPreview?.url || '/images/user_avatar/' + user.avatar" alt="Avatar" class="avatar-img" />
+                        <input
+                            type="file"
+                            ref="avatarInput"
+                            @change="onAvatarChange"
+                            style="display: none"
+                            accept="image/*"
+                            class="button"
+                        />
+                        <br>
+                        <button type="button" class="orange-button button" @click="$refs.avatarInput.click()">Edit avatar</button>
+                    </div>
 
-                    <label class="bold-text">First Name:</label><br>
+                    <label class="bold-text">First Name:</label>
                     <input  type="text"
                             id="first-name"
                             name="first-name"
                             v-model="user.first_name"
                             placeholder="First Name"
                             required><br><br>
-                    <label class="bold-text">Last Name:</label><br>
+                    <label class="bold-text">Last Name:</label>
                     <input  type="text"
                             id="last-name"
                             name="last-name"
                             v-model="user.last_name"
                             placeholder="Last Name"
                             required><br><br>
-                    <label class="bold-text" >Email Address:</label><br>
+                    <label class="bold-text" >Email Address:</label>
                     <input  type="email"
                             id="email-address"
                             name="email-address"
                             v-model="user.email"
                             placeholder="Email Address"
                             required><br><br>
-                    <label class="bold-text">Phone Number:</label><br>
+                    <label class="bold-text">Phone Number:</label>
                     <input  type="tel"
                             id="phone-number"
                             name="phone-number"
@@ -235,15 +241,15 @@
                             required><br><br>
                     <div id="id-title-role">
                         <div>
-                            <label class="bold-text">Student ID (optional):</label><br>
+                            <label class="bold-text">Student ID (optional):</label>
                             <input  type="text"
                                 id="student-id"
                                 name="student-id"
                                 v-model="user.student_id"
-                                placeholder="Student ID"><br><br>
+                                placeholder="Student ID"><br>
                         </div>
                         <div>
-                            <label class="bold-text" for="title">Title:</label><br>
+                            <label class="bold-text" for="title">Title:</label>
                             <select name="title" id="title" v-model="user.title">
                                     <option value="mr">Mr.</option>
                                     <option value="mrs">Mrs.</option>
@@ -252,7 +258,7 @@
                             </select><br><br>
                         </div>
                         <div>
-                            <label class="bold-text" for="role">Role:</label><br>
+                            <label class="bold-text" for="role">Role:</label>
                             <select name="role" id="role" v-model="user.user_role">
                                     <option value="student">Student</option>
                                     <option value="uoa_staff">UoA Staff</option>
@@ -261,9 +267,9 @@
                         </div>
                     </div>
                     <div class="modal-buttons">
-                        <button type = "button" id="discard_changes_button" class="white-button modal-button" @click="closeEditModal('EditProfile')">Discard changes</button>
+                        <button type = "submit" form="edit-profile-form" class="modal-button button orange-button">Save changes</button>
                         <br>
-                        <button type="submit" form="edit-profile-form" class="modal-button button orange-button">Save changes</button>
+                        <button type = "button" id="discard_changes_button" class="white-button modal-button" @click="closeEditModal('EditProfile')">Discard changes</button>
                     </div>
                 </form>
                 <br>
@@ -277,21 +283,22 @@
                     <input v-model="reportSummary" type="text" required>
 
                     <label>Description</label>
-                    <input v-model="reportDescription" type="text" required>
+                    <input id="description-box" v-model="reportDescription" type="text" required>
 
-
-                    <button type="submit" class="modal-button button orange-button"  >Send</button>
-                    <button type="button" class="white-button modal-button" @click="closeEditModal('ErrorReport')">Cancel</button>
+                    <div class="modal-buttons">
+                        <button type="button" class="white-button modal-button" @click="closeEditModal('ErrorReport')">Cancel</button>
+                        <button type="submit" class="modal-button button orange-button"  >Send</button>
+                    </div>
                     <div v-model="adjust_message">{{ adjust_message}}</div>
                 </form>
             </div>
         </div>
         <div v-if="showDeleteCf" class="modal-overlay" @click.self="closeEditModal('Delete')">
             <div class="modal-content">
-                <h3> Confirm you are delete this account permaniently</h3>
-                <form @submit.prevent="deleteAccount">
-                    <button type="submit" class="modal-button button orange-button"  >Yes</button>
+                <h3> Please confirm you are deleting this account permanently</h3>
+                <form @submit.prevent="deleteAccount" class="modal-buttons">
                     <button type="button" class="white-button modal-button" @click="closeEditModal('Delete')">Cancel</button>
+                    <button type="submit" class="modal-button button orange-button"  >Yes</button>
                     <div v-model="adjust_message">{{ adjust_message}}</div>
                 </form>
             </div>
@@ -300,10 +307,10 @@
             <div class="modal-content">
                 <h3>Change Password</h3>
                 <form @submit.prevent="changePassword">
-                    <label>Enter your current password</label>
+                    <label>Enter your current password:</label>
                     <input v-model="curPass" type="password" required>
 
-                    <label>Enter your new password</label>
+                    <label>Enter your new password:</label>
                     <input v-model="newPass" type="password" required>
 
                     <div v-if="newPass && passwordErrors.length" class="error-message">
@@ -313,14 +320,16 @@
                             </ul>
                     </div>
 
-                    <label>Re-connfirm you password</label>
+                    <label>Re-confirm you password:</label>
                     <input v-model="confirmPass" type="password" required>
 
                     <div v-if="newPass && confirmPass && !passwordMatch" class="error-message">Password do not match. Please try again!</div>
                     <div v-if="newPass && !passwordErrors.length && confirmPass && passwordMatch" class="accept-message">Password Match!</div>
                     <div v-if="errorPassword" class="error-message">{{errorPassword}}</div>
-                    <button type="submit" class="modal-button button orange-button"  >Change Password</button>
-                    <button type="button" class="white-button modal-button" @click="closeEditModal('ChangePassword')">Cancel</button>
+                    <div class="modal-buttons">
+                        <button type="button" class="white-button modal-button" @click="closeEditModal('ChangePassword')">Cancel</button>
+                        <button type="submit" class="modal-button button orange-button"  >Change Password</button>
+                    </div>
                     <div v-model="adjust_message">{{ adjust_message}}</div>
                 </form>
             </div>

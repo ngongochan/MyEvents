@@ -8,6 +8,16 @@ body {
   flex-direction: column;
 }
 
+* {
+  font-family: "Nunito";
+}
+
+button {
+  background-color: white;
+  border: #000 solid .5px;
+  border-radius: 10px;
+  color: black;}
+
 html, body {
   height: 100%;
   margin: 0;
@@ -37,9 +47,10 @@ h1 {
   z-index: 15;
 }
 
-.management-car {
-  margin: 5%;
+.management-card {
+  margin: 4vh 10vw;
 }
+
 .admin_header .title {
   position: absolute;
   left: 50%;
@@ -71,14 +82,45 @@ h1 {
   background-color: #FFDE59;
   border: none;
   font: bold;
-  border-radius: 2px;
+  border-radius: 10px;
+  font: 12px "Nunito";
+  width: 5vw;
+  height: 3vh;
+  margin-left: 1.5vw;
+  margin-right: 1.5vw;
 }
+
+tr button {
+  width: 5vw;
+  height: 3vh;
+  font: 18px "Nunito";
+}
+
+input, select {
+  font: 14px "Nunito";
+  border-radius: 10px;
+}
+
+input[type="text"] {
+  border-radius: 10px;
+  border: #000 solid .5px;
+  padding-left: 10px;
+}
+
 .orange-button {
+  width: 5vw;
+  height: 3vh;
   background-color: #FF914D;
   border: none;
   font: bold;
   color: #fff;
-  border-radius: 2px;
+  border-radius: 10px;
+  font: 12px "Nunito";
+  margin-right: 8vw;
+}
+
+.orange-button:last-child {
+  margin-right: 4vw;
 }
 
 .admin-table {
@@ -90,7 +132,7 @@ h1 {
 
 .admin-table th {
     background-color: #d9d9d9;
-    text-align:left;
+    text-align: center;
     padding-left: 1%;
     width: 12.5%;
 }
