@@ -49,6 +49,8 @@ createApp({
     closeEditModal(which) {
       if (which === "ErrorReport") {
         this.showErrorReport = false;
+        this.reportDescription = '';
+        this.reportSummary = '';
       } else if (which === "Delete") {
         this.showDeleteCf = false;
       } else if (which === "ChangePassword") {
@@ -57,6 +59,8 @@ createApp({
         this.newPass = '';
         this.confirmPass = '';
         this.errorPassword = '';
+      } else if (which === "EditProfile") {
+        this.showEditProfile = false;
       }
     },
     saveReport() {
@@ -81,6 +85,7 @@ createApp({
       fetch('/auth/signout').then(() => {
         fetch('/users/delete-account')
         .then((res) => {
+          this.closeEditModal("Delete");
           sessionStorage.clear();
           window.location.href = '/';
         });

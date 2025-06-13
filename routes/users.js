@@ -71,16 +71,40 @@ router.get('/pastevent', async function(req, res) {
     res.json(events);
 });
 
-// router.get('/hostevent', async function(req, res) {
-//   // const [events] = await db.query(
-//   //   `SELECT
-//   //     `
-//   // )
-// })
+router.get('/hostevent', async function(req, res) {
+  const [events] = await db.query(
+    `SELECT
+      e.event_id,
+      e.title,
+      e.description,
+      e.event_date,
+      e.event_location,
+      e.start_time
+    FROM events e
+    WHERE e.host = ?
+    AND e.event_date > CURDATE()`,
+    [req.session.user.id]
+  );
+  res.json(events);
+});
 
-// router.get('/hostedevent', async function(req, res)) {
+router.get('/hostedevent', async function(req, res) {
+  const [events] = await db.query(
+    `SELECT
+      e.event_id,
+      e.title,
+      e.description,
+      e.event_date,
+      e.event_location,
+      e.start_time
+    FROM events e
+    WHERE e.host = ?
+    AND e.event_date < CURDATE()`,
+    [req.session.user.id]
+  );
+  res.json(events);
+});
 
-// }
 router.get('/delete-account', async function(req, res) {
   const userId = req.session.user.id;
   await db.query('DELETE FROM users WHERE user_id = ?', [userId]);
