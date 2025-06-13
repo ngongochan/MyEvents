@@ -31,7 +31,7 @@ createApp({
             maxForecastDate.setDate(now.getDate() + 8);
 
             if (eventDate <= maxForecastDate) {
-                fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=current,hourly,minutely,alerts&appid=${OPEN_WEATHER_API_KEY}&units=metric`)
+                fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?lat=${lat}&lon=${lon}&cnt=16&appid=${OPEN_WEATHER_API_KEY}`)
                 .then((res) => res.json())
                 .then((data) => {
                 const eventUnix = Math.floor(eventDate.getTime() / 1000);

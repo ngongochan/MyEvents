@@ -7,7 +7,6 @@ const db = require('./db/db');
 
 require('dotenv').config();
 
-// keep just user_id in session
 passport.serializeUser((user, done) => done(null, user.user_id))
 passport.deserializeUser(async (id, done) => {
   try {
