@@ -142,7 +142,7 @@ createApp ({
                 })
                 .then((res) => {
                     if (!res.ok) {
-                    return res.text().then((msg) => { throw new Error(msg) });
+                    return res.text().then((msg) => { throw new Error(msg); });
                     }
                 });
         },

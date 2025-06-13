@@ -23,10 +23,10 @@
                     <input v-model="searchQuery" type="search" placeholder="Search for events" class="search-input">
                 </form>
                 <nav class="nav-links">
-                    <div class="nav-item" v-if="isLoggedIn"><a href="/sign-up.html">Sign Up</a></div>
-                    <div class="nav-item" v-if="isLoggedIn"><a href="/log-in.html">Log In</a></div>
-                    <div class="nav-item" v-if="!isLoggedIn"><a href="/create-event.html">Create Event</a></div>
-                    <div class="nav-item" v-if="!isLoggedIn"><a href="/user-profile.html">My Profile</a></div>
+                    <div class="nav-item" v-if="!isLoggedIn"><a href="/sign-up.html">Sign Up</a></div>
+                    <div class="nav-item" v-if="!isLoggedIn"><a href="/log-in.html">Log In</a></div>
+                    <div class="nav-item" v-if="isLoggedIn"><a href="/create-event.html">Create Event</a></div>
+                    <div class="nav-item" v-if="isLoggedIn"><a href="/user-profile.html">My Profile</a></div>
                 </nav>
             </header>
             <!-- navigation bar -->
@@ -62,8 +62,8 @@
                         <h2>Settings</h2>
                         <div class="user-settings">
                             <button type="button" id="edit_profile_button" class="user-settings-button">Edit profile</button><br>
-                            <button type="button" id="change_password_button" class="user-settings-button">Change password</button><br>
-                            <button type="button" class="user-settings-button" style="color: red">Delete account</button><br>
+                            <button type="button" id="change_password_button" @click="showChangePasword = true" class="user-settings-button">Change password</button><br>
+                            <button type="button" class="user-settings-button" @click="showDeleteCf = true" style="color: red">Delete account</button><br>
                             <button type="button" @click="showErrorReport = true" id="report_error_button" class="user-settings-button">Report error</button><br>
                             <button type="button" @click="signOut" id="log_out_button" class="user-settings-button">Log out</button><br>
                         </div>
@@ -204,7 +204,7 @@
             </div>
         </div>
         <!-- modals to be hidden by default -->
-        <div class="modal" id="edit_profile_modal">
+        <div class="modal" v-if="showEditProfile" id="edit_profile_modal">
             <div class="modal-content">
                 <h1>Edit your profile</h1>
                 <form id="edit-profile-form">
@@ -284,6 +284,45 @@
 
                     <button type="submit" class="modal-button button orange-button"  >Send</button>
                     <button type="button" class="white-button modal-button" @click="closeEditModal('ErrorReport')">Cancel</button>
+                    <div v-model="adjust_message">{{ adjust_message}}</div>
+                </form>
+            </div>
+        </div>
+        <div v-if="showDeleteCf" class="modal-overlay" @click.self="closeEditModal('Delete')">
+            <div class="modal-content">
+                <h3> Confirm you are delete this account permaniently</h3>
+                <form @submit.prevent="deleteAccount">
+                    <button type="submit" class="modal-button button orange-button"  >Yes</button>
+                    <button type="button" class="white-button modal-button" @click="closeEditModal('Delete')">Cancel</button>
+                    <div v-model="adjust_message">{{ adjust_message}}</div>
+                </form>
+            </div>
+        </div>
+        <div v-if="showChangePasword" class="modal-overlay" @click.self="closeEditModal('ChangePassword')">
+            <div class="modal-content">
+                <h3>Change Password</h3>
+                <form @submit.prevent="changePassword">
+                    <label>Enter your current password</label>
+                    <input v-model="curPass" type="password" required>
+
+                    <label>Enter your new password</label>
+                    <input v-model="newPass" type="password" required>
+
+                    <div v-if="newPass && passwordErrors.length" class="error-message">
+                            <p>Password must containt at least:</p>
+                            <ul>
+                                    <li v-for="err in passwordErrors" :key="err">{{err}}</li>
+                            </ul>
+                    </div>
+
+                    <label>Re-connfirm you password</label>
+                    <input v-model="confirmPass" type="password" required>
+
+                    <div v-if="newPass && confirmPass && !passwordMatch" class="error-message">Password do not match. Please try again!</div>
+                    <div v-if="newPass && !passwordErrors.length && confirmPass && passwordMatch" class="accept-message">Password Match!</div>
+                    <div v-if="errorPassword" class="error-message">{{errorPassword}}</div>
+                    <button type="submit" class="modal-button button orange-button"  >Change Password</button>
+                    <button type="button" class="white-button modal-button" @click="closeEditModal('ChangePassword')">Cancel</button>
                     <div v-model="adjust_message">{{ adjust_message}}</div>
                 </form>
             </div>

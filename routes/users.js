@@ -84,6 +84,7 @@ router.get('/pastevent', async function(req, res) {
 router.get('/delete-account', async function(req, res) {
   const userId = req.session.user.id;
   await db.query('DELETE FROM users WHERE user_id = ?', [userId]);
+  res.sendStatus(200);
 });
 
 router.post('/report', async function(req, res) {
@@ -146,15 +147,20 @@ router.post('/edit', upload.single('avatar_file'), async function(req,res) {
 
 router.post('/change-password', async function(req, res) {
   const userId = req.session.user.id;
-  const password = res.body;
-  const curPass = await db.query(
+  const password = req.body;
+  const [rows] = await db.query(
     `SELECT user_password
     FROM users
     WHERE user_id = ?`,
     [userId]
   );
-  if (!password.cur ||!comparePassword(password.curr, currPass)) {
-    return res.sendStatus(400);
+  if (rows.length === 0) {
+    return res.status(200).json({ errorMessage: "User not found" });
+  }
+  const curPass = rows[0].user_password;
+  const match = await comparePassword(password.cur, curPass);
+  if (!password.cur || !match) {
+    return res.status(200).json({ errorMessage: "Wrong Password" });
   }
   const hashed = await bcrypt.hash(password.new, 10);
   await db.query(
@@ -162,11 +168,11 @@ router.post('/change-password', async function(req, res) {
     SET user_password = ?
     WHERE user_id = ?`,
     [
-      password.new,
+      hashed,
       userId
     ]
   );
-  res.sendStatus(200);
+  return res.status(200).json({ message: "Password updated successfully" });
 });
 
 
