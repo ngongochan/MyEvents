@@ -11,13 +11,13 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script src="/javascripts/event.js" defer></script>
+        <script type="module" src="/javascripts/event.js" defer></script>
     </head>
     <body id="app">
         <header class="header">
             <a href="/"><div class="logo"></div></a>
-            <form action="/search.html" class="search-bar">
-                <input type="search" v-model="searchQuery" placeholder="Search for events..." class="search-input">
+            <form class="search-bar" @submit.prevent="onSubmitSearch">
+                <input v-model="searchQuery" type="search" placeholder="Search for events" class="search-input">
             </form>
             <nav class="nav-links">
                 <div class="nav-item" v-if="!isLoggedIn"><a href="/sign-up.html">Sign Up</a></div>

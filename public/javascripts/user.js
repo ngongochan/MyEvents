@@ -1,10 +1,14 @@
+import { formatDate, formatTime } from './utility.js';
 const { createApp } = Vue;
-
 createApp({
   data() {
     return {
       searchQuery: '',
       events: [],
+      upcomingEvents: [],
+      pastEvents: [],
+      hostEvents: [],
+      hostedEvents: [],
       email: '',
       isLoggedIn: false,
       showErrorReport: false,
@@ -36,6 +40,11 @@ createApp({
     }
   },
   methods: {
+    formatDate,
+    formatTime,
+    getEventImage(ev) {
+      return `/images/event_images/${ev.event_id}.png`;
+    },
     onSubmitSearch() {
       const q = this.searchQuery.trim();
       if (q) {
@@ -176,6 +185,26 @@ createApp({
               window.location.href = '/error';
             }
             this.email = email || '';
+
+                  // Attending (future)
+            fetch('/users/upcommingevent')
+              .then(r => r.json())
+              .then((events) => { this.upcomingEvents = events; });
+
+            // Attended (past)
+            fetch('/users/pastevent')
+              .then(r => r.json())
+              .then((events) => { this.pastEvents = events; });
+
+            // Hosting (future)
+            fetch('/users/hostevent')
+              .then(r => r.json())
+              .then((events) => { this.hostEvents = events; });
+
+            // Hosted (past)
+            fetch('/users/hostedevent')
+              .then(r => r.json())
+              .then((events) => { this.hostedEvents = events; });
         });
 
       fetch('/users/info')
@@ -194,3 +223,5 @@ createApp({
 
   }
 }).mount('#app');
+
+
