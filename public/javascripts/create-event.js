@@ -28,6 +28,9 @@ createApp({
         .then((res) => res.json())
         .then(({ isLoggedIn, email }) => {
             this.isLoggedIn = isLoggedIn;
+            if (!isLoggedIn) {
+              window.location.href = '/error';
+            }
             this.email = email || '';
         });
     },
