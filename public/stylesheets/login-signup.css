@@ -181,3 +181,7 @@ hr {
     font-size: 16px;
   }
 }
+
+button:hover {
+  cursor: pointer;
+}
